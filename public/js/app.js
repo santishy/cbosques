@@ -1878,7 +1878,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Form__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Form */ "./resources/js/views/budgets/Form.vue");
-/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../helpers */ "./resources/js/helpers.js");
+/* harmony import */ var _mixins_actionsMixin__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../mixins/actionsMixin */ "./resources/js/mixins/actionsMixin.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
@@ -1927,22 +1927,48 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      budgets: [],
-      page: 1
+      array: [],
+      page: 1,
+      budgetForm: {
+        concept: '',
+        qty: ''
+      }
     };
   },
+  mixins: [_mixins_actionsMixin__WEBPACK_IMPORTED_MODULE_1__["default"]],
   components: {
     'form-budgets': _Form__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   methods: {
-    callIsEditing: function callIsEditing(event) {
-      console.log(event.toElement.dataset);
-      Object(_helpers__WEBPACK_IMPORTED_MODULE_1__["isEditing"])(event, this.budgets);
+    /*
+    *
+    *Llamada al metodo isEditing del mixin, también obtenemos sus datos del elemento del array que esta en javascript
+    */
+    callIsEditing: function callIsEditing(ind) {
+      for (var key in this.array[ind]) {
+        this.budgetForm[key] = this.array[ind][key];
+      }
+
+      this.isEditing(ind);
     },
 
     /*
@@ -1961,13 +1987,14 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         }
       }).then(function (response) {
         if (response.data.data.length) {
-          var _this$budgets;
+          var _this$array;
 
           _this.page++;
 
-          (_this$budgets = _this.budgets).push.apply(_this$budgets, _toConsumableArray(response.data.data));
+          (_this$array = _this.array).push.apply(_this$array, _toConsumableArray(response.data.data));
 
-          Object(_helpers__WEBPACK_IMPORTED_MODULE_1__["addingPropertyToObjects"])(_this.budgets);
+          _this.addingPropertyToObjects(_this.array);
+
           $state.loaded();
         } else {
           $state.complete();
@@ -1982,14 +2009,14 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     *
     *
     */
-    budgetUpdateInTheDatabase: function budgetUpdateInTheDatabase() {},
+    budgetUpdateInTheDatabase: function budgetUpdateInTheDatabase(index) {},
 
     /*
       Agrega el Budget recien creado, es emitido desde otro componente
       *
     */
     addBudget: function addBudget(budget) {
-      this.budgets.push(budget);
+      this.array.push(budget);
     }
   }
 });
@@ -38117,13 +38144,85 @@ var render = function() {
             _c(
               "tbody",
               [
-                _vm._l(_vm.budgets, function(budget, ind) {
+                _vm._l(_vm.array, function(budget, ind) {
                   return _c("tr", [
                     _c("td", [_vm._v(_vm._s(budget.id))]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(budget.concept))]),
+                    _c("td", [
+                      budget.editing
+                        ? _c("div", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.budgetForm.concept,
+                                  expression: "budgetForm.concept"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: { type: "text", name: "concept" },
+                              domProps: { value: _vm.budgetForm.concept },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.budgetForm,
+                                    "concept",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ])
+                        : _c("div", [
+                            _vm._v(
+                              "\n                " +
+                                _vm._s(budget.concept) +
+                                "\n              "
+                            )
+                          ])
+                    ]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(budget.qty))]),
+                    _c("td", [
+                      budget.editing
+                        ? _c("div", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.budgetForm.qty,
+                                  expression: "budgetForm.qty"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: { type: "number", name: "qty" },
+                              domProps: { value: _vm.budgetForm.qty },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.budgetForm,
+                                    "qty",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ])
+                        : _c("div", [
+                            _vm._v(
+                              "\n                " +
+                                _vm._s(budget.qty) +
+                                "\n              "
+                            )
+                          ])
+                    ]),
                     _vm._v(" "),
                     _c(
                       "td",
@@ -38142,34 +38241,47 @@ var render = function() {
                     ),
                     _vm._v(" "),
                     _c("th", [
-                      !budget.editing
-                        ? _c(
-                            "a",
+                      _c(
+                        "a",
+                        {
+                          directives: [
                             {
-                              attrs: {
-                                href: "#",
-                                "data-index": parseInt(ind, 10)
-                              },
-                              on: {
-                                click: function($event) {
-                                  $event.preventDefault()
-                                  return _vm.callIsEditing($event)
-                                }
-                              }
-                            },
-                            [_c("i", { staticClass: "fas fa-highlighter" })]
-                          )
-                        : _c(
-                            "a",
+                              name: "show",
+                              rawName: "v-show",
+                              value: !budget.editing,
+                              expression: "!budget.editing"
+                            }
+                          ],
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.callIsEditing(parseInt(ind, 10))
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fas fa-highlighter" })]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          directives: [
                             {
-                              attrs: {
-                                href: "#",
-                                "data-index": parseInt(ind, 10)
-                              },
-                              on: { click: _vm.budgetUpdateInTheDatabase }
-                            },
-                            [_c("i", { staticClass: "fas fa-check" })]
-                          )
+                              name: "show",
+                              rawName: "v-show",
+                              value: budget.editing,
+                              expression: "budget.editing"
+                            }
+                          ],
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.budgetUpdateInTheDatabase(ind)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fas fa-check" })]
+                      )
                     ])
                   ])
                 }),
@@ -54997,44 +55109,41 @@ var getCycleByIndex = function getCycleByIndex(state) {
 
 /***/ }),
 
-/***/ "./resources/js/helpers.js":
-/*!*********************************!*\
-  !*** ./resources/js/helpers.js ***!
-  \*********************************/
-/*! exports provided: addingPropertyToObjects, isEditing */
+/***/ "./resources/js/mixins/actionsMixin.js":
+/*!*********************************************!*\
+  !*** ./resources/js/mixins/actionsMixin.js ***!
+  \*********************************************/
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addingPropertyToObjects", function() { return addingPropertyToObjects; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isEditing", function() { return isEditing; });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {};
+  },
+  methods: {
+    /*
+    *
+    * Agrega una propiedad a un array
+    *
+    */
+    addingPropertyToObjects: function addingPropertyToObjects(data) {
+      return data.filter(function (obj) {
+        return Vue.set(obj, 'editing', false);
+      });
+    },
 
-/*
-*
-* Agrega una propiedad a un array
-*
-*/
-
-var addingPropertyToObjects = function addingPropertyToObjects(data) {
-  return data.filter(function (obj) {
-    return vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(obj, 'editing', false);
-  });
-};
-/*
-*
-*Cambia el icono de editado a listo (ok)
-*/
-
-
-var isEditing = function isEditing(event, budgets) {
-  var index = event.toElement.dataset.index;
-  console.log('index:' + index);
-  budgets[index].editing = !budgets[index].editing;
-};
-
-
+    /*
+    *
+    *Cambia el icono de editado a listo (ok)
+    */
+    isEditing: function isEditing(index) {
+      console.log(event);
+      this.array[index].editing = !this.array[index].editing;
+    }
+  }
+});
 
 /***/ }),
 
@@ -55133,7 +55242,7 @@ __webpack_require__.r(__webpack_exports__);
     component: _views_budgets_Items__WEBPACK_IMPORTED_MODULE_7__["default"],
     name: 'items'
   }],
-  mode: 'history'
+  mode: 'hash'
 }));
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
 

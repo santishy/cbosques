@@ -12,20 +12,34 @@
             <th>Acciones</th>
           </thead>
           <tbody>
-            <tr v-for="(budget,ind) in budgets">
+            <tr v-for="(budget,ind) in array">
               <td>{{budget.id}}</td>
-              <td>{{budget.concept}}</td>
-              <td>{{budget.qty}}</td>
+              <td>
+                <div v-if="budget.editing">
+                    <input type="text" name="concept" v-model='budgetForm.concept' class="form-control">
+                </div>
+                <div v-else>
+                  {{budget.concept}}
+                </div>
+              </td>
+              <td>
+                <div v-if="budget.editing">
+                  <input type="number" name="qty" class="form-control" v-model='budgetForm.qty'>
+                </div>
+                <div v-else>
+                  {{budget.qty}}
+                </div>
 
+              </td>
               <td>
                 <router-link :to="{ name: 'items', params: {budget:budget} }"><i class="fas fa-cubes" ></i></router-link>
               </td>
               <th>
-                <a href="#" v-if="!budget.editing" :data-index.number="parseInt(ind,10)" @click.prevent="callIsEditing">
+                <a v-show="!budget.editing" @click.prevent="callIsEditing(parseInt(ind,10))">
                    <i class="fas fa-highlighter" ></i>
                 </a>
-                <a v-else href="#"  :data-index.number="parseInt(ind,10)" @click="budgetUpdateInTheDatabase">
-                <i  class="fas fa-check"></i>
+                <a v-show="budget.editing"  @click.prevent="budgetUpdateInTheDatabase(ind)">
+                    <i class="fas fa-check"></i>
                 </a>
               </th>
             </tr>
@@ -40,23 +54,32 @@
 
 <script>
 import Form from './Form';
-import {addingPropertyToObjects,isEditing} from '../../helpers';
+import actionsMixin from '../../mixins/actionsMixin';
 export default {
   data(){
     return {
-      budgets:[],
+      array:[],
       page:1,
+      budgetForm:{
+        concept:'',
+        qty:''
+      }
     }
   },
-
+  mixins:[actionsMixin],
   components:{
     'form-budgets':Form
   },
 
   methods:{
-    callIsEditing(event){
-      console.log(event.toElement.dataset)
-      isEditing(event,this.budgets);
+    /*
+    *
+    *Llamada al metodo isEditing del mixin, también obtenemos sus datos del elemento del array que esta en javascript
+    */
+    callIsEditing(ind){
+      for(var key in this.array[ind])
+        this.budgetForm[key] = this.array[ind][key]
+      this.isEditing(ind);
     },
     /*
     *
@@ -74,8 +97,8 @@ export default {
         if(response.data.data.length)
         {
           this.page++;
-          this.budgets.push(...response.data.data)
-          addingPropertyToObjects(this.budgets)
+          this.array.push(...response.data.data)
+          this.addingPropertyToObjects(this.array)
           $state.loaded();
         }
         else{
@@ -90,15 +113,16 @@ export default {
     *
     *
     */
-    budgetUpdateInTheDatabase(){
-
+    budgetUpdateInTheDatabase(index){
+      
     },
+
     /*
       Agrega el Budget recien creado, es emitido desde otro componente
       *
     */
     addBudget(budget){
-      this.budgets.push(budget);
+      this.array.push(budget);
     }
   }
 }

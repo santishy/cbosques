@@ -37,7 +37,7 @@ export default new VueRouter({
       name:'items'
     }
   ],
-    mode:'history'
+    mode:'hash'
 })
 
 Vue.use(VueRouter);
