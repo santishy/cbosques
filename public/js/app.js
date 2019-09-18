@@ -1941,6 +1941,12 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2001,6 +2007,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       *
     */
     addBudget: function addBudget(budget) {
+      Vue.set(budget, 'editing', false);
       this.array.push(budget);
     }
   }
@@ -2186,6 +2193,14 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2230,6 +2245,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       });
     },
     addBudget: function addBudget(newBudget) {
+      Vue.set(newBudget, 'editing', false);
       this.array.push(newBudget);
     }
   }
@@ -38246,49 +38262,53 @@ var render = function() {
                       1
                     ),
                     _vm._v(" "),
-                    _c("th", [
-                      _c(
-                        "a",
-                        {
-                          directives: [
-                            {
-                              name: "show",
-                              rawName: "v-show",
-                              value: !budget.editing,
-                              expression: "!budget.editing"
-                            }
-                          ],
-                          on: {
-                            click: function($event) {
-                              $event.preventDefault()
-                              _vm.isEditing(parseInt(ind, 10))
-                            }
-                          }
-                        },
-                        [_c("i", { staticClass: "fas fa-highlighter" })]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        {
-                          directives: [
-                            {
-                              name: "show",
-                              rawName: "v-show",
-                              value: budget.editing,
-                              expression: "budget.editing"
-                            }
-                          ],
-                          on: {
-                            click: function($event) {
-                              $event.preventDefault()
-                              return _vm.updateDatabaseRecord(ind)
-                            }
-                          }
-                        },
-                        [_c("i", { staticClass: "fas fa-check" })]
-                      )
-                    ])
+                    _c(
+                      "th",
+                      [
+                        !budget.editing
+                          ? [
+                              _c(
+                                "div",
+                                {
+                                  on: {
+                                    click: function($event) {
+                                      $event.preventDefault()
+                                      _vm.isEditing(parseInt(ind, 10))
+                                    }
+                                  }
+                                },
+                                [_c("i", { staticClass: "fas fa-highlighter" })]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.destroy(ind)
+                                    }
+                                  }
+                                },
+                                [_c("i", { staticClass: "fas fa-trash" })]
+                              )
+                            ]
+                          : [
+                              _c(
+                                "div",
+                                {
+                                  on: {
+                                    click: function($event) {
+                                      $event.preventDefault()
+                                      return _vm.updateDatabaseRecord(ind)
+                                    }
+                                  }
+                                },
+                                [_c("i", { staticClass: "fas fa-check" })]
+                              )
+                            ]
+                      ],
+                      2
+                    )
                   ])
                 }),
                 _vm._v(" "),
@@ -38581,49 +38601,53 @@ var render = function() {
                           ])
                     ]),
                     _vm._v(" "),
-                    _c("td", [
-                      _c(
-                        "a",
-                        {
-                          directives: [
-                            {
-                              name: "show",
-                              rawName: "v-show",
-                              value: !item.editing,
-                              expression: "!item.editing"
-                            }
-                          ],
-                          on: {
-                            click: function($event) {
-                              $event.preventDefault()
-                              _vm.isEditing(parseInt(ind, 10))
-                            }
-                          }
-                        },
-                        [_c("i", { staticClass: "fas fa-highlighter" })]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        {
-                          directives: [
-                            {
-                              name: "show",
-                              rawName: "v-show",
-                              value: item.editing,
-                              expression: "item.editing"
-                            }
-                          ],
-                          on: {
-                            click: function($event) {
-                              $event.preventDefault()
-                              return _vm.updateDatabaseRecord(ind)
-                            }
-                          }
-                        },
-                        [_c("i", { staticClass: "fas fa-check" })]
-                      )
-                    ])
+                    _c(
+                      "td",
+                      [
+                        !item.editing
+                          ? [
+                              _c(
+                                "div",
+                                {
+                                  on: {
+                                    click: function($event) {
+                                      $event.preventDefault()
+                                      _vm.isEditing(parseInt(ind, 10))
+                                    }
+                                  }
+                                },
+                                [_c("i", { staticClass: "fas fa-highlighter" })]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.destroy(ind)
+                                    }
+                                  }
+                                },
+                                [_c("i", { staticClass: "fas fa-trash" })]
+                              )
+                            ]
+                          : [
+                              _c(
+                                "div",
+                                {
+                                  on: {
+                                    click: function($event) {
+                                      $event.preventDefault()
+                                      return _vm.updateDatabaseRecord(ind)
+                                    }
+                                  }
+                                },
+                                [_c("i", { staticClass: "fas fa-check" })]
+                              )
+                            ]
+                      ],
+                      2
+                    )
                   ])
                 }),
                 _vm._v(" "),
@@ -55257,7 +55281,6 @@ __webpack_require__.r(__webpack_exports__);
       var editing = this.editing;
       var promise = new Promise(function (resolve, reject) {
         if (!editing) {
-          console.log(editing);
           return resolve();
         } else return reject('Ya hay un registro en edición');
       });
@@ -55285,13 +55308,38 @@ __webpack_require__.r(__webpack_exports__);
         method: 'PUT',
         data: this.form
       }).then(function (response) {
-        if (response) {
-          for (var key in _this2.form) {
-            _this2.array[index][key] = _this2.form[key];
-            console.log(_this2.array[index]);
+        if (response) // Response tiene un valor, falso o verdadero
+          {
+            for (var key in _this2.form) {
+              // Aqui se actualiza el array que esta en el cliente (frontend)
+              //Por que ya se actualizo en backend, se hace lo mismo con la propiedad form.concept por ejemplo o segun se el caso, form es llenado segun se requiera
+              _this2.array[index][key] = _this2.form[key];
+            }
+
             _this2.array[index].editing = !_this2.array[index].editing;
             _this2.editing = _this2.array[index].editing;
           }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+
+    /**
+    *
+    *Elimina el objeto en el backend y frontend
+    *
+    **/
+    destroy: function destroy(index) {
+      var _this3 = this;
+
+      axios({
+        method: 'DELETE',
+        url: this.url + this.array[index].id
+      }).then(function (response) {
+        console.log(response);
+
+        if (response.status == 200) {
+          _this3.array.splice(index, 1);
         }
       })["catch"](function (error) {
         console.log(error);

@@ -35,18 +35,24 @@
                 <router-link :to="{ name: 'items', params: {budget:budget} }"><i class="fas fa-cubes" ></i></router-link>
               </td>
               <th>
-                <a v-show="!budget.editing" @click.prevent="isEditing(parseInt(ind,10))">
-                   <i class="fas fa-highlighter" ></i>
-                </a>
-                <a v-show="budget.editing"  @click.prevent="updateDatabaseRecord(ind)">
-                    <i class="fas fa-check"></i>
-                </a>
+                <template v-if="!budget.editing" class="d-flex">
+                  <div  @click.prevent="isEditing(parseInt(ind,10))">
+                     <i class="fas fa-highlighter" ></i>
+                  </div>
+                  <div @click="destroy(ind)" >
+                    <i class="fas fa-trash"></i>
+                  </div>
+                </template>
+                <template v-else>
+                  <div @click.prevent="updateDatabaseRecord(ind)">
+                      <i class="fas fa-check"></i>
+                  </div>
+                </template>
               </th>
             </tr>
             <infinite-loading @infinite="infiniteHandler"></infinite-loading>
           </tbody>
         </table>
-
       </div>
     </div>
   </div>

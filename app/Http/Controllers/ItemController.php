@@ -135,6 +135,15 @@ class ItemController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try{
+          DB::beginTransaction();
+          $item = Item::find($id);
+          $item->specification->delete();
+          $item->delete();
+          DB::commit();
+          return response()->json(['item' => $item ]);
+        }catch(Exception $err){
+          return response()->json(['error' => $err]);
+        }
     }
 }

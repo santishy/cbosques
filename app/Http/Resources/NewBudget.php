@@ -16,7 +16,7 @@ class NewBudget extends JsonResource
     {
       return [
         'id' => $this->id,
-        
+        'specification_id' => $this->specification->id,
         'concept' => $this->specification->concept,
         'qty' => $this->specification->qty,
         'cycle_id' => $this->specification->cycle_id

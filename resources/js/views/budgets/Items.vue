@@ -30,12 +30,20 @@
                 </div>
               </td>
               <td>
-                <a v-show="!item.editing" @click.prevent="isEditing(parseInt(ind,10))">
-                   <i class="fas fa-highlighter" ></i>
-                </a>
-                <a v-show="item.editing"  @click.prevent="updateDatabaseRecord(ind)">
-                    <i class="fas fa-check"></i>
-                </a>
+
+                <template v-if="!item.editing" class="d-flex">
+                  <div  @click.prevent="isEditing(parseInt(ind,10))">
+                     <i class="fas fa-highlighter" ></i>
+                  </div>
+                  <div @click="destroy(ind)" >
+                    <i class="fas fa-trash"></i>
+                  </div>
+                </template>
+                <template v-else>
+                  <div @click.prevent="updateDatabaseRecord(ind)">
+                      <i class="fas fa-check"></i>
+                  </div>
+                </template>
               </td>
             </tr>
             <infinite-loading @infinite="infiniteHandler"></infinite-loading>

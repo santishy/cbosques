@@ -17,6 +17,7 @@ class NewItem extends JsonResource
       return [
         'id' => $this->id,
         'budget_id' => $this->budget_id,
+        'specification_id' => $this->specification->id,
         'concept' => $this->specification->concept,
         'qty' => $this->specification->qty,
         'cycle_id' => $this->specification->cycle_id

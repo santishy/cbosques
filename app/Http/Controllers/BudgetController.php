@@ -123,6 +123,20 @@ class BudgetController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try{
+          DB::beginTransaction();
+          $budget = Budget::find($id);
+          specification::whereIn('specificationable_id', $budget->items()->select('id')->get())
+                       ->where('specificationable_type','App\Item')
+                       ->delete();
+          $budget->specification()->delete();
+          $budget->delete();
+          DB::commit();
+          return response()->json(['budget'=>$budget]);
+        }catch(Exception $err){
+          DB::rollback();
+          return $err;
+        }
+
     }
 }
