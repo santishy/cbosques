@@ -100,7 +100,19 @@ class BudgetController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+      Validator::make($request->all(),[
+        'concept' => "required|validateConceptUpdate:App\Budget,$request->specification_id",
+        'qty' => 'required|Numeric'
+      ],[
+        'required' => 'El campo es requerido',
+        'number' => 'El campo ingresado debe de ser un número.',
+        'validateConceptUpdate' => 'El concepto ya existe dentro de la base de datos.',
+      ])->validate();
+      $specification = Specification::where('id',$request->specification_id)
+                                      ->update(['concept' => $request->concept,
+                                                'qty' => $request->qty]);
+      return $specification;
     }
 
     /**

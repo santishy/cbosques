@@ -21,3 +21,4 @@ Route::group([
 Route::resource('cycles','CycleController');
 Route::resource('budgets','BudgetController');
 Route::resource('items','ItemController');
+Route::resource('specifications','SpecificationController');

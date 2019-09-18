@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Budget;
-use App\Http\Resources\BudgetsCollection;
+use App\Http\Resources\ItemsCollection;
 use App\Rules\ValidateQty;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Rules\ValidateConcept;
 use App\Item;
-use App\Http\Resources\NewBudget;
+use App\Http\Resources\NewItem;
 use App\Events\ItemInsert;
+use App\Specification;
 
 class ItemController extends Controller
 {
@@ -23,7 +24,7 @@ class ItemController extends Controller
     public function index(Request $request)
     {
         $budget = Budget::find($request->budget_id);
-        return new BudgetsCollection($budget->items()->paginate(25));
+        return new ItemsCollection($budget->items()->paginate(25));
     }
 
     /**
@@ -57,7 +58,7 @@ class ItemController extends Controller
         ]);
         event(new ItemInsert($item));
         DB::commit();
-        return new NewBudget($item);
+        return new NewItem($item);
       }catch(Exception $ex){
         DB::rollback();
         return $ex;
@@ -112,7 +113,18 @@ class ItemController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      Validator::make($request->all(),[
+        'concept' => "required|validateConceptUpdate:App\Item,$request->specification_id",
+        'qty' => ['required','Numeric',new ValidateQty($request->budget_id)],
+      ],[
+        'required' => 'El campo es requerido',
+        'number' => 'El campo ingresado debe de ser un número.',
+        'validateConceptUpdate' => 'El concepto ya existe dentro de la base de datos.',
+      ])->validate();
+      $specification = Specification::where('id',$request->specification_id)
+                                      ->update(['concept' => $request->concept,
+                                                'qty' => $request->qty]);
+      return $specification;
     }
 
     /**

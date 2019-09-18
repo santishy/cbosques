@@ -18,6 +18,7 @@ class BudgetsCollection extends ResourceCollection
           return [
             'id' => $budget->id,
             'concept' => $budget->specification->concept,
+            'specification_id' => $budget->specification->id,
             'qty' => $budget->specification->qty,
             'cycle_id' => $budget->specification->cycle_id
           ];

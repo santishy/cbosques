@@ -1948,10 +1948,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     return {
       array: [],
       page: 1,
-      budgetForm: {
-        concept: '',
-        qty: ''
-      }
+      url: 'api/budgets/'
     };
   },
   mixins: [_mixins_actionsMixin__WEBPACK_IMPORTED_MODULE_1__["default"]],
@@ -1959,18 +1956,6 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     'form-budgets': _Form__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   methods: {
-    /*
-    *
-    *Llamada al metodo isEditing del mixin, también obtenemos sus datos del elemento del array que esta en javascript
-    */
-    callIsEditing: function callIsEditing(ind) {
-      for (var key in this.array[ind]) {
-        this.budgetForm[key] = this.array[ind][key];
-      }
-
-      this.isEditing(ind);
-    },
-
     /*
     *
     *Obtiene todos los budgets de la base de datos
@@ -2144,6 +2129,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Form__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Form */ "./resources/js/views/budgets/Form.vue");
+/* harmony import */ var _mixins_actionsMixin__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../mixins/actionsMixin */ "./resources/js/mixins/actionsMixin.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
@@ -2181,6 +2167,26 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2188,10 +2194,12 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   },
   data: function data() {
     return {
-      items: [],
-      page: 1
+      array: [],
+      page: 1,
+      url: 'api/items/'
     };
   },
+  mixins: [_mixins_actionsMixin__WEBPACK_IMPORTED_MODULE_1__["default"]],
   methods: {
     infiniteHandler: function infiniteHandler($state) {
       var _this = this;
@@ -2205,11 +2213,13 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         }
       }).then(function (response) {
         if (response.data.data.length) {
-          var _this$items;
+          var _this$array;
 
           _this.page++;
 
-          (_this$items = _this.items).push.apply(_this$items, _toConsumableArray(response.data.data));
+          (_this$array = _this.array).push.apply(_this$array, _toConsumableArray(response.data.data));
+
+          _this.addingPropertyToObjects(_this.array);
 
           $state.loaded();
         } else {
@@ -2220,7 +2230,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       });
     },
     addBudget: function addBudget(newBudget) {
-      this.items.push(newBudget);
+      this.array.push(newBudget);
     }
   }
 });
@@ -38156,20 +38166,20 @@ var render = function() {
                                 {
                                   name: "model",
                                   rawName: "v-model",
-                                  value: _vm.budgetForm.concept,
-                                  expression: "budgetForm.concept"
+                                  value: _vm.form.concept,
+                                  expression: "form.concept"
                                 }
                               ],
                               staticClass: "form-control",
                               attrs: { type: "text", name: "concept" },
-                              domProps: { value: _vm.budgetForm.concept },
+                              domProps: { value: _vm.form.concept },
                               on: {
                                 input: function($event) {
                                   if ($event.target.composing) {
                                     return
                                   }
                                   _vm.$set(
-                                    _vm.budgetForm,
+                                    _vm.form,
                                     "concept",
                                     $event.target.value
                                   )
@@ -38194,23 +38204,19 @@ var render = function() {
                                 {
                                   name: "model",
                                   rawName: "v-model",
-                                  value: _vm.budgetForm.qty,
-                                  expression: "budgetForm.qty"
+                                  value: _vm.form.qty,
+                                  expression: "form.qty"
                                 }
                               ],
                               staticClass: "form-control",
                               attrs: { type: "number", name: "qty" },
-                              domProps: { value: _vm.budgetForm.qty },
+                              domProps: { value: _vm.form.qty },
                               on: {
                                 input: function($event) {
                                   if ($event.target.composing) {
                                     return
                                   }
-                                  _vm.$set(
-                                    _vm.budgetForm,
-                                    "qty",
-                                    $event.target.value
-                                  )
+                                  _vm.$set(_vm.form, "qty", $event.target.value)
                                 }
                               }
                             })
@@ -38255,7 +38261,7 @@ var render = function() {
                           on: {
                             click: function($event) {
                               $event.preventDefault()
-                              _vm.callIsEditing(parseInt(ind, 10))
+                              _vm.isEditing(parseInt(ind, 10))
                             }
                           }
                         },
@@ -38276,7 +38282,7 @@ var render = function() {
                           on: {
                             click: function($event) {
                               $event.preventDefault()
-                              return _vm.budgetUpdateInTheDatabase(ind)
+                              return _vm.updateDatabaseRecord(ind)
                             }
                           }
                         },
@@ -38499,19 +38505,123 @@ var render = function() {
             _c(
               "tbody",
               [
-                _vm._l(_vm.items, function(item) {
+                _vm._l(_vm.array, function(item, ind) {
                   return _c("tr", [
                     _c("td", [_vm._v(_vm._s(item.id))]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(item.concept))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(item.qty))]),
+                    _c("td", [
+                      item.editing
+                        ? _c("div", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.form.concept,
+                                  expression: "form.concept"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: { type: "text", name: "concept" },
+                              domProps: { value: _vm.form.concept },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.form,
+                                    "concept",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ])
+                        : _c("div", [
+                            _vm._v(
+                              "\n                " +
+                                _vm._s(item.concept) +
+                                "\n              "
+                            )
+                          ])
+                    ]),
                     _vm._v(" "),
                     _c("td", [
-                      _vm._v(
-                        "\n              " +
-                          _vm._s(item.cycle_id) +
-                          "\n            "
+                      item.editing
+                        ? _c("div", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.form.qty,
+                                  expression: "form.qty"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: { type: "number", name: "qty" },
+                              domProps: { value: _vm.form.qty },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(_vm.form, "qty", $event.target.value)
+                                }
+                              }
+                            })
+                          ])
+                        : _c("div", [
+                            _vm._v(
+                              "\n                " +
+                                _vm._s(item.qty) +
+                                "\n              "
+                            )
+                          ])
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "a",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: !item.editing,
+                              expression: "!item.editing"
+                            }
+                          ],
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.isEditing(parseInt(ind, 10))
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fas fa-highlighter" })]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: item.editing,
+                              expression: "item.editing"
+                            }
+                          ],
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.updateDatabaseRecord(ind)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fas fa-check" })]
                       )
                     ])
                   ])
@@ -38542,7 +38652,7 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", [_vm._v("Cantidad")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Cycle ID")])
+      _c("th", [_vm._v("Acciones")])
     ])
   }
 ]
@@ -55120,7 +55230,10 @@ var getCycleByIndex = function getCycleByIndex(state) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {};
+    return {
+      form: {},
+      editing: false
+    };
   },
   methods: {
     /*
@@ -55139,8 +55252,50 @@ __webpack_require__.r(__webpack_exports__);
     *Cambia el icono de editado a listo (ok)
     */
     isEditing: function isEditing(index) {
-      console.log(event);
-      this.array[index].editing = !this.array[index].editing;
+      var _this = this;
+
+      var editing = this.editing;
+      var promise = new Promise(function (resolve, reject) {
+        if (!editing) {
+          console.log(editing);
+          return resolve();
+        } else return reject('Ya hay un registro en edición');
+      });
+      promise.then(function (response) {
+        for (var key in _this.array[index]) {
+          if (key != 'editing' && key != 'cycle_id') Vue.set(_this.form, key, _this.array[index][key]);
+        }
+
+        _this.array[index].editing = !_this.array[index].editing;
+        _this.editing = _this.array[index].editing;
+      }, function (error) {
+        alert(error);
+      });
+    },
+
+    /*
+    **
+    *Actualiza el objeto en la base de datos en el backend.
+    */
+    updateDatabaseRecord: function updateDatabaseRecord(index) {
+      var _this2 = this;
+
+      axios({
+        url: this.url + this.form.id,
+        method: 'PUT',
+        data: this.form
+      }).then(function (response) {
+        if (response) {
+          for (var key in _this2.form) {
+            _this2.array[index][key] = _this2.form[key];
+            console.log(_this2.array[index]);
+            _this2.array[index].editing = !_this2.array[index].editing;
+            _this2.editing = _this2.array[index].editing;
+          }
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
     }
   }
 });

@@ -8,15 +8,34 @@
             <th>ID</th>
             <th>Concepto</th>
             <th>Cantidad</th>
-            <th>Cycle ID</th>
+            <th>Acciones</th>
           </thead>
           <tbody>
-            <tr v-for="item in items">
+            <tr v-for="(item,ind) in array">
               <td>{{item.id}}</td>
-              <td>{{item.concept}}</td>
-              <td>{{item.qty}}</td>
               <td>
-                {{item.cycle_id}}
+                <div v-if="item.editing">
+                    <input type="text" name="concept" v-model='form.concept' class="form-control">
+                </div>
+                <div v-else>
+                  {{item.concept}}
+                </div>
+              </td>
+              <td>
+                <div v-if="item.editing">
+                  <input type="number" name="qty" class="form-control" v-model='form.qty'>
+                </div>
+                <div v-else>
+                  {{item.qty}}
+                </div>
+              </td>
+              <td>
+                <a v-show="!item.editing" @click.prevent="isEditing(parseInt(ind,10))">
+                   <i class="fas fa-highlighter" ></i>
+                </a>
+                <a v-show="item.editing"  @click.prevent="updateDatabaseRecord(ind)">
+                    <i class="fas fa-check"></i>
+                </a>
               </td>
             </tr>
             <infinite-loading @infinite="infiniteHandler"></infinite-loading>
@@ -29,16 +48,19 @@
 
 <script>
 import Form from './Form';
+import actionsMixin from '../../mixins/actionsMixin';
 export default {
   components:{
     'form-budgets':Form
   },
   data(){
     return{
-      items:[],
-      page:1
+      array:[],
+      page:1,
+      url:'api/items/'
     }
   },
+  mixins:[actionsMixin],
   methods:{
     infiniteHandler($state){
       axios({
@@ -52,7 +74,8 @@ export default {
         if(response.data.data.length)
         {
           this.page++;
-          this.items.push(...response.data.data)
+          this.array.push(...response.data.data)
+          this.addingPropertyToObjects(this.array)
           $state.loaded();
         }
         else{
@@ -63,7 +86,8 @@ export default {
       })
     },
     addBudget(newBudget){
-      this.items.push(newBudget);
+      Vue.set(newBudget,'editing',false);
+      this.array.push(newBudget);
     }
   }
 }

@@ -16,7 +16,7 @@
               <td>{{budget.id}}</td>
               <td>
                 <div v-if="budget.editing">
-                    <input type="text" name="concept" v-model='budgetForm.concept' class="form-control">
+                    <input type="text" name="concept" v-model='form.concept' class="form-control">
                 </div>
                 <div v-else>
                   {{budget.concept}}
@@ -24,7 +24,7 @@
               </td>
               <td>
                 <div v-if="budget.editing">
-                  <input type="number" name="qty" class="form-control" v-model='budgetForm.qty'>
+                  <input type="number" name="qty" class="form-control" v-model='form.qty'>
                 </div>
                 <div v-else>
                   {{budget.qty}}
@@ -35,10 +35,10 @@
                 <router-link :to="{ name: 'items', params: {budget:budget} }"><i class="fas fa-cubes" ></i></router-link>
               </td>
               <th>
-                <a v-show="!budget.editing" @click.prevent="callIsEditing(parseInt(ind,10))">
+                <a v-show="!budget.editing" @click.prevent="isEditing(parseInt(ind,10))">
                    <i class="fas fa-highlighter" ></i>
                 </a>
-                <a v-show="budget.editing"  @click.prevent="budgetUpdateInTheDatabase(ind)">
+                <a v-show="budget.editing"  @click.prevent="updateDatabaseRecord(ind)">
                     <i class="fas fa-check"></i>
                 </a>
               </th>
@@ -60,10 +60,7 @@ export default {
     return {
       array:[],
       page:1,
-      budgetForm:{
-        concept:'',
-        qty:''
-      }
+      url:'api/budgets/'
     }
   },
   mixins:[actionsMixin],
@@ -72,15 +69,6 @@ export default {
   },
 
   methods:{
-    /*
-    *
-    *Llamada al metodo isEditing del mixin, también obtenemos sus datos del elemento del array que esta en javascript
-    */
-    callIsEditing(ind){
-      for(var key in this.array[ind])
-        this.budgetForm[key] = this.array[ind][key]
-      this.isEditing(ind);
-    },
     /*
     *
     *Obtiene todos los budgets de la base de datos
@@ -114,7 +102,7 @@ export default {
     *
     */
     budgetUpdateInTheDatabase(index){
-      
+
     },
 
     /*
@@ -122,6 +110,7 @@ export default {
       *
     */
     addBudget(budget){
+      Vue.set(budget,'editing',false);
       this.array.push(budget);
     }
   }
