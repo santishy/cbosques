@@ -3,7 +3,7 @@
     <form-budgets v-on:newBudget="addBudget" url="api/budgets"  title="Presupuestos Generales" subtitle="Crear presupuesto"></form-budgets>
     <div class="row">
       <div class="col-md-12 col-xs-12">
-        <table class="table">
+        <table class="table text-center">
           <thead>
             <th>ID</th>
             <th>Concepto</th>
@@ -34,21 +34,17 @@
               <td>
                 <router-link :to="{ name: 'items', params: {budget:budget} }"><i class="fas fa-cubes" ></i></router-link>
               </td>
-              <th>
-                <template v-if="!budget.editing" class="d-flex">
-                  <div  @click.prevent="isEditing(parseInt(ind,10))">
-                     <i class="fas fa-highlighter" ></i>
-                  </div>
-                  <div @click="destroy(ind)" >
-                    <i class="fas fa-trash"></i>
-                  </div>
-                </template>
-                <template v-else>
-                  <div @click.prevent="updateDatabaseRecord(ind)">
-                      <i class="fas fa-check"></i>
-                  </div>
-                </template>
-              </th>
+              <td class="d-flex justify-content-center">
+                <div class="mr-2" v-show="!budget.editing" @click.prevent="isEditing(parseInt(ind,10))">
+                   <i class="fas fa-highlighter" ></i>
+                </div>
+                <div class="mr-2" v-show="budget.editing" @click.prevent="updateDatabaseRecord(ind)">
+                    <i class="fas fa-check"></i>
+                </div>
+                <div @click="destroy(ind)" >
+                  <i class="fas fa-trash"></i>
+                </div>
+              </td>
             </tr>
             <infinite-loading @infinite="infiniteHandler"></infinite-loading>
           </tbody>

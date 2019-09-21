@@ -17,8 +17,11 @@ Route::group([
   Route::post('refresh', 'AuthController@refresh')->name('refresh');
   Route::post('me', 'AuthController@me')->name('me');
 });
-
+Route::get('cycles/items','CycleController@items');
 Route::resource('cycles','CycleController');
 Route::resource('budgets','BudgetController');
 Route::resource('items','ItemController');
 Route::resource('specifications','SpecificationController');
+Route::resource('departments','DepartmentController');
+Route::get('department/items','DepartmentController@items');
+Route::post('department-item/store','DepartmentItemController@store');

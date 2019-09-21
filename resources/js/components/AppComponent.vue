@@ -12,10 +12,15 @@
                 <ul class="navbar-nav mr-auto">
                   <li class="nav-item">
                     <router-link class="nav-link" :to="'cycles'"> Ciclos</router-link>
-                    
                   </li>
                   <li class="nav-item">
-                    <router-link class="nav-link" to="budgets">Presupuestos</router-link>
+                    <router-link class="nav-link" to="departments"> Departamentos </router-link>
+                  </li>
+                  <li class="nav-item">
+                    <router-link class="nav-link" to="budgets">Crear Presupuesto</router-link>
+                  </li>
+                  <li>
+                    <router-link class="nav-link" to="departmentitems">Asignar Presupuestos</router-link>
                   </li>
                   <li class="nav-item">
                     <router-link class="nav-link" to="login"> Login</router-link>

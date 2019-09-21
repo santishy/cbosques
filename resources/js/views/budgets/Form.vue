@@ -1,6 +1,6 @@
 <template>
   <div class="row justify-content-center">
-      <div class="col-md-12 col-sm-12 col-lg-10 col-xs-10">
+      <div class="col-md-12 col-sm-12 col-lg-12 col-xs-10">
           <div class="card border-dark mb-3">
             <div v-if="isItem" class="card-header d-flex justify-content-between">
               <h4>{{title}}</h4>

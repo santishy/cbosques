@@ -8,4 +8,7 @@ class Cycle extends Model{
   public function budgets(){
     return $this->hasMany(Budget::class);
   }
+  public function items(){
+    return $this->hasManyThrough('App\Item','App\Budget');
+  }
 }

@@ -1,18 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-use App\Cycle;
 use Illuminate\Support\Facades\Validator;
-use App\Rules\DateGreaterThan;
-use App\Events\CycleInsert;
-use App\Http\Resources\Cycle as CycleCollection;
-use App\Rules\UpdateCycleDate;
-use Carbon\Carbon;
-use App\Http\Resources\ItemsCollection;
+use Illuminate\Http\Request;
+use App\Department;
 
-class CycleController extends Controller
+class DepartmentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,7 +14,7 @@ class CycleController extends Controller
      */
     public function index()
     {
-        return  new CycleCollection(Cycle::all());
+        return response()->json(['data'=>Department::all()]);
     }
 
     /**
@@ -33,9 +26,7 @@ class CycleController extends Controller
     {
         //
     }
-    public function items(){
-      return new ItemsCollection(session('cycle')->items()->get());
-    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -43,21 +34,19 @@ class CycleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-     {
-        $validator= Validator::make($request->all(),[
-          'created_at' => ['required','date',new DateGreaterThan,"validateDateRange:$request->finalized_at"],
-          'finalized_at' => ['required','date',new DateGreaterThan]
-        ],[
-          'required' => 'El campo es requerido',
-          'date' => 'Formato incorrecto, fecha invalida'
-        ])->validate();
-        $request['active'] = 1;
-        $cycle = Cycle::create($request->except('_token'));
-        event(new CycleInsert($cycle));
-        $cycle->created=$cycle->created_at->format('y-m-d');
-        return response()->json($cycle);
+    {
+      Validator::make($request->all(),[
+        'name' => "required|unique:departments",
+      ],[
+        'required' => 'El campo es requerido',
+        'unique' => 'Ya existe este departamento en la base de datos',
+      ])->validate();
+      $department = Department::create($request->all());
+      return response()->Json($department);
     }
-
+    public function items(Request $request){
+      return response()->Json(['data'=>Department::find($request->id)->items()->get()]);
+    }
     /**
      * Display the specified resource.
      *
@@ -89,16 +78,14 @@ class CycleController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-      $validator= Validator::make($request->all(),[
-        'created_at' => ['required','date',"validateDateRange:$request->finalized_at",new UpdateCycleDate($id)],
-        'finalized_at' => ['required','date',new UpdateCycleDate($id)]
+      Validator::make($request->all(),[
+        'name' => "required|unique:departments,name,$request->id",
       ],[
         'required' => 'El campo es requerido',
-        'date' => 'Formato incorrecto, fecha invalida'
+        'unique' => 'Ya existe este departamento en la base de datos',
       ])->validate();
-      $cycle = Cycle::where('id',$id)->update($request->except('_token','editing'));
-      return $cycle;
+      $department = Department::where('id',$id)->update(['name' => $request->name]);
+      return $department;
     }
 
     /**

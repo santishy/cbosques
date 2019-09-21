@@ -3,11 +3,12 @@
     <form-budgets v-on:newBudget="addBudget" :title="this.$route.params.budget.concept" subtitle="Crear Rubro" url="/api/items"></form-budgets>
     <div class="row">
       <div class="col-md-12 col-xs-12">
-        <table class="table">
+        <table class="table table-striped text-center">
           <thead>
             <th>ID</th>
             <th>Concepto</th>
             <th>Cantidad</th>
+            <th>Departamentos</th>
             <th>Acciones</th>
           </thead>
           <tbody>
@@ -30,20 +31,20 @@
                 </div>
               </td>
               <td>
+                <i class="fas fa-plus"></i>
 
-                <template v-if="!item.editing" class="d-flex">
-                  <div  @click.prevent="isEditing(parseInt(ind,10))">
-                     <i class="fas fa-highlighter" ></i>
-                  </div>
-                  <div @click="destroy(ind)" >
-                    <i class="fas fa-trash"></i>
-                  </div>
-                </template>
-                <template v-else>
-                  <div @click.prevent="updateDatabaseRecord(ind)">
-                      <i class="fas fa-check"></i>
-                  </div>
-                </template>
+              </td>
+              <td class="d-flex justify-content-center">
+                <div v-show="!item.editing" class="mr-2"  @click.prevent="isEditing(parseInt(ind,10))">
+                   <i class="fas fa-highlighter" ></i>
+                </div>
+                <div v-show="item.editing"  @click.prevent="updateDatabaseRecord(ind)">
+                    <i class="fas fa-check"></i>
+                </div>
+                <div class="mr-2" @click="destroy(ind)" >
+                  <i class="fas fa-trash"></i>
+                </div>
+
               </td>
             </tr>
             <infinite-loading @infinite="infiniteHandler"></infinite-loading>
@@ -65,7 +66,8 @@ export default {
     return{
       array:[],
       page:1,
-      url:'api/items/'
+      url:'api/items/',
+      depertments:[],
     }
   },
   mixins:[actionsMixin],

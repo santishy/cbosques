@@ -6,6 +6,8 @@ import Login from './views/auth/Login';
 import Home from './views/Home';
 import Budgets from './views/budgets/Budgets';
 import Items from './views/budgets/Items';
+import Departments from './views/departments/Departments'
+import DepartmentItems from './views/departments/DepartmentItems'
 
 export default new VueRouter({
   routes:[
@@ -35,6 +37,16 @@ export default new VueRouter({
       path:'/items',
       component:Items,
       name:'items'
+    },
+    {
+      path:'/departments',
+      component:Departments,
+      name:'departments'
+    },
+    {
+      path:'/departmentItems',
+      component:DepartmentItems,
+      name:"departmentItems"
     }
   ],
     mode:'hash'
