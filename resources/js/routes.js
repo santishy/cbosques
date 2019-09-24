@@ -7,8 +7,8 @@ import Home from './views/Home';
 import Budgets from './views/budgets/Budgets';
 import Items from './views/budgets/Items';
 import Departments from './views/departments/Departments'
-import DepartmentItems from './views/departments/DepartmentItems'
-
+import DepartmentItems  from './views/departments/DepartmentItems'
+import QuotationDepartmentItems from './views/quotations/QuotationDepartmentItems'
 export default new VueRouter({
   routes:[
     {
@@ -47,6 +47,11 @@ export default new VueRouter({
       path:'/departmentItems',
       component:DepartmentItems,
       name:"departmentItems"
+    },
+    {
+      path:'/quotation-department-items',
+      component:QuotationDepartmentItems,
+      name:"quotationDepartmentItems"
     }
   ],
     mode:'hash'

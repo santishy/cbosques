@@ -22,4 +22,17 @@ class DepartmentItemController extends Controller
       ])->validate();
       return Department::find($request->department_id)->items()->attach($request->item_id);
     }
+    public function destroy(Request $request,$department_id){
+      Validator::make($request->all(),[
+        'department_id' =>'required',
+        'item_id' => 'required'
+      ],
+      [
+        'required' => 'El campo es requerido'
+      ]);
+      $department = Department::find($department_id);
+      if($department)
+        return $department->items()->detach($request->item_id);
+      return;
+    }
 }

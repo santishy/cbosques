@@ -25,3 +25,4 @@ Route::resource('specifications','SpecificationController');
 Route::resource('departments','DepartmentController');
 Route::get('department/items','DepartmentController@items');
 Route::post('department-item/store','DepartmentItemController@store');
+Route::delete('department-item/{department_id}','DepartmentItemController@destroy');
