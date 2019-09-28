@@ -6,7 +6,7 @@
       </div>
       <div class="col-md-6">
 
-        <div class="card"">
+        <div class="card">
           <div class="card-body">
             <h5 class="card-title">Presupuestos</h5>
             <form>
@@ -21,6 +21,7 @@
     </div>
   </div>
 </template>
+
 <script>
 
 import DepartmentList from './DepartmentList'
@@ -143,6 +144,3 @@ export default {
   }
 }
 </script>
-
-<style lang="css" scoped>
-</style>

@@ -9,17 +9,24 @@ import Items from './views/budgets/Items';
 import Departments from './views/departments/Departments'
 import DepartmentItems  from './views/departments/DepartmentItems'
 import QuotationDepartmentItems from './views/quotations/QuotationDepartmentItems'
-export default new VueRouter({
+import {store} from './store';
+let vueRouter = new VueRouter({
   routes:[
     {
       path:'/cycles',
       component:Create,
       name:'create',
+      meta:{
+          requiresAuth:true
+        }
     },
     {
       path:'/budgets',
       component:Budgets,
-      name:'budgets'
+      name:'budgets',
+      meta:{
+          requiresAuth:true
+        }
     },
     {
       path:'*',
@@ -28,33 +35,62 @@ export default new VueRouter({
     {
       path:'/',
       component:Home,
+      meta:{
+          requiresAuth:true
+        }
     },
     {
       path:'/login',
       component:Login,
+      meta:{
+          requiresAuth:false
+        }
     },
     {
       path:'/items',
       component:Items,
-      name:'items'
+      name:'items',
+      meta:{
+          requiresAuth:true
+        }
     },
     {
       path:'/departments',
       component:Departments,
-      name:'departments'
+      name:'departments',
+      meta:{
+          requiresAuth:true
+        }
     },
     {
       path:'/departmentItems',
       component:DepartmentItems,
-      name:"departmentItems"
+      name:"departmentItems",
+      meta:{
+          requiresAuth:true
+        }
     },
     {
       path:'/quotation-department-items',
       component:QuotationDepartmentItems,
-      name:"quotationDepartmentItems"
+      name:"quotationDepartmentItems",
+      meta:{
+          requiresAuth:true
+        }
     }
   ],
     mode:'hash'
 })
-
+vueRouter.beforeEach((to, from, next) => {
+  if(to.matched.some(record => record.meta.requiresAuth)) {
+    if (store.getters.isLoggedIn) {
+      next()
+      return
+    }
+    next('/login')
+  } else {
+    next()
+  }
+})
 Vue.use(VueRouter);
+export default vueRouter;

@@ -8,7 +8,10 @@ import getters from './getters';
 
 export const store = new Vuex.Store({
   state:{
-    cycles:[]
+    cycles:[],
+    status:'',
+    access_token:localStorage.getItem('access_token') || '',
+    user:{}
   },
   mutations,
   actions,

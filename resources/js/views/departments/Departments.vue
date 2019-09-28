@@ -72,9 +72,9 @@ export default {
       url:this.url,
       params:{
         page:this.page
-      }
+      },
+
     }).then((response)=>{
-      console.log(response)
       if(response.data.data.length)
       {
         this.page++;
@@ -104,7 +104,6 @@ export default {
         if(response.status == 200){
           Vue.set(response.data,'editing',false)
           this.array.push(response.data)
-
         }
       }).catch((error)=>{
         console.log(error)

@@ -5,7 +5,7 @@
               <div class="card">
                   <div class="card-header">Login</div>
                   <div class="card-body">
-                      <form @submit.prevent="login">
+                      <form @submit.prevent="methodLogin">
                           <!-- @csrf -->
 
                           <div class="form-group row">
@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex';
 export default {
   data(){
     return{
@@ -63,19 +64,36 @@ export default {
 
   },
   methods:{
-    login(){
-      axios({
-        method:'POST',
-        url:'http://budgets.dev/api/auth/login',
-        data:{
-          'email':this.email,
-          'password':this.password
-        }
-      }).then((response)=>{
-        console.log(response)
-      }).catch((error)=>{
-        console.log(error)
+    ...mapActions(['login']),
+    methodLogin(){
+      const email = this.email;
+      const password = this.password
+      this.login({email,password}).then((response) =>{
+        
+        this.$router.push('/')
       })
+       .catch((error) => {
+         console.log(error)
+       })
+      // this.$store.dispatch('login', { email, password })
+      //  .then(() => this.$router.push('/'))
+      //  .catch((error) => {
+      //    console.log(error)
+      //  })
+      // axios({
+      //   method:'POST',
+      //   url:'http://budgets.dev:3000/api/auth/login',
+      //   data:{
+      //     'email':this.email,
+      //     'password':this.password
+      //   }
+      // }).then((response)=>{
+      //
+      //   localStorage.setItem('access_token',response.data.access_token);
+      //   window.axios.defaults.headers.common['Authorization'] = 'Bearer '+localStorage.getItem('access_token');
+      // }).catch((error)=>{
+      //   console.log(error)
+      // })
     }
   }
 }

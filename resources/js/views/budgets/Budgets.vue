@@ -58,6 +58,11 @@
 import Form from './Form';
 import actionsMixin from '../../mixins/actionsMixin';
 export default {
+
+  mounted(){
+  
+
+  },
   data(){
     return {
       array:[],

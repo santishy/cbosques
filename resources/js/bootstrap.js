@@ -36,6 +36,12 @@ if (token) {
 } else {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
+if(localStorage.getItem('access_token')){
+    window.axios.defaults.headers.common['Authorization'] = 'Bearer '+localStorage.getItem('access_token');
+    console.log('si entro'+localStorage.getItem('access_token'))
+  }
+else
+  console.log('no entro')
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
