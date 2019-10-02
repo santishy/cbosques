@@ -9,6 +9,11 @@ import Items from './views/budgets/Items';
 import Departments from './views/departments/Departments'
 import DepartmentItems  from './views/departments/DepartmentItems'
 import QuotationDepartmentItems from './views/quotations/QuotationDepartmentItems'
+import Register from './views/auth/Register';
+import QuotationCreation from './views/quotations/QuotationCreation';
+
+
+
 import {store} from './store';
 let vueRouter = new VueRouter({
   routes:[
@@ -47,7 +52,7 @@ let vueRouter = new VueRouter({
         }
     },
     {
-      path:'/items',
+      path:'/items/:budget',
       component:Items,
       name:'items',
       meta:{
@@ -77,6 +82,19 @@ let vueRouter = new VueRouter({
       meta:{
           requiresAuth:true
         }
+    },
+    {
+      path:'/register',
+      component:Register,
+      name:"register",
+      meta:{
+        requiresAuth:true
+      }
+    },
+    {
+      path:'/quotation/create/:id',
+      component:QuotationCreation,
+      name:'quotation-creation'
     }
   ],
     mode:'hash'

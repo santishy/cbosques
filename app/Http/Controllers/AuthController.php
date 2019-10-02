@@ -4,13 +4,36 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\User;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     public function __construct(){
       $this->middleware('jwt')->except('login');
     }
+    public function register(Request $request){
 
+       Validator::make($request->all(), [
+          'name' => ['required', 'string', 'max:255'],
+          'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+          'password' => ['required', 'string', 'min:8', 'confirmed'],
+      ],[
+        'required' => 'El campo es requerido',
+        'unique' => 'Este registro ya existe en la base de datos',
+        'string' => 'Todos los campos deben ser cadenas de texto',
+        'confirmed' => 'La contraseña no coincide',
+        'min' => 'La contraseña debe tener como minímo ocho caracteres'
+      ])->validate();
+      return User::create([
+          'name' => $request->name,
+          'email' => $request->email,
+          'password' => Hash::make($request->password),
+      ]);
+
+      //return $this->login($request);
+    }
     public function login(Request $request){
       $credentials = request(['email', 'password']);
       if (!$token = auth()->attempt($credentials)) {

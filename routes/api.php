@@ -16,6 +16,7 @@ Route::group([
   Route::post('logout', 'AuthController@logout')->name('logout');
   Route::post('refresh', 'AuthController@refresh')->name('refresh');
   Route::post('me', 'AuthController@me')->name('me');
+  Route::post('register','AuthController@register');
 });
 Route::group([
   'middleware' => 'jwt'
@@ -29,4 +30,5 @@ Route::group([
   Route::get('department/items','DepartmentController@items');
   Route::post('department-item/store','DepartmentItemController@store');
   Route::delete('department-item/{department_id}','DepartmentItemController@destroy');
+  Route::post('quotations','QuotationController@store');
 });

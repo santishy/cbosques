@@ -16,7 +16,7 @@
               <td>{{budget.id}}</td>
               <td>
                 <div v-if="budget.editing">
-                    <input type="text" name="concept" v-model='form.concept' class="form-control">
+                    <input type="text" name="concept" v-model='form.concept' class="border-0 form-control">
                 </div>
                 <div v-else>
                   {{budget.concept}}
@@ -24,7 +24,7 @@
               </td>
               <td>
                 <div v-if="budget.editing">
-                  <input type="number" name="qty" class="form-control" v-model='form.qty'>
+                  <input type="number" name="qty" class="form-control border-0 " v-model='form.qty'>
                 </div>
                 <div v-else>
                   {{budget.qty}}
@@ -60,7 +60,7 @@ import actionsMixin from '../../mixins/actionsMixin';
 export default {
 
   mounted(){
-  
+
 
   },
   data(){

@@ -11,22 +11,26 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                   <li class="nav-item">
-                    <router-link class="nav-link" :to="'cycles'"> Ciclos</router-link>
+                    <router-link class="nav-link" :to="'/cycles'"> Ciclos</router-link>
                   </li>
                   <li class="nav-item">
-                    <router-link class="nav-link" to="departments"> Crear Departamentos </router-link>
+                    <router-link class="nav-link" to="/departments"> Crear Departamentos </router-link>
                   </li>
                   <li class="nav-item">
-                    <router-link class="nav-link" to="budgets">Crear Presupuesto</router-link>
+                    <router-link class="nav-link" to="/budgets">Crear Presupuesto</router-link>
                   </li>
                   <li>
-                    <router-link class="nav-link" to="departmentitems">Asignar Presupuestos</router-link>
+                    <router-link class="nav-link" to="/departmentitems">Asignar Presupuestos</router-link>
                   </li>
                   <li>
                     <router-link class="nav-link" to="/quotation-department-items">Departamentos</router-link>
                   </li>
+                  <li>
+                    <router-link class="nav-link" :to="{ name: 'register', params: {} }">Registrar Usuarios</router-link>
+                  </li>
+                
                   <li class="nav-item">
-                    <router-link class="nav-link" to="login"> Login</router-link>
+                    <router-link class="nav-link" to="/login"> Login</router-link>
                   </li>
                 </ul>
 
@@ -45,14 +49,16 @@
             console.log('Component mounted.')
         },
         created(){
-        //   this.$http.interceptors.response.use(undefined, function (err) {
-        //   return new Promise(function (resolve, reject) {
-        //     if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
-        //       this.$store.dispatch(logout)
-        //     }
-        //     throw err;
-        //   });
-        // });
+          axios.interceptors.response.use(undefined, function (err) {
+            return new Promise(function (resolve, reject) {
+              if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
+              // if you ever get an unauthorized, logout the user
+                this.$store.dispatch(AUTH_LOGOUT)
+              // you can also redirect to /login if needed !
+              }
+              throw err;
+            });
+          });
         }
 
     }

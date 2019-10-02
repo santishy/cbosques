@@ -5,20 +5,56 @@
         <department-list v-on:getItemsByDepartment="ItemsByDepartment" v-on:setDepartmentId="DepartmentId"/>
       </div>
       <div class="col-lg-8">
-        <table class="table  table-hover text-center">
-          <thead>
-            <th>ID</th>
-            <th>Concepto</th>
-            <th>Presupuesto</th>
-          </thead>
-          <tbody>
-            <tr v-for="item in items">
-              <td>{{item.id}}</td>
-              <td>{{item.concept}}</td>
-              <td>{{item.qty}}</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Crear Cotización</h5>
+            <h6 class="card-subtitle mb-2 text-muted"></h6>
+            <form @submit.prevent="store">
+              <div class="form-group">
+                <label for="department_item_id">Presupuestos</label>
+                <select @change="setDepartatmentItemId"  class="form-control border-0" name="department_item_id">
+                  <option value="">Elige el presupuesto para tu cotización</option>
+                  <option v-for="item in items" :value="item.department_item_id">{{item.concept+' '+item.qty}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="description">Descripción</label>
+                <textarea v-model="form.description" class="form-control border-0" rows="4" cols="80"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="qty">Costo</label>
+                <input type="number" name="qty" class="form-control border-0" v-model="form.qty">
+              </div>
+              <fieldset class="form-group">
+                <div class="row">
+                  <legend class="col-form-label col-sm-2 pt-0">IVA</legend>
+                  <div class="col-sm-10">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="gridRadios" id="iva_true" v-model="form.iva=1" >
+                      <label class="form-check-label" for="iva_true">
+                        Si incluye
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="gridRadios" id="iva_false"  v-model="form.iva=0">
+                      <label class="form-check-label" for="iva_false">
+                        No incluye
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+              <div class="form-group">
+                <label for="">Archivo</label>
+                <input type="file" @change="onFileSelected" name="archive" class="form-control">
+              </div>
+              <div v-if="upload" class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" :aria-valuenow="load" aria-valuemin="0" aria-valuemax="100" :width="load+'%'"></div>
+              </div>
+              <button class="btn btn-success" name="button">Guardar</button>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -33,7 +69,11 @@ export default {
     data(){
       return{
         department_id:'',
-        items:[]
+        items:[],
+        form:{},
+        fileSelected:null,
+        upload:false,
+        load:0
       }
     },
     methods:{
@@ -55,6 +95,46 @@ export default {
           return this.items = data;
         return this.items=[]
       },
+      /*
+      *Al cambiar el select de items de departamento, se dispara este evento el cual
+      *agrega el department_item_id a el data(){return { form:{} }}
+      */
+      setDepartatmentItemId(event){
+        this.form.department_item_id = event.target.value;
+      },
+      /*
+      *En este metodo, obtenemos el archivo cargado y lo pasamos a la variable fileSelected
+      *
+      */
+      onFileSelected(event){
+        this.form.fileSelected = event.target.files[0];
+        console.log(this.form.fileSelected)
+      },
+      /*
+      *
+      *
+      */
+      store(){
+        const fd = new FormData();
+        fd.append('department_item_id',this.form.department_item_id);
+        fd.append('description',this.form.description);
+        fd.append('qty',this.form.qty);
+        fd.append('iva',this.form.iva);
+        fd.append('archive',this.form.fileSelected);
+        this.upload=true;
+        axios({
+          method:'POST',
+          url:'/api/quotations',
+          data:fd,
+          onUploadProgress:uploadEvent=>{
+            this.load = Math.round(uploadEvent.loaded / uploadEvent.total) * 100
+          }
+        }).then((response)=>{
+          console.log(response)
+        }).catch((error)=>{
+          console.log(error)
+        })
+      }
     }
 
 }

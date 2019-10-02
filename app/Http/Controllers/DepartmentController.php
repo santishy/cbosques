@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-use App\Http\Resources\ItemsCollection;
+use App\Http\Resources\DepartmentItemsCollection;
 use App\Department;
 
 class DepartmentController extends Controller
@@ -46,7 +46,7 @@ class DepartmentController extends Controller
       return response()->Json($department);
     }
     public function items(Request $request){
-      return new ItemsCollection(Department::find($request->id)->items()->get());
+      return new DepartmentItemsCollection(Department::find($request->id)->items()->withPivot('id')->get());
     }
     /**
      * Display the specified resource.

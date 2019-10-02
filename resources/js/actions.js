@@ -29,15 +29,42 @@ const login = ({commit},user) =>{
 }
 const logout = ({commit}) => {
   return new Promise((resolve, reject) => {
-    console.log('logout fue llamada')
     commit('logout')
     localStorage.removeItem('token')
     delete axios.defaults.headers.common['Authorization']
     resolve()
   })
 }
+const register = ({commit},user) => {
+  return new Promise((resolve,reject) =>{
+    commit('auth_request')
+    axios({
+            method:'POST',
+            data:user,
+            url:'/api/auth/register'
+          }).then((response)=>{
+            /*
+            * Debido a que solo registro usuarios como admin,no necesito borrar el token si algo sale mal
+            */
+            // const access_token = response.data.access_token;
+            // const user  = response.data.user;
+            // localStorage.setItem('access_token',response.data.access_token);
+            // window.axios.defaults.headers.common['Authorization'] = 'Bearer '+response.data.access_token;
+            // commit('auth_success',access_token,user)
+            resolve(response)
+          }).catch((error)=>{
+            /*
+            * Debido a que solo registro usuarios como admin,no necesito borrar el token si algo sale mal
+            */
+            // commit('auth_error',error);
+            // localStorage.removeItem('access_token');
+            reject(error);
+          })
+  })
+}
 export default{
   getCycles,
   login,
   logout,
+  register,
 }

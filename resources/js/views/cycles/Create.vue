@@ -49,11 +49,11 @@ created(){
   components:{
     'index-cycles':Index
   },
-  
+
   methods:{
     store(){
       axios({
-        url:'http://budgets.dev/api/cycles',
+        url:'/api/cycles',
         method:'post',
         data:{'created_at':this.created_at,'finalized_at':this.finalized_at}
       }).then((response)=>{

@@ -1,6 +1,6 @@
 <template>
   <ul class="list-group">
-    <li class="list-group-item disabled" aria-disabled="true">Departamentos</li>
+    <li class="list-group-item disabled" aria-disabled="true">Elige un departamento</li>
     <li v-for="(department,index) in departments" v-model="department_id" @click="setDepartmentId"
         :data-id="department.id" style="cursor:pointer" class="list-group-item list-group-item-action"
         :data-index="index+2" >

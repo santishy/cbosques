@@ -26,6 +26,7 @@ class ValidateConcept implements Rule
      */
     public function passes($attribute, $value)
     {
+        
         return  Specification::where([
                                       ['specificationable_type',$this->model],
                                       ['cycle_id',session('cycle')->id],
