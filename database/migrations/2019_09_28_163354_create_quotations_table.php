@@ -19,7 +19,8 @@ class CreateQuotationsTable extends Migration
             $table->string('description',300);
             $table->enum('iva',[false,true]);
             $table->bigInteger('cycle_id');
-            $table->string('extension')->nullable();
+            $table->string('archive')->nullable();
+            $table->string('status',25);
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('department_item_id')->unsigned();
             $table->foreign('department_item_id')->references('id')->on('department_item')

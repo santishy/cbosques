@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
       Validator::extend('validateDateRange', function ($attribute, $value, $parameters, $validator) {
-          return Carbon::create($value,'America\Guadalajara')->lessThan($parameters[0]);
+          return Carbon::create($value,'America\Mexico_City')->lessThan($parameters[0]);
       });
       /**
       *

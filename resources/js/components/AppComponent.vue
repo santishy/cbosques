@@ -28,7 +28,7 @@
                   <li>
                     <router-link class="nav-link" :to="{ name: 'register', params: {} }">Registrar Usuarios</router-link>
                   </li>
-                
+                  <notifications-component/>
                   <li class="nav-item">
                     <router-link class="nav-link" to="/login"> Login</router-link>
                   </li>
@@ -44,16 +44,17 @@
 </template>
 
 <script>
+    import NotificationsComponent from './NotificationsComponent'
     export default {
-        mounted() {
-            console.log('Component mounted.')
-        },
+      components:{
+        'notifications-component':NotificationsComponent
+      },
         created(){
           axios.interceptors.response.use(undefined, function (err) {
             return new Promise(function (resolve, reject) {
               if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
               // if you ever get an unauthorized, logout the user
-                this.$store.dispatch(AUTH_LOGOUT)
+                this.$store.dispatch('auth_logout')
               // you can also redirect to /login if needed !
               }
               throw err;
