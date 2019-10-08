@@ -22,9 +22,8 @@ class CreateQuotationsTable extends Migration
             $table->string('archive')->nullable();
             $table->string('status',25);
             $table->bigInteger('user_id')->unsigned();
-            $table->bigInteger('department_item_id')->unsigned();
-            $table->foreign('department_item_id')->references('id')->on('department_item')
-                  ->onDelete('cascade')->onUpdate('cascade');
+            $table->bigInteger('department_id')->unsigned();
+            $table->bigInteger('item_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')
                   ->onUpdate('cascade');
             $table->timestamps();

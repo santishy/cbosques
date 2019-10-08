@@ -2,7 +2,7 @@
 
 namespace App\Rules;
 
-use App\DepartmentItem;
+use App\Item;
 use Illuminate\Contracts\Validation\Rule;
 
 class ValidateQuoteAmount implements Rule
@@ -13,9 +13,9 @@ class ValidateQuoteAmount implements Rule
      * @return void
      */
     protected $qty;
-    public function __construct($department_item_id)
+    public function __construct($item_id)
     {
-        $this->qty = DepartmentItem::find($department_item_id)->item->specification->qty;
+        $this->qty = Item::find($item_id)->specification->qty;
     }
 
     /**

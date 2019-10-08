@@ -4,11 +4,16 @@
         <i class="fas fa-bell"></i> <span class="badge">{{unreadNotifications.length}}</span>
     </a>
       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <a v-for="unreadNotification in unreadNotifications" class="dropdown-item" :href="unreadNotification.data.link">
+        <router-link v-for="unreadNotification in unreadNotifications"
+                     :key="unreadNotification.id"
+                     class="dropdown-item"
+                     :to="{name:unreadNotification.data.link,params:{
+                         'notification':unreadNotification.data.data
+                         }}">
           {{unreadNotification.data.text}}
-        </a>
+        </router-link>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="#">Todas las notificaciones</a>
+        <router-link class="dropdown-item" to="all-notifications" >Todas las notificaciones</router-link>
       </div>
   </li>
 </template>

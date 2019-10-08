@@ -22,7 +22,6 @@ class DepartmentItemsCollection extends ResourceCollection
           'budget_id' => $item->budget_id,
           'qty' => $item->specification->qty,
           'cycle_id' => $item->specification->cycle_id,
-          'department_item_id' => $item->pivot->id
         ];
       });
     }

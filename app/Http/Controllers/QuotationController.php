@@ -34,8 +34,9 @@ class QuotationController extends Controller
 
     public function validateQuote($request){
       Validator::make($request->all(),[
-        'department_item_id' => 'exists:department_item,id|required',
-        'qty' => ['Numeric','required',new validateQuoteAmount($request->department_item_id)],
+        'item_id' => 'exists:items,id|required',
+        'department_id' => 'exists:departments,id',
+        'qty' => ['Numeric','required',new validateQuoteAmount($request->item_id)],
         'archive' => ['file'],
         'description' => ['required'],
         'iva' => ['required','Boolean'],

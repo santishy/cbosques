@@ -11,10 +11,10 @@
             <h6 class="card-subtitle mb-2 text-muted"></h6>
             <form @submit.prevent="store">
               <div class="form-group">
-                <label for="department_item_id">Presupuestos</label>
-                <select @change="setDepartatmentItemId"  class="form-control border-0" name="department_item_id">
+                <label for="item_id">Presupuestos</label>
+                <select @change="setDepartatmentItemId"  class="form-control border-0" name="item_id">
                   <option value="">Elige el presupuesto para tu cotización</option>
-                  <option v-for="item in items" :value="item.department_item_id">{{item.concept+' '+item.qty}}</option>
+                  <option v-for="item in items" :value="item.id">{{item.concept+' '+item.qty}}</option>
                 </select>
               </div>
               <div class="form-group">
@@ -83,7 +83,7 @@ export default {
       *
       */
       DepartmentId(id){
-        this.department_id = id;
+        this.form.department_id = id;
       },
       /*
       *
@@ -97,10 +97,10 @@ export default {
       },
       /*
       *Al cambiar el select de items de departamento, se dispara este evento el cual
-      *agrega el department_item_id a el data(){return { form:{} }}
+      *agrega el item_id a el data(){return { form:{} }}
       */
       setDepartatmentItemId(event){
-        this.form.department_item_id = event.target.value;
+        this.form.item_id = event.target.value;
       },
       /*
       *En este metodo, obtenemos el archivo cargado y lo pasamos a la variable fileSelected
@@ -116,7 +116,8 @@ export default {
       */
       store(){
         const fd = new FormData();
-        fd.append('department_item_id',this.form.department_item_id);
+        fd.append('department_id',this.form.department_id);
+        fd.append('item_id',this.form.item_id);
         fd.append('description',this.form.description);
         fd.append('qty',this.form.qty);
         fd.append('iva',this.form.iva);

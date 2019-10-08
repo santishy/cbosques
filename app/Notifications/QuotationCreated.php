@@ -56,9 +56,9 @@ class QuotationCreated extends Notification
     public function toArray($notifiable)
     {
         return [
-          'link' => route('quotations.show',$this->quotation->id),
-          'text' => 'Ha creado una cotización el usuario '. $this->quotation->user->name,
-          'data' => $this->quotation,
-        ];
+                'link' => 'quotations-show',
+                'text' => 'Ha creado una cotización el usuario '. $this->quotation->user->name,
+                'data' => $this->quotation,
+               ];
     }
 }

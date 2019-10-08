@@ -46,7 +46,7 @@ class DepartmentController extends Controller
       return response()->Json($department);
     }
     public function items(Request $request){
-      return new DepartmentItemsCollection(Department::find($request->id)->items()->withPivot('id')->get());
+      return new DepartmentItemsCollection(Department::find($request->id)->items()->get());
     }
     /**
      * Display the specified resource.
