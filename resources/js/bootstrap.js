@@ -38,7 +38,6 @@ if (token) {
 }
 if(localStorage.getItem('access_token')){
     window.axios.defaults.headers.common['Authorization'] = 'Bearer '+localStorage.getItem('access_token');
-    console.log('si entro'+localStorage.getItem('access_token'))
   }
 else
   console.log('no entro')

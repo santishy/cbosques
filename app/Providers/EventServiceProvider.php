@@ -21,6 +21,9 @@ class EventServiceProvider extends ServiceProvider
          'App\Events\ItemInsert' => [
            'App\Listeners\subtractItemFromBudget'
          ],
+         'App\Events\QuotationCreated' => [
+           'App\Listeners\NotifyUsersAboutNewQuotation'
+         ]
      ];
 
     /**

@@ -15,7 +15,7 @@ mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css');
 mix.browserSync({
     proxy: 'http://budgets.dev',
-    host:'budgets.dev',
+    host:'budgets.dev:3000',
     open: false,
     browser:'Google chrome',
 });

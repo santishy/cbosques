@@ -7,7 +7,7 @@
             <h5 class="card-title">Cotización</h5>
             <div class="row d-flex justify-content-center">
               <div class="col-sm-4 col-xs-10">
-                <p class="card-text">Descripción</p>
+                <p class="card-text mb-2">Descripción</p>
               </div>
               <div class="col-sm-8 col-xs-10">
                 <p class="card-text mb-2">{{notification.description}}</p>
@@ -30,6 +30,18 @@
                 <p v-else class="card-text mb-2">No Incluido</p>
               </div>
             </div>
+            <div class="row d-flex justify-content-center">
+              <div class="col-sm-4 col-xs-10">
+                <p class="card-text mb-2">Archivo</p>
+              </div>
+              <div class="col-sm-8 col-xs-10">
+                <a :href="'api/quotations/download/'+notification.archive+'?token='+access_token">
+                  <span class="fas-download">
+                    <i class="fas fa-file-download"></i>
+                  </span>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -38,13 +50,25 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
-  props:['notification'],
+  props:['notification','id'],
   mounted(){
-    console.log(this.notification)
+    
+  },
+  computed:{
+    ...mapState(['access_token'])
+  },
+  methods:{
+
   }
 }
 </script>
 
-<style lang="css" scoped>
+<style lang="scss" scoped>
+.fas-download{
+  cursor:pointer;
+  color:Dodgerblue;
+  font-size:1.5rem;
+}
 </style>

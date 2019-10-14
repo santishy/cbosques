@@ -7,11 +7,13 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\User;
+use App\Http\Resources\QuoteResource;
+use App\Mail\BudgetCreated;
 
-class QuotationCreated extends Notification
+class NewQuotation extends Notification
 {
     use Queueable;
-    protected $quotation;
+    public $quotation;
     /**
      * Create a new notification instance.
      *
@@ -30,7 +32,7 @@ class QuotationCreated extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['mail','database'];
     }
 
     /**
@@ -41,10 +43,11 @@ class QuotationCreated extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+        // return (new MailMessage)
+        //             ->line('The introduction to the notification.')
+        //             ->action('Notification Action', url('/'))
+        //             ->line('Thank you for using our application!');
+        return (new BudgetCreated($this->quotation))->to($notifiable->email);
     }
 
     /**
@@ -58,7 +61,8 @@ class QuotationCreated extends Notification
         return [
                 'link' => 'quotations-show',
                 'text' => 'Ha creado una cotización el usuario '. $this->quotation->user->name,
-                'data' => $this->quotation,
+                'data' => new QuoteResource($this->quotation),
+                'notifiable' => $notifiable
                ];
     }
 }

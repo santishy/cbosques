@@ -4,12 +4,17 @@
         <i class="fas fa-bell"></i> <span class="badge">{{unreadNotifications.length}}</span>
     </a>
       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <router-link v-for="unreadNotification in unreadNotifications"
+        <router-link v-for="(unreadNotification,index) in unreadNotifications"
                      :key="unreadNotification.id"
                      class="dropdown-item"
-                     :to="{name:unreadNotification.data.link,params:{
-                         'notification':unreadNotification.data.data
-                         }}">
+                     :to="{
+                          name:unreadNotification.data.link,
+                          params: {
+                                    //el parametro num solo es para que cambie la url
+                                    id:unreadNotification.id,
+                                    'notification':unreadNotification.data.data,
+                                  }
+                          }">
           {{unreadNotification.data.text}}
         </router-link>
         <div class="dropdown-divider"></div>
@@ -30,7 +35,7 @@ export default {
       method:'GET',
       url:'/api/notifications',
     }).then((response) => {
-
+      console.log(response.data)
       if(response.data.unreadNotifications.length)
         return this.unreadNotifications = response.data.unreadNotifications;
       return console.log(response)
