@@ -29,11 +29,26 @@ const login = ({commit},user) =>{
 }
 const logout = ({commit}) => {
   return new Promise((resolve, reject) => {
-    commit('logout')
+    commit('auth_logout')
     localStorage.removeItem('token')
     delete axios.defaults.headers.common['Authorization']
     resolve()
   })
+}
+const refreshToken = ({commit}) => {
+  return new Promise(
+    (resolve,reject)=>{
+      commit('auth_request')
+      axios({
+        url:'/api/auth/refresh',
+        method:'POST'
+      }).then((response)=>{
+        resolve(response)
+      }).catch((error)=>{
+        reject(error)
+      })
+    }
+  )
 }
 const register = ({commit},user) => {
   return new Promise((resolve,reject) =>{

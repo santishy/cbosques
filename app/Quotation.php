@@ -4,12 +4,17 @@ namespace App;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Model;
 use App\Events\QuotationCreated;
+use App\Events\UpdatedQuotation;
 
 class Quotation extends Model
 {
     protected $guarded = ['id'];
 
-    protected $dispatchesEvents=['created' => QuotationCreated::class];
+
+
+    protected $dispatchesEvents=['created' => QuotationCreated::class,'updated' => UpdatedQuotation::class];
+
+    public $message;
 
     public function parentable()
     {

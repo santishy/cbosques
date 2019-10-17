@@ -7,6 +7,14 @@
             <h5 class="card-title">Cotización</h5>
             <div class="row d-flex justify-content-center">
               <div class="col-sm-4 col-xs-10">
+                <p class="card-text mb-2">Status</p>
+              </div>
+              <div class="col-sm-8 col-xs-10">
+                <p class="card-text mb-2">{{notification.status}}</p>
+              </div>
+            </div>
+            <div class="row d-flex justify-content-center">
+              <div class="col-sm-4 col-xs-10">
                 <p class="card-text mb-2">Descripción</p>
               </div>
               <div class="col-sm-8 col-xs-10">
@@ -45,16 +53,20 @@
           </div>
         </div>
       </div>
+      <div class="col-md-6">
+        <status-message :quotation="notification" :notification_id="id"></status-message>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import {mapState} from 'vuex'
+import StatusMessage from '../../components/quotations/StatusMessage.vue';
 export default {
   props:['notification','id'],
-  mounted(){
-    
+  components:{
+    'status-message':StatusMessage
   },
   computed:{
     ...mapState(['access_token'])

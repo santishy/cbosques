@@ -23,7 +23,11 @@ class EventServiceProvider extends ServiceProvider
          ],
          'App\Events\QuotationCreated' => [
            'App\Listeners\NotifyUsersAboutNewQuotation'
-         ]
+         ],
+         'App\Events\UpdatedQuotation'=>[
+           'App\Listeners\NotifyUserAboutUpdatedQuotation',
+           'App\Listeners\BudgetDecrease'
+          ]
      ];
 
     /**

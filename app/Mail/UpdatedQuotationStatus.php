@@ -7,16 +7,17 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class BudgetCreated extends Mailable
+class UpdatedQuotationStatus extends Mailable
 {
     use Queueable, SerializesModels;
-    public $quotation;
-    public $notifiable;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
+    public $quotation;
+    public $notifiable;
     public function __construct($quotation,$notifiable)
     {
         $this->quotation = $quotation;
@@ -30,7 +31,6 @@ class BudgetCreated extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.quotations.created',['url'=>url('/quotations/show/'),"notifiable" => $this->notifiable])
-                    ->attachFromStorage($this->quotation->archive);
+        return $this->markdown('emails.quotations.updated',['quotation' => $this->quotation,'notifiable' => $this->notifiable]);
     }
 }
