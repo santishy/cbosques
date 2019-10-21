@@ -6,13 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 use App\Events\QuotationCreated;
 use App\Events\UpdatedQuotation;
 
+
 class Quotation extends Model
 {
     protected $guarded = ['id'];
 
 
 
-    protected $dispatchesEvents=['created' => QuotationCreated::class,'updated' => UpdatedQuotation::class];
+    protected $dispatchesEvents=[
+                                  'created' => QuotationCreated::class,
+                                  'updated' => UpdatedQuotation::class,
+                                ];
 
     public $message;
 
@@ -27,7 +31,7 @@ class Quotation extends Model
       return $this->belongsTo('App\Department');
     }
     public function item(){
-      return $this->belongsTo('App\User');
+      return $this->belongsTo('App\Item');
     }
     public function itemSpecification(){
       return $this->hasOneThrough('App\Specification','App\Item','id','specificationable_id','item_id','id');

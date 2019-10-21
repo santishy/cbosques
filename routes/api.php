@@ -21,7 +21,7 @@ Route::group([
 Route::group([
   'middleware' => 'jwt'
 ],function(){
-  
+
   Route::get('cycles/items','CycleController@items');
   Route::resource('cycles','CycleController');
   Route::resource('budgets','BudgetController');
@@ -38,4 +38,5 @@ Route::group([
   Route::put('quotations/{quotation}','QuotationController@update');
   Route::get('quotations/{id}','QuotationController@show')->name('quotations.show');
   Route::get('quotations/download/{archive}','QuotationController@download');
+  Route::get('roles','RoleController@index');
 });

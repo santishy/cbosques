@@ -12,8 +12,12 @@ class ValidateQty implements Rule
      * @return void
      */
     protected $budget;
+    protected $item;
     public function __construct($budget_id)
     {
+        $array=func_get_args();
+        if(count($array)>1)
+          $this->item = $array[1];
         $this->budget = Budget::find($budget_id);
     }
 
@@ -26,6 +30,9 @@ class ValidateQty implements Rule
      */
     public function passes($attribute, $value)
     {
+        if(!empty($this->item)){
+          return ($value <= $this->item->specification->qty) ||  ($value <= $this->budget->specification->qty);
+        }
         return $value <= $this->budget->specification->qty;
     }
 

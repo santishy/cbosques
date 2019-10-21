@@ -16,7 +16,12 @@
               <td>{{budget.id}}</td>
               <td>
                 <div v-if="budget.editing">
-                    <input type="text" name="concept" v-model='form.concept' class="border-0 form-control">
+                    <input type="text"
+                            name="concept"
+                            v-model='form.concept'
+                            :class="['border-0','form-control',hasErrorEditing.concept ? 'is-invalid' : '']"
+                    />
+                    <small class="text-danger" v-if="hasErrorEditing.concept">{{hasErrorEditing.concept[0]}}</small>
                 </div>
                 <div v-else>
                   {{budget.concept}}
@@ -24,7 +29,12 @@
               </td>
               <td>
                 <div v-if="budget.editing">
-                  <input type="number" name="qty" class="form-control border-0 " v-model='form.qty'>
+                  <input type="number"
+                         name="qty"
+                         v-model='form.qty'
+                         :class="['border-0','form-control',hasErrorEditing.qty ? 'is-invalid' : '']"
+                  />
+                  <small class="text-danger" v-if="hasErrorEditing.qty">{{hasErrorEditing.qty[0]}}</small>
                 </div>
                 <div v-else>
                   {{budget.qty}}
@@ -58,14 +68,6 @@
 import Form from './Form';
 import actionsMixin from '../../mixins/actionsMixin';
 export default {
-
-  mounted(){
-
-
-  },
-  created(){
-    
-  },
   data(){
     return {
       array:[],
@@ -103,17 +105,11 @@ export default {
           $state.complete()
         }
       }).catch((error)=>{
+
         console.log(error)
       })
     },
-    /**
-    *Actualiza en la base de datos
-    *
-    *
-    */
-    budgetUpdateInTheDatabase(index){
 
-    },
 
     /*
       Agrega el Budget recien creado, es emitido desde otro componente

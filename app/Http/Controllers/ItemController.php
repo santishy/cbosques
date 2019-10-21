@@ -13,6 +13,7 @@ use App\Item;
 use App\Http\Resources\NewItem;
 use App\Events\ItemInsert;
 use App\Specification;
+use App\Events\UpdatedItem;
 
 class ItemController extends Controller
 {
@@ -78,7 +79,6 @@ class ItemController extends Controller
         'required' => 'El campo es requerido',
         'number' => 'El campo ingresado debe de ser un número.',
       ])->validate();
-
     }
 
     /**
@@ -113,18 +113,25 @@ class ItemController extends Controller
      */
     public function update(Request $request, $id)
     {
+      $item = Item::with(['specification','budget'])->find($id);
       Validator::make($request->all(),[
+        'id' => "required|exists:items",
         'concept' => "required|validateConceptUpdate:App\Item,$request->specification_id",
-        'qty' => ['required','Numeric',new ValidateQty($request->budget_id)],
+        'qty' => ['required','Numeric',new ValidateQty($request->budget_id,$item)],
       ],[
         'required' => 'El campo es requerido',
         'number' => 'El campo ingresado debe de ser un número.',
-        'validateConceptUpdate' => 'El concepto ya existe dentro de la base de datos.',
+        'validate_concept_update' => 'El concepto ya existe dentro de la base de datos.',
       ])->validate();
-      $specification = Specification::where('id',$request->specification_id)
+      event(new UpdatedItem($item,$request->qty)); // Ajusta la cantidad en el Budget (cuenta mayor) segun la modificacion
+      /*Specification::where('id',$request->specification_id)
                                       ->update(['concept' => $request->concept,
                                                 'qty' => $request->qty]);
-      return $specification;
+                                                */
+      $item->specification->concept = $request->concept;
+      $item->specification->qty = $request->qty;
+      $item->save();
+      return $item;
     }
 
     /**

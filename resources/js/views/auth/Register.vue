@@ -1,36 +1,33 @@
 <template>
   <div class="container">
       <div class="row justify-content-center">
-          <div class="col-md-8">
+          <div class="col-md-7 col-xs-10">
               <div class="card">
-                  <div class="card-header">Registrar usuario</div>
                   <div class="card-body">
-                      <form @submit.prevent="userRegister">
+                    <div class="card-title">Registrar usuario</div>
+                      <form id="formData" @submit.prevent="userRegister">
                           <div class="form-group row">
                               <label for="name" class="col-md-4 col-form-label text-md-right">Nombre</label>
                               <div class="col-md-6">
-                                  <input id="name" type="text" class="form-control" name="name" v-model="form.name"  required autocomplete="name" autofocus>
-
-                                  <!-- @error('name')
-                                      <span class="invalid-feedback" role="alert">
-                                          <strong>{{ $message }}</strong>
-                                      </span>
-                                  @enderror -->
+                                  <input id="name"
+                                          type="text"
+                                          :class="['form-control', hasError.name ? 'is-invalid' : '']"
+                                          name="name"
+                                          v-model="form.name"
+                                          autocomplete="name"
+                                  autofocus>
+                                  <small v-if="hasError.name" class="text-danger">{{hasError.name[0]}}</small>
                               </div>
                           </div>
 
                           <div class="form-group row">
                               <label for="email" class="col-md-4 col-form-label text-md-right">Email</label>
-
-
                               <div class="col-md-6">
-                                  <input v-model="form.email" id="email" type="email" class="form-control" name="email" required autocomplete="email">
-
-                                  <!-- @error('email')
-                                      <span class="invalid-feedback" role="alert">
-                                          <strong>{{ $message }}</strong>
-                                      </span>
-                                  @enderror -->
+                                  <input v-model="form.email"
+                                        id="email" type="email"
+                                        :class="['form-control',hasError.email ? 'is-invalid' : '']"
+                                        name="email">
+                                  <small class="text-danger" v-if="hasError.email">{{hasError.email[0]}}</small>
                               </div>
                           </div>
 
@@ -38,21 +35,26 @@
                               <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
 
                               <div class="col-md-6">
-                                  <input id="password" v-model="form.password" type="password" class="form-control " name="password" required autocomplete="new-password">
-
-                                  <!-- @error('password')
-                                      <span class="invalid-feedback" role="alert">
-                                          <strong>{{ $message }}</strong>
-                                      </span>
-                                  @enderror -->
+                                  <input id="password"
+                                         v-model="form.password"
+                                         type="password"
+                                         :class="['form-control', hasError.password ? 'is-invalid' : ''] "
+                                         name="password"
+                                         autocomplete="new-password">
+                                  <small v-if="hasError.password" class="text-danger">{{hasError.password[0]}}</small>
                               </div>
                           </div>
 
                           <div class="form-group row">
                               <label for="password-confirm" class="col-md-4 col-form-label text-md-right">Confirmar Password</label>
-
                               <div class="col-md-6">
-                                  <input id="password-confirm" v-model="form.password_confirmation" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                  <input id="password-confirm"
+                                         v-model="form.password_confirmation"
+                                         type="password"
+                                         :class="['form-control',hasError.password_confirmation ? 'is-invalid' : '']"
+                                          name="password_confirmation"
+                                          autocomplete="new-password">
+                                  <small v-if="hasError.password_confirmation" class="text-danger">{{hasError.password_confirmation[0]}}</small>
                               </div>
                           </div>
 
@@ -67,6 +69,25 @@
                   </div>
               </div>
           </div>
+          <div class="col-md-4 col-xs-10">
+            <div class="card">
+                <div class="card-body">
+                  <div class="card-title">Asignar roles</div>
+                  <form>
+                    <div v-for="(role,index) in roles" class="custom-control custom-checkbox">
+                      <input @change="assignRole"
+                             :index="index" type="checkbox"
+                             :class="['custom-control-input', hasError.roles ? 'is-invalid' : '']"
+                             :id="role.name"
+                             :value="role.id">
+                      <label class="custom-control-label" :for="role.name">{{role.display_name}}</label>
+                    </div>
+                    <small v-if="hasError.roles" class="text-danger">{{hasError.roles[0]}}</small>
+                  </form>
+                  </div>
+                </div>
+              </div>
+          </div>
       </div>
   </div>
 </template>
@@ -77,21 +98,50 @@ import {mapMutatios} from 'vuex';
 export default {
   data(){
     return {
-      form:{}
+      form:{},
+      roles:[],
+      assignedRoles:[],
+      hasError:{}
     }
   },
   created(){
-    console.log('registro')
+    this.getRoles().then((response)=>{
+      this.roles = response;
+    }).catch((error)=>{
+      console.log(error)
+    })
   },
   methods:{
-    ...mapActions(['register']),
+    ...mapActions(['register','getRoles']),
     userRegister(){
-      this.register(this.form).then((response)=>{
+      // if(!this.assignedRoles.length)
+      //   return this.hasError.roles='Debes asignar al menos un rol al usuario'
+      var formData = new FormData(document.getElementById('formData'));
+      if(this.assignedRoles.length)
+        formData.append('roles',JSON.stringify(this.assignedRoles))
+      this.register(formData).then((response)=>{
         console.log(response)
       }).catch((error)=>{
+        if(error.response.data.errors){
+          this.hasError = error.response.data.errors;
+        }
         console.log(error)
-      })
-    }
+      });
+    },
+    assignRole(event){
+      if(event.target.checked){
+          this.assignedRoles.push(event.target.value)
+          console.log(this.assignedRoles)
+      }
+      else
+        {
+          let index = this.assignedRoles.indexOf(event.target.value)
+          if(index != -1)
+            this.assignedRoles.splice(index,1);
+          console.log(this.assignedRoles)
+        }
+      //this.assignedRoles.push
+    },
   }
 }
 </script>

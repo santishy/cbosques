@@ -33,13 +33,17 @@ class QuotationController extends Controller
 
     public function validateQuote($request){
       Validator::make($request->all(),[
+        'description' => 'required',
+        'iva' => 'required',
         'item_id' => 'exists:items,id|required',
         'department_id' => 'exists:departments,id',
-        'qty' => ['Numeric','required',new validateQuoteAmount($request->item_id)],
-        'archive' => ['file'],
-        'description' => ['required'],
-        'iva' => ['required','Boolean'],
-      ])->validate();
+        'qty' => ['Numeric','required',new validateQuoteAmount($request->item_id,$request->iva)],
+        'archive' => ['file','required'],
+
+      ],['required'=>'El campo es requerido',
+         'exists'=>'El campo no existe en la base de datos',
+         'numeric' => 'El campo debe ser númerico',
+         'file' => 'El campo debe contener un archivo'])->validate();
     }
 
     public function show(Quotation $quotation){
@@ -58,8 +62,10 @@ class QuotationController extends Controller
     * 1) NotifyUserAboutUpdatedQuotation que esta en App\Quotation, se activa events:updated
     */
     public function update(Request $request,Quotation $quotation){
+
       Validator::make($request->all(),[
-        'qty' => ['Numeric','required',new validateQuoteAmount($request->item_id)],
+        // QTY LO VUELVO A VALIDAR YA QUE PARA CUANDO ACTUALIZE EL STATUS PODRIA NO TENER FONDOS LA CUENTA
+        'qty' => ['Numeric','required',new validateQuoteAmount($request->item_id,$quotation->iva)],
         'status' => 'required'
       ]);
       try {

@@ -8,7 +8,8 @@
             <form @submit.prevent="store">
               <div class="form-group">
                 <label for="name">Nombre</label>
-                <input type="text" v-model="name" name="name" class="form-control">
+                <input type="text" v-model="name" name="name" :class="['form-control',hasError.name ? 'is-invalid' : '']">
+                <small v-if="hasError.name" class="text-danger">{{hasError.name[0]}}</small>
               </div>
               <div class="form-group">
                 <button class="btn btn-primary btn-block">Guardar</button>
@@ -28,7 +29,10 @@
             <tr v-for="(department,ind) in array">
               <td>{{department.id}}</td>
               <td>
-                <input class="form-control" v-if="department.editing" type="text" name="" v-model="form.name">
+                <div v-if="department.editing">
+                  <input :class="['form-control',hasErrorEditing.name ? 'is-invalid' : '']"  type="text" name="" v-model="form.name">
+                  <small v-if="hasErrorEditing.name && department.editing" class="text-danger">{{hasErrorEditing.name[0]}}</small>
+                </div>
                 <div v-else>
                   {{department.name}}
                 </div>
@@ -52,7 +56,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import actionsMixin from '../../mixins/actionsMixin';
 export default {
@@ -62,7 +65,8 @@ export default {
       array:[],
       url:'api/departments/',
       page:1,
-      name:''
+      name:'',
+      hasError:{}
     }
   },
   mixins:[actionsMixin],
@@ -82,7 +86,6 @@ export default {
         this.addingPropertyToObjects(this.array)
 
       }
-
     }).catch((error)=>{
       console.log(error)
     })
@@ -96,6 +99,7 @@ export default {
     *Almacena en la base de datos
     */
     store(){
+      this.hasError={};
       axios({
         url:this.url,
         method:'POST',
@@ -106,6 +110,8 @@ export default {
           this.array.push(response.data)
         }
       }).catch((error)=>{
+        if(error.response.data.errors)
+          this.hasError=error.response.data.errors
         console.log(error)
       })
     }

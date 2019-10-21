@@ -5,12 +5,8 @@ namespace App\Listeners;
 use App\Events\QuotationCreated;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Notification;
-use App\Notifications\NewQuotation;
-use Illuminate\Database\Eloquent\Builder;
 
-class NotifyUsersAboutNewQuotation
+class AdjustItemQty
 {
     /**
      * Create the event listener.
@@ -30,9 +26,9 @@ class NotifyUsersAboutNewQuotation
      */
     public function handle(QuotationCreated $event)
     {
-        $users = Auth::user()->whereHas('roles',function(Builder $query){
-          $query->where('name','admin')->orWhere('name','autorizador');
-        })->get();
-        Notification::send($users,new NewQuotation($event->quotation));
+        if($event->quotation->iva)
+          $event->quotation->qty = $event->quotation->qty * 1.16;
+        $event->quotation->item->specification->qty -= $event->quotation->qty;
+        $event->quotation->item->specification->save();
     }
 }

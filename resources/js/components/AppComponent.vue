@@ -23,7 +23,7 @@
                     <router-link class="nav-link" to="/departmentitems">Asignar Presupuestos</router-link>
                   </li>
                   <li>
-                    <router-link class="nav-link" to="/quotation-department-items">Departamentos</router-link>
+                    <router-link class="nav-link" to="/quotation-department-items">Cotizaciones</router-link>
                   </li>
                   <li>
                     <router-link class="nav-link" :to="{ name: 'register', params: {} }">Registrar Usuarios</router-link>
@@ -50,7 +50,7 @@
         'notifications-component':NotificationsComponent
       },
         created(){
-        
+
         }
 
     }

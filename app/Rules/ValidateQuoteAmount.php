@@ -13,9 +13,15 @@ class ValidateQuoteAmount implements Rule
      * @return void
      */
     protected $qty;
-    public function __construct($item_id)
+    protected $iva;
+    public function __construct($item_id,$iva)
     {
-        $this->qty = Item::find($item_id)->specification->qty;
+        // Aquí es para validar que exista el item dado que me fallo en el validate() , ya que esto es un rule y aun
+        //no pasa la validacion y por eso no me lo validaba bien.
+        if($this->item = Item::find($item_id)){
+          $this->qty = $this->item->specification->qty;
+          $this->iva = $iva;
+        }
     }
 
     /**
@@ -27,6 +33,8 @@ class ValidateQuoteAmount implements Rule
      */
     public function passes($attribute, $value)
     {
+        if($this->iva)
+          $value*=1.16;
         return  $this->qty >= $value;
     }
 
@@ -37,6 +45,6 @@ class ValidateQuoteAmount implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return 'La cantidad es mayor al presupuesto elegido. (Tome en cuenta el IVA)';
     }
 }

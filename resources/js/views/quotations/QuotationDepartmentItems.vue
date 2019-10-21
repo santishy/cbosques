@@ -9,49 +9,63 @@
           <div class="card-body">
             <h5 class="card-title">Crear Cotización</h5>
             <h6 class="card-subtitle mb-2 text-muted"></h6>
-            <form @submit.prevent="store">
+            <form id="formData" @submit.prevent="store">
               <div class="form-group">
                 <label for="item_id">Presupuestos</label>
-                <select @change="setDepartatmentItemId"  class="form-control border-0" name="item_id">
+                <select @change="setDepartatmentItemId"
+                        :class="['form-control', 'border-0', hasError.item_id ? 'is-invalid' : '']" name="item_id">
                   <option value="">Elige el presupuesto para tu cotización</option>
                   <option v-for="item in items" :value="item.id">{{item.concept+' '+item.qty}}</option>
                 </select>
+                <small class="text-danger" v-if="hasError.item_id">{{hasError.item_id[0]}}</small>
               </div>
               <div class="form-group">
                 <label for="description">Descripción</label>
-                <textarea v-model="form.description" class="form-control border-0" rows="4" cols="80"></textarea>
+                <textarea v-model="form.description"
+                          :class="['form-control', 'border-0',hasError.description ? 'is-invalid' : '']"
+                          rows="4" cols="80"
+                          name="description"></textarea>
+                <small v-if="hasError.description" class="text-danger" >{{hasError.description[0]}}</small>
               </div>
               <div class="form-group">
                 <label for="qty">Costo</label>
-                <input type="number" name="qty" class="form-control border-0" v-model="form.qty">
+                <input type="number" name="qty"
+                        :class="['form-control','border-0',hasError.qty ? 'is-invalid' : '']" v-model="form.qty">
+                <small v-if="hasError.qty" class="text-danger">{{hasError.qty[0]}}</small>
               </div>
               <fieldset class="form-group">
                 <div class="row">
-                  <legend class="col-form-label col-sm-2 pt-0">IVA</legend>
+                  <legend :class="['col-form-label', 'col-sm-2', 'pt-0', ]">IVA</legend>
+
                   <div class="col-sm-10">
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" name="gridRadios" id="iva_true" v-model="form.iva=1" >
-                      <label class="form-check-label" for="iva_true">
+                      <input :class="['form-check-input',hasError.iva ? 'is-invalid' : '']"
+                             type="radio" name="iva" id="iva_true" :value="1" >
+                      <label :class="['form-check-label']" for="iva_true">
                         Si incluye
                       </label>
                     </div>
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" name="gridRadios" id="iva_false"  v-model="form.iva=0">
+                      <input :class="['form-check-input',hasError.iva ? 'is-invalid' : '']"
+                             type="radio"
+                             name="iva" id="iva_false" :value="0">
                       <label class="form-check-label" for="iva_false">
                         No incluye
                       </label>
                     </div>
+                    <small class="text-danger" v-if="hasError.iva">{{hasError.iva[0]}}</small>
                   </div>
                 </div>
               </fieldset>
               <div class="form-group">
                 <label for="">Archivo</label>
-                <input type="file" @change="onFileSelected" name="archive" class="form-control">
+                <input type="file" @change="onFileSelected" name="archive" :class="['form-control', hasError.archive ? 'is-invalid' : '']">
+                <small v-if="hasError.archive" class="text-danger">{{hasError.archive[0]}}</small>
               </div>
-              <div v-if="upload" class="progress">
-                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" :aria-valuenow="load" aria-valuemin="0" aria-valuemax="100" :width="load+'%'"></div>
+              <div v-if="upload" class="progress mt-2 mb-2">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" :aria-valuenow="load" aria-valuemin="0" aria-valuemax="100" :style="{'width':load+'%'}"></div>
               </div>
-              <button class="btn btn-success" name="button">Guardar</button>
+              <button class="btn btn-success " name="button">Guardar</button>
             </form>
           </div>
         </div>
@@ -73,7 +87,8 @@ export default {
         form:{},
         fileSelected:null,
         upload:false,
-        load:0
+        load:0,
+        hasError:{}
       }
     },
     methods:{
@@ -115,12 +130,13 @@ export default {
       *
       */
       store(){
-        const fd = new FormData();
+        this.hasError={}
+        const fd = new FormData(document.getElementById('formData'));
         fd.append('department_id',this.form.department_id);
-        fd.append('item_id',this.form.item_id);
-        fd.append('description',this.form.description);
-        fd.append('qty',this.form.qty);
-        fd.append('iva',this.form.iva);
+        // fd.append('item_id',this.form.item_id);
+        // fd.append('description',this.form.description);
+        // fd.append('qty',this.form.qty);
+        // fd.append('iva',this.form.iva);
         fd.append('archive',this.form.fileSelected);
         this.upload=true;
         axios({
@@ -128,12 +144,16 @@ export default {
           url:'/api/quotations',
           data:fd,
           onUploadProgress:uploadEvent=>{
-            this.load = Math.round(uploadEvent.loaded / uploadEvent.total) * 100
+            this.load = (Math.round(uploadEvent.loaded / uploadEvent.total) * 100);
           }
         }).then((response)=>{
+          this.upload = false;
           console.log(response)
         }).catch((error)=>{
-          console.log(error)
+          if(error.response.data.errors){
+            this.hasError = error.response.data.errors;
+          }
+          console.log(error);
         })
       }
     }

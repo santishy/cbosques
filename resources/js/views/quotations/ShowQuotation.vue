@@ -65,6 +65,9 @@ import {mapState} from 'vuex'
 import StatusMessage from '../../components/quotations/StatusMessage.vue';
 export default {
   props:['notification','id'],
+  created(){
+    console.log(this.notification)
+  },
   components:{
     'status-message':StatusMessage
   },

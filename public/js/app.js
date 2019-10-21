@@ -2166,24 +2166,75 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      form: {}
+      form: {},
+      roles: [],
+      assignedRoles: [],
+      hasError: {}
     };
   },
   created: function created() {
-    console.log('registro');
+    var _this = this;
+
+    this.getRoles().then(function (response) {
+      _this.roles = response;
+    })["catch"](function (error) {
+      console.log(error);
+    });
   },
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(['register']), {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(['register', 'getRoles']), {
     userRegister: function userRegister() {
-      this.register(this.form).then(function (response) {
+      var _this2 = this;
+
+      // if(!this.assignedRoles.length)
+      //   return this.hasError.roles='Debes asignar al menos un rol al usuario'
+      var formData = new FormData(document.getElementById('formData'));
+      if (this.assignedRoles.length) formData.append('roles', JSON.stringify(this.assignedRoles));
+      this.register(formData).then(function (response) {
         console.log(response);
       })["catch"](function (error) {
+        if (error.response.data.errors) {
+          _this2.hasError = error.response.data.errors;
+        }
+
         console.log(error);
       });
+    },
+    assignRole: function assignRole(event) {
+      if (event.target.checked) {
+        this.assignedRoles.push(event.target.value);
+        console.log(this.assignedRoles);
+      } else {
+        var index = this.assignedRoles.indexOf(event.target.value);
+        if (index != -1) this.assignedRoles.splice(index, 1);
+        console.log(this.assignedRoles);
+      } //this.assignedRoles.push
+
     }
   })
 });
@@ -2265,11 +2316,19 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {},
-  created: function created() {},
   data: function data() {
     return {
       array: [],
@@ -2314,13 +2373,6 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         console.log(error);
       });
     },
-
-    /**
-    *Actualiza en la base de datos
-    *
-    *
-    */
-    budgetUpdateInTheDatabase: function budgetUpdateInTheDatabase(index) {},
 
     /*
       Agrega el Budget recien creado, es emitido desde otro componente
@@ -2376,6 +2428,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2384,15 +2438,16 @@ __webpack_require__.r(__webpack_exports__);
         concept: '',
         qty: ''
       },
+      hasError: {},
       page: 1,
-      isItem: false,
-      budget_qty: 0
+      isItem: false
     };
   },
   props: {
     title: String,
     subtitle: String,
-    url: String
+    url: String,
+    budget_qty: Number
   },
   name: 'Form',
 
@@ -2404,7 +2459,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     if (this.$route.params.budget) {
       // Asigno a la variable budget_qty el saldo disponible del budget escojido en caso de ser un item a crear
-      this.budget_qty = this.$route.params.budget.qty;
+      //this.budget_qty=
       return this.isItem = true;
     }
 
@@ -2418,6 +2473,7 @@ __webpack_require__.r(__webpack_exports__);
     store: function store() {
       var _this = this;
 
+      this.hasError = {};
       axios({
         url: this.url,
         method: 'POST',
@@ -2427,6 +2483,7 @@ __webpack_require__.r(__webpack_exports__);
 
         if (_this.isItem) _this.budget_qty -= response.data.data.qty;
       })["catch"](function (error) {
+        if (error.response.data.errors) _this.hasError = error.response.data.errors;
         console.log(error);
       });
     },
@@ -2522,6 +2579,9 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2533,7 +2593,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       array: [],
       page: 1,
       url: 'api/items/',
-      depertments: []
+      depertments: [],
+      budget_qty: this.$route.params.budget.qty
     };
   },
   mixins: [_mixins_actionsMixin__WEBPACK_IMPORTED_MODULE_1__["default"]],
@@ -2569,6 +2630,17 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     addBudget: function addBudget(newBudget) {
       Vue.set(newBudget, 'editing', false);
       this.array.push(newBudget);
+    },
+    callUpdateDatabaseRecord: function callUpdateDatabaseRecord(ind) {
+      var _this2 = this;
+
+      this.updateDatabaseRecord(ind).then(function (response) {
+        if (response.data) {
+          _this2.budget_qty = response.data.budget.specification.qty;
+          console.log(response);
+          console.log(_this2.budget_qty);
+        }
+      });
     }
   }
 });
@@ -2624,6 +2696,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -2633,11 +2709,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return {
       created_at: '',
-      finalized_at: ''
+      finalized_at: '',
+      hasError: {}
     };
-  },
-  created: function created() {
-    this.getCycles();
   },
   components: {
     'index-cycles': _Index__WEBPACK_IMPORTED_MODULE_1__["default"]
@@ -2646,6 +2720,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     store: function store() {
       var _this = this;
 
+      this.hasError = {};
       axios({
         url: '/api/cycles',
         method: 'post',
@@ -2658,7 +2733,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         _this.deactivateCycles();
       })["catch"](function (error) {
-        console.log(error);
+        console.log(error.response.data.errors);
+
+        if (error.response.data.errors) {
+          _this.hasError = error.response.data.errors;
+        }
       });
     }
   }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(['setCycle', 'deactivateCycles']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(['getCycles'])),
@@ -2678,6 +2757,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _edit_Date__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit/Date */ "./resources/js/views/cycles/edit/Date.vue");
+/* harmony import */ var _mixins_actionsMixin__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../mixins/actionsMixin */ "./resources/js/mixins/actionsMixin.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -2728,36 +2808,46 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Index',
+  mixins: [_mixins_actionsMixin__WEBPACK_IMPORTED_MODULE_2__["default"]],
+  data: function data() {
+    return {
+      array: [],
+      url: '/api/cycles/'
+    };
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['cycles']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['getCycleByIndex'])),
+  mounted: function mounted() {
+    var _this = this;
+
+    this.getCycles().then(function (response) {
+      _this.array = response.data.data;
+    })["catch"](function (error) {
+      console.log(error);
+    });
+  },
   components: {
     'date': _edit_Date__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['cycles']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['getCycleByIndex'])),
-  methods: {
-    //cambia el estado editing, del array Cycles.
-    edit: function edit(event) {
-      var index = event.toElement.dataset.index;
-      this.cycles[index].editing = !this.cycles[index].editing;
-    },
-    cycleUpdateInTheDatabase: function cycleUpdateInTheDatabase(event) {
-      this.edit(event);
-      var cycle = this.$store.getters.getCycleByIndex(event.target.dataset.index);
-      axios({
-        url: 'api/cycles/' + cycle.id,
-        method: 'PUT',
-        data: cycle
-      }).then(function (response) {
-        console.log(response);
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    }
-  }
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(['getCycles']))
 });
 
 /***/ }),
@@ -3159,6 +3249,9 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'departments',
@@ -3167,7 +3260,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       array: [],
       url: 'api/departments/',
       page: 1,
-      name: ''
+      name: '',
+      hasError: {}
     };
   },
   mixins: [_mixins_actionsMixin__WEBPACK_IMPORTED_MODULE_0__["default"]],
@@ -3204,6 +3298,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     store: function store() {
       var _this2 = this;
 
+      this.hasError = {};
       axios({
         url: this.url,
         method: 'POST',
@@ -3217,6 +3312,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           _this2.array.push(response.data);
         }
       })["catch"](function (error) {
+        if (error.response.data.errors) _this2.hasError = error.response.data.errors;
         console.log(error);
       });
     }
@@ -3299,19 +3395,36 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      form: {}
+      form: {},
+      hasError: {}
     };
   },
   methods: {
     store: function store() {
+      this.hasError = {};
       axios({
         method: 'POST',
         url: '/quotations',
         data: form
-      }).then(response);
+      }).then(function (response) {
+        console.log(response);
+      });
     }
   }
 });
@@ -3390,6 +3503,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -3402,7 +3529,8 @@ __webpack_require__.r(__webpack_exports__);
       form: {},
       fileSelected: null,
       upload: false,
-      load: 0
+      load: 0,
+      hasError: {}
     };
   },
   methods: {
@@ -3449,12 +3577,13 @@ __webpack_require__.r(__webpack_exports__);
     store: function store() {
       var _this = this;
 
-      var fd = new FormData();
-      fd.append('department_id', this.form.department_id);
-      fd.append('item_id', this.form.item_id);
-      fd.append('description', this.form.description);
-      fd.append('qty', this.form.qty);
-      fd.append('iva', this.form.iva);
+      this.hasError = {};
+      var fd = new FormData(document.getElementById('formData'));
+      fd.append('department_id', this.form.department_id); // fd.append('item_id',this.form.item_id);
+      // fd.append('description',this.form.description);
+      // fd.append('qty',this.form.qty);
+      // fd.append('iva',this.form.iva);
+
       fd.append('archive', this.form.fileSelected);
       this.upload = true;
       axios({
@@ -3465,8 +3594,13 @@ __webpack_require__.r(__webpack_exports__);
           _this.load = Math.round(uploadEvent.loaded / uploadEvent.total) * 100;
         }
       }).then(function (response) {
+        _this.upload = false;
         console.log(response);
       })["catch"](function (error) {
+        if (error.response.data.errors) {
+          _this.hasError = error.response.data.errors;
+        }
+
         console.log(error);
       });
     }
@@ -3558,6 +3692,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['notification', 'id'],
+  created: function created() {
+    console.log(this.notification);
+  },
   components: {
     'status-message': _components_quotations_StatusMessage_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
@@ -39591,7 +39728,7 @@ var render = function() {
                           staticClass: "nav-link",
                           attrs: { to: "/quotation-department-items" }
                         },
-                        [_vm._v("Departamentos")]
+                        [_vm._v("Cotizaciones")]
                       )
                     ],
                     1
@@ -40160,16 +40297,17 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col-md-8" }, [
+      _c("div", { staticClass: "col-md-7 col-xs-10" }, [
         _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-header" }, [
-            _vm._v("Registrar usuario")
-          ]),
-          _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
+            _c("div", { staticClass: "card-title" }, [
+              _vm._v("Registrar usuario")
+            ]),
+            _vm._v(" "),
             _c(
               "form",
               {
+                attrs: { id: "formData" },
                 on: {
                   submit: function($event) {
                     $event.preventDefault()
@@ -40198,12 +40336,14 @@ var render = function() {
                           expression: "form.name"
                         }
                       ],
-                      staticClass: "form-control",
+                      class: [
+                        "form-control",
+                        _vm.hasError.name ? "is-invalid" : ""
+                      ],
                       attrs: {
                         id: "name",
                         type: "text",
                         name: "name",
-                        required: "",
                         autocomplete: "name",
                         autofocus: ""
                       },
@@ -40216,7 +40356,13 @@ var render = function() {
                           _vm.$set(_vm.form, "name", $event.target.value)
                         }
                       }
-                    })
+                    }),
+                    _vm._v(" "),
+                    _vm.hasError.name
+                      ? _c("small", { staticClass: "text-danger" }, [
+                          _vm._v(_vm._s(_vm.hasError.name[0]))
+                        ])
+                      : _vm._e()
                   ])
                 ]),
                 _vm._v(" "),
@@ -40240,14 +40386,11 @@ var render = function() {
                           expression: "form.email"
                         }
                       ],
-                      staticClass: "form-control",
-                      attrs: {
-                        id: "email",
-                        type: "email",
-                        name: "email",
-                        required: "",
-                        autocomplete: "email"
-                      },
+                      class: [
+                        "form-control",
+                        _vm.hasError.email ? "is-invalid" : ""
+                      ],
+                      attrs: { id: "email", type: "email", name: "email" },
                       domProps: { value: _vm.form.email },
                       on: {
                         input: function($event) {
@@ -40257,7 +40400,13 @@ var render = function() {
                           _vm.$set(_vm.form, "email", $event.target.value)
                         }
                       }
-                    })
+                    }),
+                    _vm._v(" "),
+                    _vm.hasError.email
+                      ? _c("small", { staticClass: "text-danger" }, [
+                          _vm._v(_vm._s(_vm.hasError.email[0]))
+                        ])
+                      : _vm._e()
                   ])
                 ]),
                 _vm._v(" "),
@@ -40281,12 +40430,14 @@ var render = function() {
                           expression: "form.password"
                         }
                       ],
-                      staticClass: "form-control ",
+                      class: [
+                        "form-control",
+                        _vm.hasError.password ? "is-invalid" : ""
+                      ],
                       attrs: {
                         id: "password",
                         type: "password",
                         name: "password",
-                        required: "",
                         autocomplete: "new-password"
                       },
                       domProps: { value: _vm.form.password },
@@ -40298,7 +40449,13 @@ var render = function() {
                           _vm.$set(_vm.form, "password", $event.target.value)
                         }
                       }
-                    })
+                    }),
+                    _vm._v(" "),
+                    _vm.hasError.password
+                      ? _c("small", { staticClass: "text-danger" }, [
+                          _vm._v(_vm._s(_vm.hasError.password[0]))
+                        ])
+                      : _vm._e()
                   ])
                 ]),
                 _vm._v(" "),
@@ -40322,12 +40479,14 @@ var render = function() {
                           expression: "form.password_confirmation"
                         }
                       ],
-                      staticClass: "form-control",
+                      class: [
+                        "form-control",
+                        _vm.hasError.password_confirmation ? "is-invalid" : ""
+                      ],
                       attrs: {
                         id: "password-confirm",
                         type: "password",
                         name: "password_confirmation",
-                        required: "",
                         autocomplete: "new-password"
                       },
                       domProps: { value: _vm.form.password_confirmation },
@@ -40343,12 +40502,69 @@ var render = function() {
                           )
                         }
                       }
-                    })
+                    }),
+                    _vm._v(" "),
+                    _vm.hasError.password_confirmation
+                      ? _c("small", { staticClass: "text-danger" }, [
+                          _vm._v(_vm._s(_vm.hasError.password_confirmation[0]))
+                        ])
+                      : _vm._e()
                   ])
                 ]),
                 _vm._v(" "),
                 _vm._m(0)
               ]
+            )
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-4 col-xs-10" }, [
+        _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-body" }, [
+            _c("div", { staticClass: "card-title" }, [_vm._v("Asignar roles")]),
+            _vm._v(" "),
+            _c(
+              "form",
+              [
+                _vm._l(_vm.roles, function(role, index) {
+                  return _c(
+                    "div",
+                    { staticClass: "custom-control custom-checkbox" },
+                    [
+                      _c("input", {
+                        class: [
+                          "custom-control-input",
+                          _vm.hasError.roles ? "is-invalid" : ""
+                        ],
+                        attrs: {
+                          index: index,
+                          type: "checkbox",
+                          id: role.name
+                        },
+                        domProps: { value: role.id },
+                        on: { change: _vm.assignRole }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "custom-control-label",
+                          attrs: { for: role.name }
+                        },
+                        [_vm._v(_vm._s(role.display_name))]
+                      )
+                    ]
+                  )
+                }),
+                _vm._v(" "),
+                _vm.hasError.roles
+                  ? _c("small", { staticClass: "text-danger" }, [
+                      _vm._v(_vm._s(_vm.hasError.roles[0]))
+                    ])
+                  : _vm._e()
+              ],
+              2
             )
           ])
         ])
@@ -40434,7 +40650,11 @@ var render = function() {
                                   expression: "form.concept"
                                 }
                               ],
-                              staticClass: "border-0 form-control",
+                              class: [
+                                "border-0",
+                                "form-control",
+                                _vm.hasErrorEditing.concept ? "is-invalid" : ""
+                              ],
                               attrs: { type: "text", name: "concept" },
                               domProps: { value: _vm.form.concept },
                               on: {
@@ -40449,7 +40669,13 @@ var render = function() {
                                   )
                                 }
                               }
-                            })
+                            }),
+                            _vm._v(" "),
+                            _vm.hasErrorEditing.concept
+                              ? _c("small", { staticClass: "text-danger" }, [
+                                  _vm._v(_vm._s(_vm.hasErrorEditing.concept[0]))
+                                ])
+                              : _vm._e()
                           ])
                         : _c("div", [
                             _vm._v(
@@ -40472,7 +40698,11 @@ var render = function() {
                                   expression: "form.qty"
                                 }
                               ],
-                              staticClass: "form-control border-0 ",
+                              class: [
+                                "border-0",
+                                "form-control",
+                                _vm.hasErrorEditing.qty ? "is-invalid" : ""
+                              ],
                               attrs: { type: "number", name: "qty" },
                               domProps: { value: _vm.form.qty },
                               on: {
@@ -40483,7 +40713,13 @@ var render = function() {
                                   _vm.$set(_vm.form, "qty", $event.target.value)
                                 }
                               }
-                            })
+                            }),
+                            _vm._v(" "),
+                            _vm.hasErrorEditing.qty
+                              ? _c("small", { staticClass: "text-danger" }, [
+                                  _vm._v(_vm._s(_vm.hasErrorEditing.qty[0]))
+                                ])
+                              : _vm._e()
                           ])
                         : _c("div", [
                             _vm._v(
@@ -40675,7 +40911,10 @@ var render = function() {
                         expression: "form.qty"
                       }
                     ],
-                    staticClass: "form-control",
+                    class: [
+                      "form-control",
+                      _vm.hasError.qty ? "is-invalid" : ""
+                    ],
                     attrs: { type: "number", id: "qty" },
                     domProps: { value: _vm.form.qty },
                     on: {
@@ -40686,7 +40925,13 @@ var render = function() {
                         _vm.$set(_vm.form, "qty", $event.target.value)
                       }
                     }
-                  })
+                  }),
+                  _vm._v(" "),
+                  _vm.hasError.qty
+                    ? _c("small", { staticClass: "text-danger" }, [
+                        _vm._v(_vm._s(_vm.hasError.qty[0]))
+                      ])
+                    : _vm._e()
                 ])
               ]),
               _vm._v(" "),
@@ -40710,7 +40955,10 @@ var render = function() {
                         expression: "form.concept"
                       }
                     ],
-                    staticClass: "form-control",
+                    class: [
+                      "form-control",
+                      _vm.hasError.concept ? "is-invalid" : ""
+                    ],
                     attrs: { id: "concept" },
                     domProps: { value: _vm.form.concept },
                     on: {
@@ -40721,7 +40969,13 @@ var render = function() {
                         _vm.$set(_vm.form, "concept", $event.target.value)
                       }
                     }
-                  })
+                  }),
+                  _vm._v(" "),
+                  _vm.hasError.concept
+                    ? _c("small", { staticClass: "text-danger" }, [
+                        _vm._v(_vm._s(_vm.hasError.concept[0]))
+                      ])
+                    : _vm._e()
                 ])
               ]),
               _vm._v(" "),
@@ -40768,6 +41022,7 @@ var render = function() {
     [
       _c("form-budgets", {
         attrs: {
+          budget_qty: _vm.budget_qty,
           title: this.$route.params.budget.concept,
           subtitle: "Crear Rubro",
           url: "/api/items"
@@ -40799,7 +41054,10 @@ var render = function() {
                                   expression: "form.concept"
                                 }
                               ],
-                              staticClass: "form-control",
+                              class: [
+                                "form-control",
+                                _vm.hasErrorEditing.concept ? "is-invalid" : ""
+                              ],
                               attrs: { type: "text", name: "concept" },
                               domProps: { value: _vm.form.concept },
                               on: {
@@ -40814,7 +41072,13 @@ var render = function() {
                                   )
                                 }
                               }
-                            })
+                            }),
+                            _vm._v(" "),
+                            _vm.hasErrorEditing.concept
+                              ? _c("small", { staticClass: "text-danger" }, [
+                                  _vm._v(_vm._s(_vm.hasErrorEditing.concept[0]))
+                                ])
+                              : _vm._e()
                           ])
                         : _c("div", [
                             _vm._v(
@@ -40837,7 +41101,10 @@ var render = function() {
                                   expression: "form.qty"
                                 }
                               ],
-                              staticClass: "form-control",
+                              class: [
+                                "form-control",
+                                _vm.hasErrorEditing.qty ? "is-invalid" : ""
+                              ],
                               attrs: { type: "number", name: "qty" },
                               domProps: { value: _vm.form.qty },
                               on: {
@@ -40848,7 +41115,13 @@ var render = function() {
                                   _vm.$set(_vm.form, "qty", $event.target.value)
                                 }
                               }
-                            })
+                            }),
+                            _vm._v(" "),
+                            _vm.hasErrorEditing.qty
+                              ? _c("small", { staticClass: "text-danger" }, [
+                                  _vm._v(_vm._s(_vm.hasErrorEditing.qty[0]))
+                                ])
+                              : _vm._e()
                           ])
                         : _c("div", [
                             _vm._v(
@@ -40858,8 +41131,6 @@ var render = function() {
                             )
                           ])
                     ]),
-                    _vm._v(" "),
-                    _vm._m(1, true),
                     _vm._v(" "),
                     _c("td", { staticClass: "d-flex justify-content-center" }, [
                       _c(
@@ -40898,7 +41169,7 @@ var render = function() {
                           on: {
                             click: function($event) {
                               $event.preventDefault()
-                              return _vm.updateDatabaseRecord(ind)
+                              return _vm.callUpdateDatabaseRecord(ind)
                             }
                           }
                         },
@@ -40946,16 +41217,8 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", [_vm._v("Cantidad")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Departamentos")]),
-      _vm._v(" "),
       _c("th", [_vm._v("Acciones")])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [_c("i", { staticClass: "fas fa-plus" })])
   }
 ]
 render._withStripped = true
@@ -41003,7 +41266,7 @@ var render = function() {
                 }
               },
               [
-                _c("div", { staticClass: "form-group" }, [
+                _c("div", { staticClass: "form-group " }, [
                   _c("label", { attrs: { for: "created_at" } }, [
                     _vm._v("Inicio")
                   ]),
@@ -41017,8 +41280,11 @@ var render = function() {
                         expression: "created_at"
                       }
                     ],
-                    staticClass: "form-control",
-                    attrs: { type: "date", name: "created_at", value: "" },
+                    class: [
+                      "form-control",
+                      _vm.hasError.created_at ? "is-invalid" : ""
+                    ],
+                    attrs: { type: "date", name: "created_at" },
                     domProps: { value: _vm.created_at },
                     on: {
                       input: function($event) {
@@ -41028,7 +41294,13 @@ var render = function() {
                         _vm.created_at = $event.target.value
                       }
                     }
-                  })
+                  }),
+                  _vm._v(" "),
+                  _vm.hasError.created_at
+                    ? _c("small", { staticClass: "text-danger text-center" }, [
+                        _vm._v(_vm._s(_vm.hasError.created_at[0]))
+                      ])
+                    : _vm._e()
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
@@ -41045,12 +41317,14 @@ var render = function() {
                         expression: "finalized_at"
                       }
                     ],
-                    staticClass: "form-control",
+                    class: [
+                      "form-control",
+                      _vm.hasError.finalized_at ? "is-invalid" : ""
+                    ],
                     attrs: {
                       type: "date",
                       name: "finalized_at",
-                      id: "finalized_at",
-                      value: ""
+                      id: "finalized_at"
                     },
                     domProps: { value: _vm.finalized_at },
                     on: {
@@ -41061,7 +41335,20 @@ var render = function() {
                         _vm.finalized_at = $event.target.value
                       }
                     }
-                  })
+                  }),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm.hasError.finalized_at
+                      ? _c(
+                          "small",
+                          {
+                            staticClass: "text-danger text-center",
+                            staticStyle: { padding: "0px" }
+                          },
+                          [_vm._v(_vm._s(_vm.hasError.finalized_at[0]))]
+                        )
+                      : _vm._e()
+                  ])
                 ]),
                 _vm._v(" "),
                 _vm._m(0)
@@ -41120,26 +41407,49 @@ var render = function() {
     _vm._v(" "),
     _c(
       "tbody",
-      _vm._l(_vm.cycles, function(cycle, ind) {
+      _vm._l(_vm.array, function(cycle, ind) {
         return _c("tr", [
           _c("td", [_vm._v(_vm._s(cycle.id))]),
           _vm._v(" "),
           _c("td", [
             cycle.editing
-              ? _c(
-                  "div",
-                  { staticClass: "form-group" },
-                  [
-                    _c("date", {
-                      attrs: {
-                        name: "created_at",
-                        index: ind,
-                        value: cycle.created_at
+              ? _c("div", { staticClass: "form-group" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.form.created_at,
+                        expression: "form.created_at"
                       }
-                    })
-                  ],
-                  1
-                )
+                    ],
+                    class: [
+                      "form-control",
+                      _vm.hasErrorEditing.created_at ? "is-invalid" : ""
+                    ],
+                    attrs: { type: "date", name: "created_at", index: ind },
+                    domProps: { value: _vm.form.created_at },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.form, "created_at", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _vm.hasErrorEditing.created_at
+                    ? _c(
+                        "small",
+                        {
+                          staticClass: "text-danger text-center",
+                          staticStyle: { padding: "0px" }
+                        },
+                        [_vm._v(_vm._s(_vm.hasErrorEditing.created_at[0]))]
+                      )
+                    : _vm._e()
+                ])
               : _c("div", [
                   _vm._v(
                     "\n            " + _vm._s(cycle.created_at) + "\n          "
@@ -41149,20 +41459,43 @@ var render = function() {
           _vm._v(" "),
           _c("td", [
             cycle.editing
-              ? _c(
-                  "div",
-                  { staticClass: "form-group" },
-                  [
-                    _c("date", {
-                      attrs: {
-                        name: "finalized_at",
-                        index: ind,
-                        value: cycle.finalized_at
+              ? _c("div", { staticClass: "form-group" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.form.finalized_at,
+                        expression: "form.finalized_at"
                       }
-                    })
-                  ],
-                  1
-                )
+                    ],
+                    class: [
+                      "form-control",
+                      _vm.hasErrorEditing.finalized_at ? "is-invalid" : ""
+                    ],
+                    attrs: { type: "date", name: "finalized_at", index: ind },
+                    domProps: { value: _vm.form.finalized_at },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.form, "finalized_at", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _vm.hasErrorEditing.finalized_at
+                    ? _c(
+                        "small",
+                        {
+                          staticClass: "text-danger text-center",
+                          staticStyle: { padding: "0px" }
+                        },
+                        [_vm._v(_vm._s(_vm.hasErrorEditing.finalized_at[0]))]
+                      )
+                    : _vm._e()
+                ])
               : _c("div", [
                   _vm._v(
                     "\n          " + _vm._s(cycle.finalized_at) + "\n        "
@@ -41170,26 +41503,70 @@ var render = function() {
                 ])
           ]),
           _vm._v(" "),
-          _c("td", { staticClass: "d-flex justify-content-center" }, [
-            cycle.active
-              ? _c("div", { staticClass: "circle bg-success " })
-              : _c("div", { staticClass: "circle bg-danger" })
+          _c("td", { staticClass: "text-center " }, [
+            _c("div", { staticClass: "d-flex justify-content-center" }, [
+              cycle.active
+                ? _c("div", { staticClass: "circle bg-success " })
+                : _c("div", { staticClass: "circle bg-danger" })
+            ])
           ]),
           _vm._v(" "),
-          _c("td", [
-            !cycle.editing
-              ? _c("i", {
-                  staticClass: "fas fa-highlighter",
-                  staticStyle: { cursor: "pointer" },
-                  attrs: { "data-index": parseInt(ind, 10) },
-                  on: { click: _vm.edit }
-                })
-              : _c("i", {
-                  staticClass: "fas fa-check",
-                  staticStyle: { cursor: "pointer" },
-                  attrs: { "data-index": parseInt(ind, 10) },
-                  on: { click: _vm.cycleUpdateInTheDatabase }
-                })
+          _c("td", { staticClass: "d-flex justify-content-center" }, [
+            _c(
+              "div",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: !cycle.editing,
+                    expression: "!cycle.editing"
+                  }
+                ],
+                staticClass: "mr-2",
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    _vm.isEditing(parseInt(ind, 10))
+                  }
+                }
+              },
+              [_c("i", { staticClass: "fas fa-highlighter" })]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: cycle.editing,
+                    expression: "cycle.editing"
+                  }
+                ],
+                staticClass: "mr-2",
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.updateDatabaseRecord(ind)
+                  }
+                }
+              },
+              [_c("i", { staticClass: "fas fa-check" })]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                on: {
+                  click: function($event) {
+                    return _vm.destroy(ind)
+                  }
+                }
+              },
+              [_c("i", { staticClass: "fas fa-trash" })]
+            )
           ])
         ])
       }),
@@ -41211,7 +41588,7 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", [_vm._v("Activo")]),
       _vm._v(" "),
-      _c("th")
+      _c("th", [_vm._v("Acciones")])
     ])
   }
 ]
@@ -41436,7 +41813,10 @@ var render = function() {
                         expression: "name"
                       }
                     ],
-                    staticClass: "form-control",
+                    class: [
+                      "form-control",
+                      _vm.hasError.name ? "is-invalid" : ""
+                    ],
                     attrs: { type: "text", name: "name" },
                     domProps: { value: _vm.name },
                     on: {
@@ -41447,7 +41827,13 @@ var render = function() {
                         _vm.name = $event.target.value
                       }
                     }
-                  })
+                  }),
+                  _vm._v(" "),
+                  _vm.hasError.name
+                    ? _c("small", { staticClass: "text-danger" }, [
+                        _vm._v(_vm._s(_vm.hasError.name[0]))
+                      ])
+                    : _vm._e()
                 ]),
                 _vm._v(" "),
                 _vm._m(0)
@@ -41469,27 +41855,38 @@ var render = function() {
                 _vm._v(" "),
                 _c("td", [
                   department.editing
-                    ? _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.form.name,
-                            expression: "form.name"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { type: "text", name: "" },
-                        domProps: { value: _vm.form.name },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
+                    ? _c("div", [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.name,
+                              expression: "form.name"
                             }
-                            _vm.$set(_vm.form, "name", $event.target.value)
+                          ],
+                          class: [
+                            "form-control",
+                            _vm.hasErrorEditing.name ? "is-invalid" : ""
+                          ],
+                          attrs: { type: "text", name: "" },
+                          domProps: { value: _vm.form.name },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.form, "name", $event.target.value)
+                            }
                           }
-                        }
-                      })
+                        }),
+                        _vm._v(" "),
+                        _vm.hasErrorEditing.name && department.editing
+                          ? _c("small", { staticClass: "text-danger" }, [
+                              _vm._v(_vm._s(_vm.hasErrorEditing.name[0]))
+                            ])
+                          : _vm._e()
+                      ])
                     : _c("div", [
                         _vm._v(
                           "\n                " +
@@ -41683,7 +42080,10 @@ var render = function() {
                         expression: "form.description"
                       }
                     ],
-                    staticClass: "form-control",
+                    class: [
+                      "form-control",
+                      _vm.hasError.description ? "is-invalid" : ""
+                    ],
                     attrs: { type: "text", name: "description" },
                     domProps: { value: _vm.form.description },
                     on: {
@@ -41694,7 +42094,13 @@ var render = function() {
                         _vm.$set(_vm.form, "description", $event.target.value)
                       }
                     }
-                  })
+                  }),
+                  _vm._v(" "),
+                  _vm.hsaError.description
+                    ? _c("small", { staticClass: "text-danger" }, [
+                        _vm._v(_vm._s(_vm.hasError.description))
+                      ])
+                    : _vm._e()
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
@@ -41709,13 +42115,11 @@ var render = function() {
                         expression: "form.qty"
                       }
                     ],
-                    staticClass: "form-control",
-                    attrs: {
-                      type: "number",
-                      name: "qty",
-                      id: "qty",
-                      value: ""
-                    },
+                    class: [
+                      "form-control",
+                      _vm.hasError.qty ? "is-invalid" : ""
+                    ],
+                    attrs: { type: "number", name: "qty", id: "qty" },
                     domProps: { value: _vm.form.qty },
                     on: {
                       input: function($event) {
@@ -41725,14 +42129,48 @@ var render = function() {
                         _vm.$set(_vm.form, "qty", $event.target.value)
                       }
                     }
-                  })
+                  }),
+                  _vm._v(" "),
+                  _vm.hsaError.qty
+                    ? _c("small", { staticClass: "text-danger" }, [
+                        _vm._v(_vm._s(_vm.hasError.qty))
+                      ])
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "iva" } }, [
+                    _vm._v("Incluye IVA")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      class: [
+                        "form-control",
+                        _vm.hasError.iva ? "is-invalid" : ""
+                      ]
+                    },
+                    [
+                      _vm._v(
+                        '\n                        name="iva"\n                >\n                  '
+                      ),
+                      _c("option", { attrs: { value: "1" } }, [_vm._v("No")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "2" } }, [_vm._v("Si")])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _vm.hsaError.iva
+                    ? _c("small", { staticClass: "text-danger" }, [
+                        _vm._v(_vm._s(_vm.hasError.iva))
+                      ])
+                    : _vm._e()
                 ]),
                 _vm._v(" "),
                 _vm._m(0),
                 _vm._v(" "),
-                _vm._m(1),
-                _vm._v(" "),
-                _vm._m(2)
+                _vm._m(1)
               ]
             )
           ])
@@ -41742,20 +42180,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "iva" } }, [_vm._v("Incluye IVA")]),
-      _vm._v(" "),
-      _c("select", { staticClass: "form-control", attrs: { name: "iva" } }, [
-        _c("option", { attrs: { value: "1" } }, [_vm._v("No")]),
-        _vm._v(" "),
-        _c("option", { attrs: { value: "2" } }, [_vm._v("Si")])
-      ])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -41828,6 +42252,7 @@ var render = function() {
             _c(
               "form",
               {
+                attrs: { id: "formData" },
                 on: {
                   submit: function($event) {
                     $event.preventDefault()
@@ -41844,7 +42269,11 @@ var render = function() {
                   _c(
                     "select",
                     {
-                      staticClass: "form-control border-0",
+                      class: [
+                        "form-control",
+                        "border-0",
+                        _vm.hasError.item_id ? "is-invalid" : ""
+                      ],
                       attrs: { name: "item_id" },
                       on: { change: _vm.setDepartatmentItemId }
                     },
@@ -41860,7 +42289,13 @@ var render = function() {
                       })
                     ],
                     2
-                  )
+                  ),
+                  _vm._v(" "),
+                  _vm.hasError.item_id
+                    ? _c("small", { staticClass: "text-danger" }, [
+                        _vm._v(_vm._s(_vm.hasError.item_id[0]))
+                      ])
+                    : _vm._e()
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
@@ -41877,8 +42312,12 @@ var render = function() {
                         expression: "form.description"
                       }
                     ],
-                    staticClass: "form-control border-0",
-                    attrs: { rows: "4", cols: "80" },
+                    class: [
+                      "form-control",
+                      "border-0",
+                      _vm.hasError.description ? "is-invalid" : ""
+                    ],
+                    attrs: { rows: "4", cols: "80", name: "description" },
                     domProps: { value: _vm.form.description },
                     on: {
                       input: function($event) {
@@ -41888,7 +42327,13 @@ var render = function() {
                         _vm.$set(_vm.form, "description", $event.target.value)
                       }
                     }
-                  })
+                  }),
+                  _vm._v(" "),
+                  _vm.hasError.description
+                    ? _c("small", { staticClass: "text-danger" }, [
+                        _vm._v(_vm._s(_vm.hasError.description[0]))
+                      ])
+                    : _vm._e()
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
@@ -41903,7 +42348,11 @@ var render = function() {
                         expression: "form.qty"
                       }
                     ],
-                    staticClass: "form-control border-0",
+                    class: [
+                      "form-control",
+                      "border-0",
+                      _vm.hasError.qty ? "is-invalid" : ""
+                    ],
                     attrs: { type: "number", name: "qty" },
                     domProps: { value: _vm.form.qty },
                     on: {
@@ -41914,48 +42363,38 @@ var render = function() {
                         _vm.$set(_vm.form, "qty", $event.target.value)
                       }
                     }
-                  })
+                  }),
+                  _vm._v(" "),
+                  _vm.hasError.qty
+                    ? _c("small", { staticClass: "text-danger" }, [
+                        _vm._v(_vm._s(_vm.hasError.qty[0]))
+                      ])
+                    : _vm._e()
                 ]),
                 _vm._v(" "),
                 _c("fieldset", { staticClass: "form-group" }, [
                   _c("div", { staticClass: "row" }, [
                     _c(
                       "legend",
-                      { staticClass: "col-form-label col-sm-2 pt-0" },
+                      { class: ["col-form-label", "col-sm-2", "pt-0"] },
                       [_vm._v("IVA")]
                     ),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-sm-10" }, [
                       _c("div", { staticClass: "form-check" }, [
                         _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: (_vm.form.iva = 1),
-                              expression: "form.iva=1"
-                            }
+                          class: [
+                            "form-check-input",
+                            _vm.hasError.iva ? "is-invalid" : ""
                           ],
-                          staticClass: "form-check-input",
-                          attrs: {
-                            type: "radio",
-                            name: "gridRadios",
-                            id: "iva_true"
-                          },
-                          domProps: {
-                            checked: _vm._q((_vm.form.iva = 1), null)
-                          },
-                          on: {
-                            change: function($event) {
-                              return _vm.$set(_vm.form, "iva=1", null)
-                            }
-                          }
+                          attrs: { type: "radio", name: "iva", id: "iva_true" },
+                          domProps: { value: 1 }
                         }),
                         _vm._v(" "),
                         _c(
                           "label",
                           {
-                            staticClass: "form-check-label",
+                            class: ["form-check-label"],
                             attrs: { for: "iva_true" }
                           },
                           [
@@ -41968,28 +42407,16 @@ var render = function() {
                       _vm._v(" "),
                       _c("div", { staticClass: "form-check" }, [
                         _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: (_vm.form.iva = 0),
-                              expression: "form.iva=0"
-                            }
+                          class: [
+                            "form-check-input",
+                            _vm.hasError.iva ? "is-invalid" : ""
                           ],
-                          staticClass: "form-check-input",
                           attrs: {
                             type: "radio",
-                            name: "gridRadios",
+                            name: "iva",
                             id: "iva_false"
                           },
-                          domProps: {
-                            checked: _vm._q((_vm.form.iva = 0), null)
-                          },
-                          on: {
-                            change: function($event) {
-                              return _vm.$set(_vm.form, "iva=0", null)
-                            }
-                          }
+                          domProps: { value: 0 }
                         }),
                         _vm._v(" "),
                         _c(
@@ -42004,7 +42431,13 @@ var render = function() {
                             )
                           ]
                         )
-                      ])
+                      ]),
+                      _vm._v(" "),
+                      _vm.hasError.iva
+                        ? _c("small", { staticClass: "text-danger" }, [
+                            _vm._v(_vm._s(_vm.hasError.iva[0]))
+                          ])
+                        : _vm._e()
                     ])
                   ])
                 ]),
@@ -42013,23 +42446,32 @@ var render = function() {
                   _c("label", { attrs: { for: "" } }, [_vm._v("Archivo")]),
                   _vm._v(" "),
                   _c("input", {
-                    staticClass: "form-control",
+                    class: [
+                      "form-control",
+                      _vm.hasError.archive ? "is-invalid" : ""
+                    ],
                     attrs: { type: "file", name: "archive" },
                     on: { change: _vm.onFileSelected }
-                  })
+                  }),
+                  _vm._v(" "),
+                  _vm.hasError.archive
+                    ? _c("small", { staticClass: "text-danger" }, [
+                        _vm._v(_vm._s(_vm.hasError.archive[0]))
+                      ])
+                    : _vm._e()
                 ]),
                 _vm._v(" "),
                 _vm.upload
-                  ? _c("div", { staticClass: "progress" }, [
+                  ? _c("div", { staticClass: "progress mt-2 mb-2" }, [
                       _c("div", {
                         staticClass:
                           "progress-bar progress-bar-striped progress-bar-animated",
+                        style: { width: _vm.load + "%" },
                         attrs: {
                           role: "progressbar",
                           "aria-valuenow": _vm.load,
                           "aria-valuemin": "0",
-                          "aria-valuemax": "100",
-                          width: _vm.load + "%"
+                          "aria-valuemax": "100"
                         }
                       })
                     ])
@@ -42037,7 +42479,10 @@ var render = function() {
                 _vm._v(" "),
                 _c(
                   "button",
-                  { staticClass: "btn btn-success", attrs: { name: "button" } },
+                  {
+                    staticClass: "btn btn-success ",
+                    attrs: { name: "button" }
+                  },
                   [_vm._v("Guardar")]
                 )
               ]
@@ -58285,16 +58730,35 @@ module.exports = function(module) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 var getCycles = function getCycles(context) {
-  axios({
-    url: 'api/cycles',
-    method: 'GET'
-  }).then(function (response) {
-    context.commit('addCycles', response.data.data);
+  return new Promise(function (resolve, reject) {
+    axios({
+      url: 'api/cycles',
+      method: 'GET'
+    }).then(function (response) {
+      context.commit('addCycles', response.data.data);
+      resolve(response);
+    })["catch"](function (error) {
+      reject(error);
+    });
   });
 };
 
-var login = function login(_ref, user) {
+var getRoles = function getRoles(_ref) {
   var commit = _ref.commit;
+  return new Promise(function (resolve, reject) {
+    axios({
+      method: 'GET',
+      url: '/api/roles'
+    }).then(function (response) {
+      resolve(response.data);
+    })["catch"](function (error) {
+      reject(error);
+    });
+  });
+};
+
+var login = function login(_ref2, user) {
+  var commit = _ref2.commit;
   return new Promise(function (resolve, reject) {
     commit('auth_request');
     axios({
@@ -58316,8 +58780,8 @@ var login = function login(_ref, user) {
   });
 };
 
-var logout = function logout(_ref2) {
-  var commit = _ref2.commit;
+var logout = function logout(_ref3) {
+  var commit = _ref3.commit;
   return new Promise(function (resolve, reject) {
     commit('auth_logout');
     localStorage.removeItem('token');
@@ -58326,8 +58790,8 @@ var logout = function logout(_ref2) {
   });
 };
 
-var refreshToken = function refreshToken(_ref3) {
-  var commit = _ref3.commit;
+var refreshToken = function refreshToken(_ref4) {
+  var commit = _ref4.commit;
   return new Promise(function (resolve, reject) {
     commit('auth_request');
     axios({
@@ -58341,8 +58805,8 @@ var refreshToken = function refreshToken(_ref3) {
   });
 };
 
-var register = function register(_ref4, user) {
-  var commit = _ref4.commit;
+var register = function register(_ref5, user) {
+  var commit = _ref5.commit;
   return new Promise(function (resolve, reject) {
     commit('auth_request');
     axios({
@@ -58374,7 +58838,8 @@ var register = function register(_ref4, user) {
   getCycles: getCycles,
   login: login,
   logout: logout,
-  register: register
+  register: register,
+  getRoles: getRoles
 });
 
 /***/ }),
@@ -58758,7 +59223,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       form: {},
-      editing: false
+      editing: false,
+      hasErrorEditing: {}
     };
   },
   methods: {
@@ -58805,24 +59271,35 @@ __webpack_require__.r(__webpack_exports__);
     updateDatabaseRecord: function updateDatabaseRecord(index) {
       var _this2 = this;
 
-      axios({
-        url: this.url + this.form.id,
-        method: 'PUT',
-        data: this.form
-      }).then(function (response) {
-        if (response) // Response tiene un valor, falso o verdadero
-          {
-            for (var key in _this2.form) {
-              // Aqui se actualiza el array que esta en el cliente (frontend)
-              //Por que ya se actualizo en backend, se hace lo mismo con la propiedad form.concept por ejemplo o segun se el caso, form es llenado segun se requiera
-              _this2.array[index][key] = _this2.form[key];
+      this.hasErrorEditing = {};
+      return new Promise(function (resolve, reject) {
+        axios({
+          url: _this2.url + _this2.form.id,
+          method: 'PUT',
+          data: _this2.form
+        }).then(function (response) {
+          if (response) // Response tiene un valor, falso o verdadero
+            {
+              for (var key in _this2.form) {
+                // Aqui se actualiza el array que esta en el cliente (frontend)
+                //Por que ya se actualizo en backend, se hace lo mismo con la propiedad form.concept por ejemplo o segun se el caso, form es llenado segun se requiera
+                _this2.array[index][key] = _this2.form[key];
+              }
+
+              _this2.array[index].editing = !_this2.array[index].editing;
+              _this2.editing = _this2.array[index].editing;
             }
 
-            _this2.array[index].editing = !_this2.array[index].editing;
-            _this2.editing = _this2.array[index].editing;
+          resolve(response);
+        })["catch"](function (error) {
+          console.log(error);
+
+          if (error.response.data.errors) {
+            _this2.hasErrorEditing = error.response.data.errors;
           }
-      })["catch"](function (error) {
-        console.log(error);
+
+          reject(error);
+        });
       });
     },
 
@@ -59033,6 +59510,7 @@ var vueRouter = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     // el parametro num, solo es para que cambie la url
     component: _views_quotations_ShowQuotation__WEBPACK_IMPORTED_MODULE_13__["default"],
     name: 'quotations-show',
+    requiresAuth: true,
     props: true
   }, {
     path: '/notifications/index',

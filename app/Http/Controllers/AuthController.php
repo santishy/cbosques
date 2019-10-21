@@ -8,10 +8,13 @@ use App\User;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+
 class AuthController extends Controller
 {
     public function __construct(){
       $this->middleware('jwt')->except('login');
+      $this->middleware('roles:admin')->except('login');
     }
     public function register(Request $request){
 
@@ -19,18 +22,30 @@ class AuthController extends Controller
           'name' => ['required', 'string', 'max:255'],
           'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
           'password' => ['required', 'string', 'min:8', 'confirmed'],
+          'roles' => ['required'],
       ],[
         'required' => 'El campo es requerido',
         'unique' => 'Este registro ya existe en la base de datos',
         'string' => 'Todos los campos deben ser cadenas de texto',
-        'confirmed' => 'La contraseña no coincide',
+        'confirmed' => 'La contraseña no coincide con la confirmación',
         'min' => 'La contraseña debe tener como minímo ocho caracteres'
       ])->validate();
-      return User::create([
-          'name' => $request->name,
-          'email' => $request->email,
-          'password' => Hash::make($request->password),
-      ]);
+      try{
+        DB::beginTransaction();
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+        $roles = json_decode($request->roles);
+        $user->roles()->attach($roles);
+        DB::commit();
+        return $user;
+      }catch (\Exception $e) {
+        DB::rollback();
+        return $e;
+      }
+
 
       //return $this->login($request);
     }

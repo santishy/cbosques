@@ -13,13 +13,15 @@
                 <div class="form-group row">
                   <label for="qty" class="col-sm-2 col-form-label">Cantidad</label>
                   <div class="col-sm-10">
-                    <input v-model="form.qty" type="number" class="form-control" id="qty" >
+                    <input v-model="form.qty" type="number" :class="['form-control', hasError.qty ? 'is-invalid' : '']" id="qty" >
+                    <small v-if="hasError.qty" class="text-danger">{{hasError.qty[0]}}</small>
                   </div>
                 </div>
                 <div class="form-group row">
                   <label for="concept" class="col-sm-2 col-form-label">Concepto</label>
                   <div class="col-sm-10">
-                    <input v-model="form.concept" class="form-control" id="concept">
+                    <input v-model="form.concept" :class="['form-control', hasError.concept ? 'is-invalid' : '']"  id="concept">
+                    <small v-if="hasError.concept" class="text-danger">{{hasError.concept[0]}}</small>
                   </div>
                 </div>
                 <button  type="submit" class="btn btn-primary mb-2 btn-block">Guardar</button>
@@ -40,16 +42,18 @@ export default {
         concept:'',
         qty:''
       },
+      hasError:{},
       page:1,
       isItem:false,
-      budget_qty:0
+      
     }
 
   },
   props:{
     title:String,
     subtitle:String,
-    url:String
+    url:String,
+    budget_qty:Number,
   },
   name:'Form',
   /*
@@ -61,7 +65,7 @@ export default {
     if(this.$route.params.budget)
     {
       // Asigno a la variable budget_qty el saldo disponible del budget escojido en caso de ser un item a crear
-      this.budget_qty=this.$route.params.budget.qty;
+      //this.budget_qty=
       return this.isItem = true
     }
     return this.isItem= false
@@ -72,6 +76,7 @@ export default {
       *
     */
     store(){
+      this.hasError={}
       axios({
         url:this.url,
         method:'POST',
@@ -81,6 +86,8 @@ export default {
         if(this.isItem)
           this.budget_qty -= response.data.data.qty
       }).catch((error)=>{
+        if(error.response.data.errors)
+          this.hasError = error.response.data.errors;
         console.log(error)
       })
     },

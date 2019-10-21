@@ -1,9 +1,26 @@
 const getCycles = (context) => {
-  axios({
-    url:'api/cycles',
-    method:'GET'
-  }).then((response)=>{
-    context.commit('addCycles',response.data.data);
+  return new Promise((resolve,reject)=>{
+    axios({
+      url:'api/cycles',
+      method:'GET'
+    }).then((response)=>{
+      context.commit('addCycles',response.data.data);
+      resolve(response);
+    }).catch((error) => {
+      reject(error)
+    })
+  })
+}
+const getRoles = ({commit})=>{
+  return new Promise((resolve,reject)=>{
+    axios({
+      method:'GET',
+      url:'/api/roles'
+    }).then((response)=>{
+      resolve(response.data)
+    }).catch((error)=>{
+      reject(error)
+    })
   })
 }
 const login = ({commit},user) =>{
@@ -82,4 +99,5 @@ export default{
   login,
   logout,
   register,
+  getRoles,
 }

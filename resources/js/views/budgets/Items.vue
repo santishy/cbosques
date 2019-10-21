@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <form-budgets v-on:newBudget="addBudget" :title="this.$route.params.budget.concept" subtitle="Crear Rubro" url="/api/items"></form-budgets>
+    <form-budgets v-on:newBudget="addBudget" :budget_qty="budget_qty" :title="this.$route.params.budget.concept" subtitle="Crear Rubro" url="/api/items"></form-budgets>
     <div class="row">
       <div class="col-md-12 col-xs-12">
         <table class="table table-striped text-center">
@@ -8,7 +8,6 @@
             <th>ID</th>
             <th>Concepto</th>
             <th>Cantidad</th>
-            <th>Departamentos</th>
             <th>Acciones</th>
           </thead>
           <tbody>
@@ -16,7 +15,11 @@
               <td>{{item.id}}</td>
               <td>
                 <div v-if="item.editing">
-                    <input type="text" name="concept" v-model='form.concept' class="form-control">
+                    <input type="text"
+                           name="concept"
+                           v-model='form.concept'
+                           :class="['form-control', hasErrorEditing.concept ? 'is-invalid' : '']">
+                    <small class="text-danger" v-if="hasErrorEditing.concept">{{hasErrorEditing.concept[0]}}</small>
                 </div>
                 <div v-else>
                   {{item.concept}}
@@ -24,21 +27,21 @@
               </td>
               <td>
                 <div v-if="item.editing">
-                  <input type="number" name="qty" class="form-control" v-model='form.qty'>
+                  <input type="number"
+                         name="qty"
+                         v-model='form.qty'
+                         :class="['form-control', hasErrorEditing.qty ? 'is-invalid' : '']">
+                  <small class="text-danger" v-if="hasErrorEditing.qty">{{hasErrorEditing.qty[0]}}</small>
                 </div>
                 <div v-else>
                   {{item.qty}}
                 </div>
               </td>
-              <td>
-                <i class="fas fa-plus"></i>
-
-              </td>
               <td class="d-flex justify-content-center">
                 <div v-show="!item.editing" class="mr-2"  @click.prevent="isEditing(parseInt(ind,10))">
                    <i class="fas fa-highlighter" ></i>
                 </div>
-                <div v-show="item.editing"  @click.prevent="updateDatabaseRecord(ind)">
+                <div v-show="item.editing"  @click.prevent="callUpdateDatabaseRecord(ind)">
                     <i class="fas fa-check"></i>
                 </div>
                 <div class="mr-2" @click="destroy(ind)" >
@@ -68,6 +71,7 @@ export default {
       page:1,
       url:'api/items/',
       depertments:[],
+      budget_qty:this.$route.params.budget.qty,
     }
   },
   mixins:[actionsMixin],
@@ -98,6 +102,16 @@ export default {
     addBudget(newBudget){
       Vue.set(newBudget,'editing',false);
       this.array.push(newBudget);
+    },
+    callUpdateDatabaseRecord(ind){
+      this.updateDatabaseRecord(ind).then((response)=>{
+        if(response.data)
+        {
+          this.budget_qty=response.data.budget.specification.qty;
+          console.log(response)
+          console.log(  this.budget_qty)
+        }
+      })
     }
   }
 }

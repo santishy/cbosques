@@ -107,7 +107,7 @@ class BudgetController extends Controller
       ],[
         'required' => 'El campo es requerido',
         'number' => 'El campo ingresado debe de ser un número.',
-        'validateConceptUpdate' => 'El concepto ya existe dentro de la base de datos.',
+        'validate_concept_update' => 'El concepto ya existe dentro de la base de datos.',
       ])->validate();
       $specification = Specification::where('id',$request->specification_id)
                                       ->update(['concept' => $request->concept,
