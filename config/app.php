@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'https://polar-hollows-17421.herokuapp.com/'),
+    'url' => env('APP_URL', 'http://polar-hollows-17421.herokuapp.com/'),
 
     'asset_url' => env('ASSET_URL', null),
 
