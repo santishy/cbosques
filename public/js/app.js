@@ -3270,15 +3270,10 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
     axios({
       method: 'GET',
-      url: this.url,
-      params: {
-        page: this.page
-      }
+      url: this.url
     }).then(function (response) {
       if (response.data.data.length) {
         var _this$array;
-
-        _this.page++;
 
         (_this$array = _this.array).push.apply(_this$array, _toConsumableArray(response.data.data));
 

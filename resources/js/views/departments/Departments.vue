@@ -74,17 +74,12 @@ export default {
     axios({
       method:'GET',
       url:this.url,
-      params:{
-        page:this.page
-      },
 
     }).then((response)=>{
       if(response.data.data.length)
       {
-        this.page++;
         this.array.push(...response.data.data)
         this.addingPropertyToObjects(this.array)
-
       }
     }).catch((error)=>{
       console.log(error)
