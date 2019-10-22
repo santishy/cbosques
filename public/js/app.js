@@ -58762,7 +58762,7 @@ var login = function login(_ref2, user) {
   return new Promise(function (resolve, reject) {
     commit('auth_request');
     axios({
-      url: 'http://budgets.dev:3000/api/auth/login',
+      url: '/api/auth/login',
       data: user,
       method: 'POST'
     }).then(function (response) {
