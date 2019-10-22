@@ -8,6 +8,9 @@ use Illuminate\Validation\Rule;
 
 class DepartmentItemController extends Controller
 {
+  public function __construct(){
+    $this->middleware('cors');
+  }
     public function store(Request $request){
       Validator::make($request->all(),[
         'department_id' => ['required',Rule::unique('department_item')->where(function($query) use ($request){

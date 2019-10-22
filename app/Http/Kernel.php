@@ -60,6 +60,7 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'jwt' => \App\Http\Middleware\JWT::class,
+        'cors'=>\Barryvdh\Cors\HandleCors::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'roles' => \App\Http\Middleware\CheckRoles::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,

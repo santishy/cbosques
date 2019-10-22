@@ -13,6 +13,9 @@ class DepartmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct(){
+      $this->middleware('cors');
+    }
     public function index()
     {
         return response()->json(['data'=>Department::all()]);
