@@ -13,14 +13,14 @@
                 <div class="form-group row">
                   <label for="qty" class="col-sm-2 col-form-label">Cantidad</label>
                   <div class="col-sm-10">
-                    <input v-model="form.qty" type="number" :class="['form-control', hasError.qty ? 'is-invalid' : '']" id="qty" >
+                    <input v-model="form.qty" type="number" :class="hasErrorQty" id="qty" >
                     <small v-if="hasError.qty" class="text-danger">{{hasError.qty[0]}}</small>
                   </div>
                 </div>
                 <div class="form-group row">
                   <label for="concept" class="col-sm-2 col-form-label">Concepto</label>
                   <div class="col-sm-10">
-                    <input v-model="form.concept" :class="['form-control', hasError.concept ? 'is-invalid' : '']"  id="concept">
+                    <input v-model="form.concept" :class="hasErrorConcept"  id="concept">
                     <small v-if="hasError.concept" class="text-danger">{{hasError.concept[0]}}</small>
                   </div>
                 </div>
@@ -45,7 +45,7 @@ export default {
       hasError:{},
       page:1,
       isItem:false,
-      
+
     }
 
   },
@@ -70,11 +70,26 @@ export default {
     }
     return this.isItem= false
   },
+  computed:{
+    hasErrorQty()
+    {
+      console.log('error qty')
+      return ['form-control', this.hasError.qty ? 'is-invalid' : ''];
+    },
+    hasErrorConcept(){
+      console.log('error concept')
+      return ['form-control', this.hasError.concept ? 'is-invalid' : ''];
+    }
+  },
   methods:{
     /*
     Crea un presupuesto general
       *
     */
+    setClassError(){
+      console.log('ya entro aki')
+      return ['form-control', this.hasError.qty ? 'is-invalid' : ''];
+    },
     store(){
       this.hasError={}
       axios({
@@ -91,6 +106,7 @@ export default {
         console.log(error)
       })
     },
+
     formData(){
       if (typeof this.$route.params.budget !== 'undefined')
         return {'concept':this.form.concept,'qty':this.form.qty,'budget_id':this.$route.params.budget.id}

@@ -130,6 +130,7 @@ class ItemController extends Controller
                                                 */
       $item->specification->concept = $request->concept;
       $item->specification->qty = $request->qty;
+      $item->specification->save();
       $item->save();
       return $item;
     }

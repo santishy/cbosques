@@ -11,6 +11,20 @@ const getCycles = (context) => {
     })
   })
 }
+const getUnreadNotifications = (context)=>{
+  return new Promise((resolve,reject)=>{
+    axios({
+      method:'GET',
+      url:'/api/notifications/unreadNotifications',
+    }).then((response) => {
+      if(response.data.unreadNotifications.length)
+        context.commit('setUnreadNotifications',response.data.unreadNotifications);
+      resolve(response);
+    }).catch((error) => {
+      resolve(error);
+    })
+  })
+}
 const getRoles = ({commit})=>{
   return new Promise((resolve,reject)=>{
     axios({
@@ -100,4 +114,5 @@ export default{
   logout,
   register,
   getRoles,
+  getUnreadNotifications,
 }

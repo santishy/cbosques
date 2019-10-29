@@ -18,31 +18,25 @@
           {{unreadNotification.data.text}}
         </router-link>
         <div class="dropdown-divider"></div>
-        <router-link class="dropdown-item" to="all-notifications" >Todas las notificaciones</router-link>
+        <router-link class="dropdown-item" to="/notifications/index" >Todas las notificaciones</router-link>
       </div>
   </li>
 </template>
 
 <script>
+import {mapActions} from 'vuex';
+import {mapState} from 'vuex';
 export default {
-  data(){
-    return {
-      unreadNotifications:[]
-    }
-  },
   mounted() {
-    axios({
-      method:'GET',
-      url:'/api/notifications',
-    }).then((response) => {
-      console.log(response.data)
-      if(response.data.unreadNotifications.length)
-        return this.unreadNotifications = response.data.unreadNotifications;
-      return console.log(response)
-    }).catch((error) => {
-      console.log(error)
-    })
+    this.getUnreadNotifications();
   },
+  computed:{
+    ...mapState(['unreadNotifications'])
+  },
+  methods:{
+
+    ...mapActions(['getUnreadNotifications'])
+  }
 }
 </script>
 

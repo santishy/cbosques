@@ -20,7 +20,9 @@ class QuoteResource extends JsonResource
           'archive' => explode('/',$this->archive)[1], // Aquí corto el nombre del archivo de la ruta
           'status' => $this->status,
           'id' => $this->id,
-          'iva' => $this->iva,
+          'iva' => $this->iva(),
+          'total' => $this->total(),
+          'cycle_id' => $this->cycle_id,
           'item_id' => $this->item_id,
           'department_id' => $this->department_id,
         ];

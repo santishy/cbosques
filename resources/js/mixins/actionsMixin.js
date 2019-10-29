@@ -18,11 +18,20 @@ export default{
               return Vue.set(obj,'editing',false);
             });
     },
+    updatedArray(object){
+      this.editing=!this.editing;
+      this.array[object.index]['editing'] =  !this.array[object.index]['editing']
+      for(let key in object.record.quotation){
+        if(typeof this.array[object.index][key] != 'undefined')
+          this.array[object.index][key] = object.record.quotation[key]
+      }
+    },
     /*
     *
     *Cambia el icono de editado a listo (ok)
     */
     isEditing (index){
+      console.log('trigger isEditing on actionsMixin')
       var editing = this.editing
       var promise = new Promise(function(resolve,reject){
         if(!editing)

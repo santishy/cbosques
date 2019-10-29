@@ -32,8 +32,11 @@ Route::group([
   Route::post('department-item/store','DepartmentItemController@store');
   Route::delete('department-item/{department_id}','DepartmentItemController@destroy');
   Route::get('notifications','NotificationsController@index');
+  Route::get('notifications/unreadNotifications','NotificationsController@unreadNotifications');
+  Route::get('notifications/allRead','NotificationsController@allRead');
   Route::put('notifications/{id}','NotificationsController@read');
   Route::delete('notifications/{id}','NotificationsController@destroy');
+  Route::get('quotations','QuotationController@index');
   Route::post('quotations','QuotationController@store');
   Route::put('quotations/{quotation}','QuotationController@update');
   Route::get('quotations/{id}','QuotationController@show')->name('quotations.show');

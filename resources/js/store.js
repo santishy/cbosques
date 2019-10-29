@@ -11,7 +11,9 @@ export const store = new Vuex.Store({
     cycles:[],
     status:'',
     access_token:localStorage.getItem('access_token') || '',
-    user:{}
+    user:{},
+    unreadNotifications:[],
+    hasError:{},
   },
   mutations,
   actions,

@@ -10,16 +10,9 @@ use App\Events\UpdatedQuotation;
 class Quotation extends Model
 {
     protected $guarded = ['id'];
-
-
-
-    protected $dispatchesEvents=[
-                                  'created' => QuotationCreated::class,
-                                  'updated' => UpdatedQuotation::class,
-                                ];
-
+    protected $dispatchesEvents=['created' => QuotationCreated::class,
+                                  'updating' => UpdatedQuotation::class,];
     public $message;
-
     public function parentable()
     {
         return $this->morphTo();
@@ -36,5 +29,13 @@ class Quotation extends Model
     public function itemSpecification(){
       return $this->hasOneThrough('App\Specification','App\Item','id','specificationable_id','item_id','id');
     }
-
+    public function iva(){
+      if($this->iva){
+        return 0;
+      }
+      return $this->qty * 0.16;
+    }
+    public function total(){
+      return $this->qty + $this->iva();
+    }
 }

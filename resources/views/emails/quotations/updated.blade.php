@@ -5,7 +5,7 @@
   {{$quotation->message}}
 @endisset
 
-@component('mail::button', ['url' => $url,'color' => 'primary'])
+@component('mail::button', ['url' => 'google.com','color' => 'primary'])
 Ir
 @endcomponent
 

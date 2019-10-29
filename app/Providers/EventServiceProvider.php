@@ -23,11 +23,11 @@ class EventServiceProvider extends ServiceProvider
          ],
          'App\Events\QuotationCreated' => [
            'App\Listeners\NotifyUsersAboutNewQuotation',
-           'App\Listeners\AdjustItemQty',
+           //'App\Listeners\AdjustItemQty',
          ],
          'App\Events\UpdatedQuotation'=>[
            'App\Listeners\NotifyUserAboutUpdatedQuotation',
-           'App\Listeners\BudgetDecrease'
+           'App\Listeners\AdjustItemQty'
          ],
          'App\Events\UpdatedItem' => [
            'App\Listeners\AdjustBudgetQty'

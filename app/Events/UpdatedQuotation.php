@@ -19,7 +19,7 @@ class UpdatedQuotation
      *
      * @return void
      */
-    public $quotation;
+    public $quotation,$status;
     public function __construct($quotation)
     {
         $this->quotation = $quotation;

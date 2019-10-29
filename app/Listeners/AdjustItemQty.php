@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\QuotationCreated;
+use App\Events\UpdatedQuotation;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -24,11 +24,14 @@ class AdjustItemQty
      * @param  QuotationCreated  $event
      * @return void
      */
-    public function handle(QuotationCreated $event)
+    public function handle(UpdatedQuotation $event)
     {
-        if($event->quotation->iva)
-          $event->quotation->qty = $event->quotation->qty * 1.16;
-        $event->quotation->item->specification->qty -= $event->quotation->qty;
+        $newStatus = $event->quotation->getAttribute('status');
+        $oldStatus = $event->quotation->getOriginal('status');
+        if($oldStatus == 'ACEPTADO'){
+          $event->quotation->item->specification->qty += $event->quotation->total();
+        }elseif($newStatus == 'ACEPTADO')
+          $event->quotation->item->specification->qty -= $event->quotation->total();
         $event->quotation->item->specification->save();
     }
 }

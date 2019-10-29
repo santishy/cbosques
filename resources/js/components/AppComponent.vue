@@ -26,6 +26,9 @@
                     <router-link class="nav-link" to="/quotation-department-items">Cotizaciones</router-link>
                   </li>
                   <li>
+                    <router-link class="nav-link":to="{ name: 'quotation-index', params: {} }">Lista cotizaciones</router-link>
+                  </li>
+                  <li>
                     <router-link class="nav-link" :to="{ name: 'register', params: {} }">Registrar Usuarios</router-link>
                   </li>
                   <notifications-component/>

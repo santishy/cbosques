@@ -11,9 +11,9 @@ import DepartmentItems  from './views/departments/DepartmentItems'
 import QuotationDepartmentItems from './views/quotations/QuotationDepartmentItems'
 import Register from './views/auth/Register';
 import QuotationCreation from './views/quotations/QuotationCreation';
+import QuotationIndex from './views/quotations/QuotationIndex.vue';
 import ShowQuotation from './views/quotations/ShowQuotation';
 import AllNotifications from './views/notifications/AllNotifications'
-
 import {store} from './store';
 let vueRouter = new VueRouter({
   routes:[
@@ -106,9 +106,15 @@ let vueRouter = new VueRouter({
       name:'all-notifications'
     },
     {
+      path:'/quotation-index',
+      component:QuotationIndex,
+      name:'quotation-index'
+    },
+    {
       path:'*',
       component:Error404,
     },
+
   ],
     mode:'hash'
 })

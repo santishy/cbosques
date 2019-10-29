@@ -20,7 +20,9 @@ const deactivateCycles=(state)=>{
 const cycleUpdate= function(state, data){
   state.cycles[data.index][data.name] = data.value;
 }
-
+const setUnreadNotifications = (state,unreadNotifications) => {
+  state.unreadNotifications = unreadNotifications;
+}
 const auth_request = (state) => {
   state.status = 'loading'
 }
@@ -39,8 +41,10 @@ const auth_logout = (state) => {
   state.status = '';
   state.access_token = '';
 }
+
 export default{
   addCycles,
+  setUnreadNotifications,
   setCycle,
   deactivateCycles,
   cycleUpdate,

@@ -10,9 +10,17 @@ use App\Quotation;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Notifications\DatabaseNotification;
+use App\Http\Resources\QuotationsCollection;
+use App\Http\Resources\QuoteResource;
 
 class QuotationController extends Controller
 {
+    public function __constructor(){
+      $this->middleware(['roles:admin,cotizador,autorizador']);
+    }
+    public function index(){
+      return new QuotationsCollection(Quotation::with(['user'])->where('cycle_id',session('cycle')->id)->orderBy('id','desc')->paginate(25));
+    }
     public function store(Request $request){
       $this->validateQuote($request);
       try {
@@ -23,6 +31,7 @@ class QuotationController extends Controller
         $quotation->user_id = Auth::user()->id;
         $quotation->status="PENDIENTE";
         $quotation->save();
+
         DB::commit();
         return response()->json(['quotation' => $quotation]);
       } catch (\Exception $e) {
@@ -62,21 +71,28 @@ class QuotationController extends Controller
     * 1) NotifyUserAboutUpdatedQuotation que esta en App\Quotation, se activa events:updated
     */
     public function update(Request $request,Quotation $quotation){
-
+      //return $request->all();
+    //  $this->validateQuote($request);
       Validator::make($request->all(),[
-        // QTY LO VUELVO A VALIDAR YA QUE PARA CUANDO ACTUALIZE EL STATUS PODRIA NO TENER FONDOS LA CUENTA
-        'qty' => ['Numeric','required',new validateQuoteAmount($request->item_id,$quotation->iva)],
-        'status' => 'required'
-      ]);
+        'item_id' => 'exists:items,id|required',
+        'qty' => ['Numeric','required',new validateQuoteAmount($request->item_id,$request->iva,$request->status)],
+        'status' => ['required'],
+      ],['required'=>'El campo es requerido',
+         'exists'=>'El campo no existe en la base de datos',
+         'numeric' => 'El campo debe ser númerico',
+         'file' => 'El campo debe contener un archivo'])->validate();
       try {
         DB::beginTransaction();
         $quotation->message = $request->message;
-        $quotation->update(['status'=> $request->status]);
-        $notification = DatabaseNotification::find($request->notification_id);
-        $notification->data = $quotation;
-        $notification->save();
+        $quotation->update(['status'=> $request->status]);// aki aplica el ajuste para rebajar ¿para aumentar? checkar por favor
+        if($request->notification_id)
+        {
+          $notification = DatabaseNotification::find($request->notification_id);
+          $notification->data = $quotation;
+          $notification->save();
+        }
         DB::commit();
-        return response()->json(['quotation' => $quotation]);
+        return response()->json(['quotation' => new QuoteResource($quotation)]);
       }catch (\Exception $e) {
         DB::rollback();
         return $e;
