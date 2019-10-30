@@ -51,8 +51,6 @@ export default{
       },(error)=>{
         alert(error)
       })
-
-
     },
     /*
     **
@@ -84,7 +82,6 @@ export default{
           reject(error);
         })
       })
-
     },
     /**
     *
@@ -103,6 +100,10 @@ export default{
       }).catch((error)=>{
         console.log(error)
       })
+    },
+    doneEdit(index){
+      this.editing = false;
+      this.array[index]['editing'] = !this.array[index]['editing'];
     }
   }
 }

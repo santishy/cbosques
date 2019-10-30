@@ -1849,13 +1849,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['items', 'name', 'record', 'url', 'columns', 'index'],
   data: function data() {
     return {
       hasError: {},
-      selected: ''
+      selected: '',
+      loading: false
     };
+  },
+  mounted: function mounted() {
+    this.selected = this.record[this.name];
   },
   computed: {
     classes: function classes() {
@@ -1871,6 +1879,7 @@ __webpack_require__.r(__webpack_exports__);
     update: function update() {
       var _this = this;
 
+      this.loading = true;
       var fm = new FormData();
       fm.append(this.name, this.selected);
       fm.append('_method', 'PUT');
@@ -1886,14 +1895,21 @@ __webpack_require__.r(__webpack_exports__);
         data: fm
       }).then(function (response) {
         var object = new Object();
-        console.log(response.data);
         object.record = response.data;
         object.index = _this.index;
 
         _this.$emit('updatedRecord', object);
+
+        _this.loanding = false;
       })["catch"](function (error) {
+        // enviar mensaje descriptivo en modal
         _this.hasError = error.response.data.errors;
+        _this.loanding = false;
       });
+    },
+    cancel: function cancel() {
+      console.log('trigger cancel');
+      this.$emit('cancel', this.index);
     }
   }
 });
@@ -3887,6 +3903,7 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
+//
 //
 //
 //
@@ -40321,50 +40338,59 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c(
-      "select",
-      {
-        directives: [
+    _vm.loading
+      ? _c("div", [_vm._v("\n    Procesando...\n  ")])
+      : _c(
+          "select",
           {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.selected,
-            expression: "selected"
-          }
-        ],
-        class: _vm.classes,
-        attrs: { name: _vm.name },
-        on: {
-          change: [
-            function($event) {
-              var $$selectedVal = Array.prototype.filter
-                .call($event.target.options, function(o) {
-                  return o.selected
-                })
-                .map(function(o) {
-                  var val = "_value" in o ? o._value : o.value
-                  return val
-                })
-              _vm.selected = $event.target.multiple
-                ? $$selectedVal
-                : $$selectedVal[0]
-            },
-            _vm.update
-          ]
-        }
-      },
-      _vm._l(_vm.items, function(item) {
-        return _c(
-          "option",
-          {
-            attrs: { checked: item.value == _vm.record[_vm.name] },
-            domProps: { value: item.value }
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.selected,
+                expression: "selected"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { name: _vm.name, autofocus: "" },
+            on: {
+              change: [
+                function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.selected = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                },
+                _vm.update
+              ],
+              keyup: function($event) {
+                if (
+                  !$event.type.indexOf("key") &&
+                  _vm._k($event.keyCode, "esc", 27, $event.key, [
+                    "Esc",
+                    "Escape"
+                  ])
+                ) {
+                  return null
+                }
+                return _vm.cancel($event)
+              }
+            }
           },
-          [_vm._v(_vm._s(item.text))]
-        )
-      }),
-      0
-    ),
+          _vm._l(_vm.items, function(item) {
+            return _c("option", { domProps: { value: item.value } }, [
+              _vm._v("\n            " + _vm._s(item.text) + "\n    ")
+            ])
+          }),
+          0
+        ),
     _vm._v(" "),
     _vm.hasError[_vm.name]
       ? _c("small", { staticClass: "text-danger" }, [
@@ -43293,6 +43319,8 @@ var render = function() {
                     ? _c(
                         "td",
                         {
+                          staticClass: "font-weight-bold text-primary",
+                          staticStyle: { cursor: "pointer" },
                           on: {
                             dblclick: function($event) {
                               return _vm.isEditing(ind)
@@ -43323,7 +43351,10 @@ var render = function() {
                               index: ind,
                               name: "status"
                             },
-                            on: { updatedRecord: _vm.updatedArray }
+                            on: {
+                              updatedRecord: _vm.updatedArray,
+                              cancel: _vm.doneEdit
+                            }
                           })
                         ],
                         1
@@ -60253,6 +60284,10 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    doneEdit: function doneEdit(index) {
+      this.editing = false;
+      this.array[index]['editing'] = !this.array[index]['editing'];
     }
   }
 });

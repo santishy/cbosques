@@ -15,7 +15,7 @@
           <tbody>
             <tr v-for="(quotation,ind) in array">
               <td>{{quotation.id}}</td>
-              <td v-if="!quotation.editing" @dblclick="isEditing(ind)">
+              <td style="cursor:pointer" class="font-weight-bold text-primary" v-if="!quotation.editing" @dblclick="isEditing(ind)">
                 {{quotation.status}}
               </td>
               <td v-else>
@@ -24,6 +24,7 @@
                                   :record="quotation"
                                   :items="select"
                                   @updatedRecord="updatedArray"
+                                  @cancel="doneEdit"
                                   :index="ind"
                                   name="status"/>
               </td>
@@ -50,7 +51,7 @@ export default {
       page:1,
       array:[],
     //  editing:false,
-      select:[{value:'PENDIENTE',text:'PENDIENTE'},
+      select:[{value:'PENDIENTE',text:'PENDIENTE',},
               {value:'ACEPTADO',text:'ACEPTADO'},
               {value:'RECHAZADO',text:'RECHAZADO'}],
 
