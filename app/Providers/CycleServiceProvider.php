@@ -24,6 +24,7 @@ class CycleServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-       session(['cycle'=>Cycle::where('active',1)->first()]);
+      if(!isset(session('cycle')->id))
+         session(['cycle'=>Cycle::getActiveCycle()]);
     }
 }

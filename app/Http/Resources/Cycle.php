@@ -18,9 +18,8 @@ class Cycle extends ResourceCollection
       return $this->map(function($cycle){
         return [
           'id' => $cycle->id,
-          'created_at' => $cycle->created_at->format('Y-m-d'),
-          'finalized_at' => Carbon::create($cycle->finalized_at,'America/Mexico_City')->toDateString(),
-          //'finalized_at' => date('Y-m-d',strtotime($cycle->finalized_at)),
+          'initialized_at' => $cycle->initialized_at->format('Y-m-d'),
+          'finalized_at' => $cycle->finalized_at->format('Y-m-d'),
           'active' => $cycle->active
         ];
       });

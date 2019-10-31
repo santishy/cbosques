@@ -19,6 +19,10 @@ class CycleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function  __construct(){
+      $this->middleware(['cycle'])->except(['store']);
+    }
     public function index()
     {
         return  new CycleCollection(Cycle::all());
@@ -35,6 +39,7 @@ class CycleController extends Controller
     }
     public function items(){
       return new ItemsCollection(session('cycle')->items()->get());
+
     }
     /**
      * Store a newly created resource in storage.
@@ -45,7 +50,7 @@ class CycleController extends Controller
     public function store(Request $request)
      {
         $validator= Validator::make($request->all(),[
-          'created_at' => ['required','date',new DateGreaterThan,"validateDateRange:$request->finalized_at"],
+          'initialized_at' => ['required','date',new DateGreaterThan,"validateDateRange:$request->finalized_at"],
           'finalized_at' => ['required','date',new DateGreaterThan]
         ],[
           'required' => 'El campo es requerido',
@@ -91,7 +96,7 @@ class CycleController extends Controller
     {
 
       $validator= Validator::make($request->all(),[
-        'created_at' => ['required','date',"validateDateRange:$request->finalized_at",new UpdateCycleDate($id)],
+        'initialized_at' => ['required','date',"validateDateRange:$request->finalized_at",new UpdateCycleDate($id)],
         'finalized_at' => ['required','date',new UpdateCycleDate($id)]
       ],[
         'required' => 'El campo es requerido',

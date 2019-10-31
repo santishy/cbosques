@@ -9,9 +9,9 @@
             {{numero}}</h5>
             <form @submit.prevent="store">
               <div class="form-group ">
-                <label for="created_at">Inicio</label>
-                <input type="date" v-model="created_at" name="created_at" :class="['form-control', hasError.created_at ? 'is-invalid' : '' ]">
-                <small v-if="hasError.created_at" class="text-danger text-center">{{hasError.created_at[0]}}</small>
+                <label for="initialized_at">Inicio</label>
+                <input type="date" v-model="initialized_at" name="initialized_at" :class="['form-control', hasError.initialized_at ? 'is-invalid' : '' ]">
+                <small v-if="hasError.initialized_at" class="text-danger text-center">{{hasError.initialized_at[0]}}</small>
               </div>
               <div class="form-group">
                 <label for="finalized_at">Fin</label>
@@ -45,7 +45,7 @@ export default {
   name:'create',
   data(){
     return{
-      created_at:'',
+      initialized_at:'',
       finalized_at:'',
       hasError:{}
     }
@@ -61,7 +61,7 @@ export default {
       axios({
         url:'/api/cycles',
         method:'post',
-        data:{'created_at':this.created_at,'finalized_at':this.finalized_at}
+        data:{'initialized_at':this.initialized_at,'finalized_at':this.finalized_at}
       }).then((response)=>{
         this.setCycle(response.data)
         this.deactivateCycles();

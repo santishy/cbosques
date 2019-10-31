@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
 class CreateCyclesTable extends Migration
 {
@@ -15,7 +16,8 @@ class CreateCyclesTable extends Migration
     {
         Schema::create('cycles', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->dateTime('finalized_at');
+            $table->timestamp('initialized_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('finalized_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->boolean('active')->default(1);
             $table->timestamps();
         });

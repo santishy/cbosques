@@ -1,10 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Storage;
-
+use Carbon\Carbon;
 
 Route::get('/hola',function(){
-  dd(session('cycle')[0]['id']);
+  $now = Carbon::now();
+  echo $now;
+  echo $now->addMonths(2);
 });
 
 Route::get('/archivo',function(){

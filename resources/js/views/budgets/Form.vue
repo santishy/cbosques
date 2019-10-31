@@ -98,8 +98,11 @@ export default {
         data:this.formData()
       }).then((response)=>{
         this.$emit('newBudget',response.data.data)
-        if(this.isItem)
-          this.budget_qty -= response.data.data.qty
+        if(this.isItem){
+          //this.budget_qty -= response.data.data.qty
+          this.$emit('storedItem',response.data.data)
+        }
+
       }).catch((error)=>{
         if(error.response.data.errors)
           this.hasError = error.response.data.errors;

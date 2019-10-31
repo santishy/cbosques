@@ -12,11 +12,11 @@
         <td>{{cycle.id}}</td>
         <td>
             <div v-if="cycle.editing" class="form-group">
-              <input :class="['form-control',hasErrorEditing.created_at ? 'is-invalid' : '']" type="date" name="created_at" :index="ind" v-model="form.created_at">
-                <small v-if="hasErrorEditing.created_at" style="padding:0px" class="text-danger text-center">{{hasErrorEditing.created_at[0]}}</small>
+              <input :class="['form-control',hasErrorEditing.initialized_at ? 'is-invalid' : '']" type="date" name="initialized_at" :index="ind" v-model="form.initialized_at">
+                <small v-if="hasErrorEditing.initialized_at" style="padding:0px" class="text-danger text-center">{{hasErrorEditing.initialized_at[0]}}</small>
             </div>
             <div v-else>
-              {{cycle.created_at}}
+              {{cycle.initialized_at}}
             </div>
 
         </td>

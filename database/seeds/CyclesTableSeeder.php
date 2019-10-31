@@ -18,6 +18,6 @@ class CyclesTableSeeder extends Seeder
         // Budget::truncate();
         // Cycle::truncate();
         $now = Carbon::now();
-        Cycle::Create(['created_at'=>$now,'finalized_at'=>$now->addMonths(2),'active'=>1]);
+        Cycle::Create(['initialized_at'=>$now,'finalized_at'=>Carbon::now()->addMonth(2),'active'=>1]);
     }
 }

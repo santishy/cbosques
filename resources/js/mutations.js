@@ -11,7 +11,6 @@ const setCycle = (state,cycle) =>{
 // Cambia a cero a la propiedad active del arreglo CYCLES que esta solo en vuex, no en el backend.
 const deactivateCycles=(state)=>{
   var cycle = state.cycles.find(cycle=>cycle.active===1)
-  console.log('cycle: '+cycle.active+ ' '+cycle.created_at+' '+cycle.finalized_at)
   var index = state.cycles.indexOf(cycle);
   console.log('index: '+index)
   state.cycles[index].active=0;

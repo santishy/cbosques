@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\DB;
 use App\Specification;
 class BudgetController extends Controller
 {
+    public function __construct(){
+      $this->middleware(['cycle']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -20,8 +23,7 @@ class BudgetController extends Controller
      */
     public function index()
     {
-
-        return new BudgetsCollection(Cycle::find(session('cycle')->id)->budgets()->where('cycle_id',session('cycle')->id)->paginate(25));
+       return new BudgetsCollection(Cycle::find(session('cycle')->id)->budgets()->where('cycle_id',session('cycle')->id)->paginate(25));
     }
 
     /**

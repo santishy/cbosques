@@ -16,7 +16,7 @@ Vue.component('notifications-component',require('./components/NotificationsCompo
 Vue.use('InfiniteLoading');
 import vueRouter from './routes.js';
 import {store} from './store.js';
-
+//Vue.use(Swal)
 const app = new Vue({
     el: '#app',
     router:vueRouter,

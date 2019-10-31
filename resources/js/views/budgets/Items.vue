@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <form-budgets v-on:newBudget="addBudget" :budget_qty="budget_qty" :title="this.$route.params.budget.concept" subtitle="Crear Rubro" url="/api/items"></form-budgets>
+    <form-budgets v-on:newBudget="addBudget" @storedItem="adjustItemQty" :budget_qty="budget_qty" :title="this.$route.params.budget.concept" subtitle="Crear Rubro" url="/api/items"></form-budgets>
     <div class="row">
       <div class="col-md-12 col-xs-12">
         <table class="table table-striped text-center">
@@ -103,13 +103,15 @@ export default {
       Vue.set(newBudget,'editing',false);
       this.array.push(newBudget);
     },
+    adjustItemQty(item){
+      this.budget_qty -=item.qty 
+    },
     callUpdateDatabaseRecord(ind){
       this.updateDatabaseRecord(ind).then((response)=>{
         if(response.data)
         {
+          // poner un emit no mutar asi
           this.budget_qty=response.data.budget.specification.qty;
-          console.log(response)
-          console.log(  this.budget_qty)
         }
       })
     }
