@@ -6,7 +6,7 @@
 @component('mail::table')
   |DESCRIPCIÓN|COSTO|IVA|TOTAL|
   |:-----------:|:--------------------:|:-------------------:|:-------------------:|
-  |{{$quotation->description}}|{{$quotation->qty}}|{{$quotation->qty*.16}}|{{$quotation->qty*1.16}}
+  |{{$quotation->description}}|{{$quotation->qty}}|{{$quotation->iva()}}|{{$quotation->total()}}
 @endcomponent
 <p>Para responder a esta cotización, verifique la notificación en el sistema</p>
 @component('mail::button', ['url' => url('/'),'color' => 'primary'])

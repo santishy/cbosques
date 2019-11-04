@@ -16,7 +16,7 @@ use App\Http\Resources\QuoteResource;
 class QuotationController extends Controller
 {
     public function __constructor(){
-      $this->middleware(['roles:admin,cotizador,autorizador']);
+      $this->middleware(['roles:admin,autorizador'])->except(['store']);
     }
     public function index(){
       return new QuotationsCollection(Quotation::with(['user'])->where('cycle_id',session('cycle')->id)->orderBy('id','desc')->paginate(25));
@@ -24,6 +24,7 @@ class QuotationController extends Controller
     public function store(Request $request){
       $this->validateQuote($request);
       try {
+      //  $this->authorize('store',new Quotation); PENSAR BIEN EN LA VALIDACION PARA LOS TRES TIPOS DE USERS 2
         DB::beginTransaction();
         $quotation = new Quotation($request->all());
         $quotation->archive = $request->file('archive')->store('quotations');
@@ -31,7 +32,6 @@ class QuotationController extends Controller
         $quotation->user_id = Auth::user()->id;
         $quotation->status="PENDIENTE";
         $quotation->save();
-
         DB::commit();
         return response()->json(['quotation' => $quotation]);
       } catch (\Exception $e) {
@@ -48,7 +48,6 @@ class QuotationController extends Controller
         'department_id' => 'exists:departments,id',
         'qty' => ['Numeric','required',new validateQuoteAmount($request->item_id,$request->iva)],
         'archive' => ['file','required'],
-
       ],['required'=>'El campo es requerido',
          'exists'=>'El campo no existe en la base de datos',
          'numeric' => 'El campo debe ser númerico',
@@ -83,6 +82,7 @@ class QuotationController extends Controller
          'file' => 'El campo debe contener un archivo'])->validate();
       try {
         DB::beginTransaction();
+        $this->authorize('update',$quotation);
         $quotation->message = $request->message;
         $quotation->update(['status'=> $request->status]);// aki aplica el ajuste para rebajar ¿para aumentar? checkar por favor
         if($request->notification_id)

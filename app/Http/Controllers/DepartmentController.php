@@ -14,7 +14,7 @@ class DepartmentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function __construct(){
-
+      $this->middleware('roles:admin,cotizador,autorizador');
     }
     public function index()
     {
@@ -39,6 +39,7 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
+      $this->authorize('store',new Department);
       Validator::make($request->all(),[
         'name' => "required|unique:departments",
       ],[
@@ -82,6 +83,7 @@ class DepartmentController extends Controller
      */
     public function update(Request $request, $id)
     {
+      $this->autorizhe();
       Validator::make($request->all(),[
         'name' => "required|unique:departments,name,$request->id",
       ],[

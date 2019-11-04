@@ -66,4 +66,7 @@ class User extends Authenticatable implements JWTSubject
     public function hasRoles(array $roles){
       return $this->roles->pluck('name')->intersect($roles)->count();
     }
+    public function isAdmin(){
+      return $this->hasRoles(['admin']);
+    }
 }

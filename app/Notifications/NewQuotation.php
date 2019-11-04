@@ -47,7 +47,8 @@ class NewQuotation extends Notification
         //             ->line('The introduction to the notification.')
         //             ->action('Notification Action', url('/'))
         //             ->line('Thank you for using our application!');
-        return (new BudgetCreated($this->quotation,$notifiable))->to($notifiable->email);
+        return (new BudgetCreated($this->quotation,$notifiable))->to($notifiable->email)
+                ->subject('Nueva Cotización');
     }
 
     /**

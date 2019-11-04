@@ -61,7 +61,7 @@ const login = ({commit},user) =>{
 const logout = ({commit}) => {
   return new Promise((resolve, reject) => {
     commit('auth_logout')
-    localStorage.removeItem('token')
+    localStorage.removeItem('access_token')
     delete axios.defaults.headers.common['Authorization']
     resolve()
   })

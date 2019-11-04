@@ -8,6 +8,9 @@ use Illuminate\Notifications\DatabaseNotification;
 
 class NotificationsController extends Controller
 {
+    public function __construct(){
+      $this->middleware('roles:admin,autorizador,cotizador');
+    }
     public function index(){
       return response()->json(['unreadNotifications' => Auth::user()->unreadNotifications,
                                'readNotifications' => Auth::user()->readNotifications]);
@@ -16,12 +19,12 @@ class NotificationsController extends Controller
       return response()->json(['unreadNotifications' => Auth::user()->unreadNotifications]);
     }
     public function read($id){
+      $this->authorize('read',DatabaseNotification::find($id));
       DatabaseNotification::find($id)->markAsRead();
       return;
     }
     public function destroy($id){
       return response()->json(['notificationDeleted'=>DatabaseNotification::find($id)->delete()]);
-
     }
     public function allRead(){
       auth()->user()->unreadNotifications->markAsRead();

@@ -22,6 +22,9 @@ class ItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct(){
+      $this->middleware('roles:admin',['except'=>'index']);
+    }
     public function index(Request $request)
     {
         $budget = Budget::find($request->budget_id);

@@ -14,7 +14,7 @@ use App\Specification;
 class BudgetController extends Controller
 {
     public function __construct(){
-      $this->middleware(['cycle']);
+      $this->middleware(['cycle','roles:admin']);
     }
     /**
      * Display a listing of the resource.

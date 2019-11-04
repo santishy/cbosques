@@ -1697,7 +1697,22 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _NotificationsComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./NotificationsComponent */ "./resources/js/components/NotificationsComponent.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _NotificationsComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NotificationsComponent */ "./resources/js/components/NotificationsComponent.vue");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1747,11 +1762,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    'notifications-component': _NotificationsComponent__WEBPACK_IMPORTED_MODULE_0__["default"]
+    'notifications-component': _NotificationsComponent__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  created: function created() {}
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['isLoggedIn'])),
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(['logout']), {
+    redirect: function redirect() {
+      var _this = this;
+
+      this.logout().then(function (response) {
+        _this.$router.push('/login');
+      });
+    }
+  })
 });
 
 /***/ }),
@@ -43034,23 +43060,7 @@ var render = function() {
                       _c(
                         "router-link",
                         { staticClass: "nav-link", attrs: { to: "/cycles" } },
-                        [_vm._v(" Ciclos")]
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "li",
-                    { staticClass: "nav-item" },
-                    [
-                      _c(
-                        "router-link",
-                        {
-                          staticClass: "nav-link",
-                          attrs: { to: "/departments" }
-                        },
-                        [_vm._v(" Crear Departamentos ")]
+                        [_vm._v("Ciclos")]
                       )
                     ],
                     1
@@ -43069,50 +43079,107 @@ var render = function() {
                     1
                   ),
                   _vm._v(" "),
-                  _c(
-                    "li",
-                    [
-                      _c(
-                        "router-link",
-                        {
-                          staticClass: "nav-link",
-                          attrs: { to: "/departmentitems" }
-                        },
-                        [_vm._v("Asignar Presupuestos")]
-                      )
-                    ],
-                    1
-                  ),
+                  _c("li", { staticClass: "nav-item dropdown" }, [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "nav-link dropdown-toggle",
+                        attrs: {
+                          href: "#",
+                          id: "navbarDropdown",
+                          role: "button",
+                          "data-toggle": "dropdown",
+                          "aria-haspopup": "true",
+                          "aria-expanded": "false"
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                    Departamentos\n                  "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "dropdown-menu",
+                        attrs: { "aria-labelledby": "navbarDropdown" }
+                      },
+                      [
+                        _c(
+                          "router-link",
+                          {
+                            staticClass: "nav-link",
+                            attrs: { to: "/departments" }
+                          },
+                          [_vm._v(" Crear")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "router-link",
+                          {
+                            staticClass: "nav-link",
+                            attrs: { to: "/departmentitems" }
+                          },
+                          [_vm._v("Asignar presupuesto")]
+                        )
+                      ],
+                      1
+                    )
+                  ]),
                   _vm._v(" "),
-                  _c(
-                    "li",
-                    [
-                      _c(
-                        "router-link",
-                        {
-                          staticClass: "nav-link",
-                          attrs: { to: "/quotation-department-items" }
-                        },
-                        [_vm._v("Cotizaciones")]
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "li",
-                    [
-                      _c(
-                        "router-link",
-                        {
-                          staticClass: "nav-link",
-                          attrs: { to: { name: "quotation-index", params: {} } }
-                        },
-                        [_vm._v("Lista cotizaciones")]
-                      )
-                    ],
-                    1
-                  ),
+                  _c("li", { staticClass: "nav-item dropdown" }, [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "nav-link dropdown-toggle",
+                        attrs: {
+                          href: "#",
+                          id: "navbarDropdown",
+                          role: "button",
+                          "data-toggle": "dropdown",
+                          "aria-haspopup": "true",
+                          "aria-expanded": "false"
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                    Cotizaciones\n                  "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "dropdown-menu",
+                        attrs: { "aria-labelledby": "navbarDropdown" }
+                      },
+                      [
+                        _c(
+                          "router-link",
+                          {
+                            staticClass: "nav-link",
+                            attrs: { to: "/quotation-department-items" }
+                          },
+                          [_vm._v(" Crear")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "router-link",
+                          {
+                            staticClass: "nav-link",
+                            attrs: {
+                              to: { name: "quotation-index", params: {} }
+                            }
+                          },
+                          [_vm._v("Listar")]
+                        )
+                      ],
+                      1
+                    )
+                  ]),
                   _vm._v(" "),
                   _c(
                     "li",
@@ -43131,18 +43198,38 @@ var render = function() {
                   _vm._v(" "),
                   _c("notifications-component"),
                   _vm._v(" "),
-                  _c(
-                    "li",
-                    { staticClass: "nav-item" },
-                    [
-                      _c(
-                        "router-link",
-                        { staticClass: "nav-link", attrs: { to: "/login" } },
-                        [_vm._v(" Login")]
+                  !_vm.isLoggedIn
+                    ? _c(
+                        "li",
+                        { staticClass: "nav-item" },
+                        [
+                          _c(
+                            "router-link",
+                            {
+                              staticClass: "nav-link",
+                              attrs: { to: "/login" }
+                            },
+                            [_vm._v("Login")]
+                          )
+                        ],
+                        1
                       )
-                    ],
-                    1
-                  )
+                    : _c("li", { staticClass: "nav-item pull-right" }, [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "nav-link",
+                            attrs: { href: "#" },
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                return _vm.redirect($event)
+                              }
+                            }
+                          },
+                          [_vm._v("Cerrar Sesión")]
+                        )
+                      ])
                 ],
                 1
               )
@@ -62561,7 +62648,7 @@ var logout = function logout(_ref3) {
   var commit = _ref3.commit;
   return new Promise(function (resolve, reject) {
     commit('auth_logout');
-    localStorage.removeItem('token');
+    localStorage.removeItem('access_token');
     delete axios.defaults.headers.common['Authorization'];
     resolve();
   });

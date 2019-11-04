@@ -31,6 +31,7 @@ class BudgetCreated extends Mailable
     public function build()
     {
         return $this->markdown('emails.quotations.created',['url'=>url('/quotations/show/'),"notifiable" => $this->notifiable])
-                    ->attachFromStorage($this->quotation->archive);
+                    ->attachFromStorage($this->quotation->archive)
+                    ->subject('Nueva Cotización');
     }
 }

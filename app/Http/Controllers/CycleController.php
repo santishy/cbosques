@@ -22,10 +22,11 @@ class CycleController extends Controller
 
     public function  __construct(){
       $this->middleware(['cycle'])->except(['store']);
+      $this->middleware(['roles:admin'])->except(['index','items']);
     }
     public function index()
     {
-        return  new CycleCollection(Cycle::all());
+      return  new CycleCollection(Cycle::all());
     }
 
     /**

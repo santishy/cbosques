@@ -11,32 +11,40 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                   <li class="nav-item">
-                    <router-link class="nav-link" :to="'/cycles'"> Ciclos</router-link>
-                  </li>
-                  <li class="nav-item">
-                    <router-link class="nav-link" to="/departments"> Crear Departamentos </router-link>
+                    <router-link class="nav-link" :to="'/cycles'">Ciclos</router-link>
                   </li>
                   <li class="nav-item">
                     <router-link class="nav-link" to="/budgets">Crear Presupuesto</router-link>
                   </li>
-                  <li>
-                    <router-link class="nav-link" to="/departmentitems">Asignar Presupuestos</router-link>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Departamentos
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <router-link class="nav-link" to="/departments"> Crear</router-link>
+                        <router-link class="nav-link" to="/departmentitems">Asignar presupuesto</router-link>
+                    </div>
                   </li>
-                  <li>
-                    <router-link class="nav-link" to="/quotation-department-items">Cotizaciones</router-link>
-                  </li>
-                  <li>
-                    <router-link class="nav-link":to="{ name: 'quotation-index', params: {} }">Lista cotizaciones</router-link>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Cotizaciones
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <router-link class="nav-link" to="/quotation-department-items"> Crear</router-link>
+                      <router-link class="nav-link":to="{ name: 'quotation-index', params: {} }">Listar</router-link>
+                    </div>
                   </li>
                   <li>
                     <router-link class="nav-link" :to="{ name: 'register', params: {} }">Registrar Usuarios</router-link>
                   </li>
                   <notifications-component/>
-                  <li class="nav-item">
-                    <router-link class="nav-link" to="/login"> Login</router-link>
+                  <li v-if="!isLoggedIn" class="nav-item">
+                    <router-link class="nav-link" to="/login">Login</router-link>
+                  </li>
+                  <li v-else class="nav-item pull-right">
+                    <a href="#" class="nav-link" @click.prevent="redirect">Cerrar Sesión</a>
                   </li>
                 </ul>
-
             </div>
         </div>
     </nav>
@@ -47,14 +55,23 @@
 </template>
 
 <script>
+    import {mapGetters} from 'vuex'
+    import {mapActions} from 'vuex'
     import NotificationsComponent from './NotificationsComponent'
     export default {
       components:{
         'notifications-component':NotificationsComponent
       },
-        created(){
-
+      computed:{
+        ...mapGetters(['isLoggedIn']),
+      },
+      methods:{
+        ...mapActions(['logout']),
+        redirect(){
+          this.logout().then(response => {
+            this.$router.push('/login');
+          })
         }
-
+      },
     }
 </script>

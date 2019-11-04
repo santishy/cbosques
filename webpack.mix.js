@@ -17,4 +17,5 @@ mix.browserSync({
         proxy: 'http://budgets.dev',
         open: false,
         browser:'Google chrome',
+        ghostMode: false,
     });
