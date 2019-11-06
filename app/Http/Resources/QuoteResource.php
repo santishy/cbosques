@@ -16,7 +16,8 @@ class QuoteResource extends JsonResource
     {
         return [
           'description' => $this->description,
-          'qty' => number_format($this->qty,2),
+          //'qty' => number_format($this->qty,2),
+          'qty' => $this->qty,
           'archive' => explode('/',$this->archive)[1], // Aquí corto el nombre del archivo de la ruta
           'status' => $this->status,
           'id' => $this->id,

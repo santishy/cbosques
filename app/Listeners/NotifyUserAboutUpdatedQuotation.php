@@ -29,7 +29,7 @@ class NotifyUserAboutUpdatedQuotation
      */
     public function handle(UpdatedQuotation $event)
     {
-      $user = Auth::user();
+      $user = $event->quotation->user;
       Notification::send($user,new QuoteResponse($event->quotation));
     }
 }

@@ -2056,7 +2056,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      status: ['PENDIENTE', 'ACEPTADA', 'RECHAZADA']
+      status: ['PENDIENTE', 'ACEPTADO', 'RECHAZADO']
     };
   },
   mounted: function mounted() {
@@ -2064,12 +2064,12 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     update: function update() {
-      var fd = new FormData(document.getElementById('status-message-form'));
+      var fd = new FormData(document.querySelector('#status-message-form'));
       fd.append('id', this.quotation.id);
       fd.append('qty', this.quotation.qty);
+      fd.append('iva', this.quotation.iva);
       fd.append('notification_id', this.notification_id);
       fd.append('_method', 'PUT');
-      console.log(document.getElementById('status-message-form'));
       axios({
         url: '/api/quotations/' + this.quotation.id,
         method: 'POST',
@@ -2514,7 +2514,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       var _this = this;
 
       axios({
-        url: 'api/budgets',
+        url: 'api/budgets/',
         method: 'GET',
         params: {
           page: this.page
@@ -43615,7 +43615,7 @@ var render = function() {
             _c(
               "form",
               {
-                attrs: { id: "status-message-form" },
+                attrs: { id: "status-message-form", method: "POST" },
                 on: {
                   submit: function($event) {
                     $event.preventDefault()

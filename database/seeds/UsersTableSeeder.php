@@ -27,7 +27,7 @@ class UsersTableSeeder extends Seeder
       $user->roles()->save($admin);
       $cotizador = Role::create(['name' => 'cotizador','display_name'=>'Crea cotizaciones','description'=>'Crea cotizaciones para los autorizadores.']);
       $user = User::create([
-          'email' => 'cotizador@gmail.com',
+          'email' => 'santiagomartinochoaestrada@gmail.com',
           'password' => bcrypt('san10mar'),
           'name' => 'Santiago',
       ]);

@@ -5,8 +5,8 @@
         <div class="card">
           <div class="card-body">
               <h5 class="card-title">Cambiar Status</h5>
-            <form :id="'status-message-form'" @submit.prevent="update">
-              <input type="hidden" name="item_id" :value="quotation.item_id">
+            <form :id="'status-message-form'" method="POST" @submit.prevent="update">
+              <input type="hidden"  name="item_id" :value="quotation.item_id">
               <div class="form-group">
                 <div class="custom-control custom-radio">
                   <input type="radio" :checked="quotation.status == status[0]" name="status" id="PENDIENTE" class="custom-control-input" :value="status[0]">
@@ -49,7 +49,7 @@ export default {
   },
   data(){
     return {
-      status:['PENDIENTE','ACEPTADA','RECHAZADA']
+      status:['PENDIENTE','ACEPTADO','RECHAZADO']
     }
   },
   mounted(){
@@ -57,12 +57,12 @@ export default {
   },
   methods:{
     update(){
-      var fd = new FormData(document.getElementById('status-message-form'));
+      var fd = new FormData(document.querySelector('#status-message-form'));
       fd.append('id',this.quotation.id);
       fd.append('qty',this.quotation.qty);
+      fd.append('iva',this.quotation.iva);
       fd.append('notification_id',this.notification_id)
       fd.append('_method','PUT')
-      console.log(document.getElementById('status-message-form'))
       axios({
         url:'/api/quotations/'+this.quotation.id,
         method:'POST',

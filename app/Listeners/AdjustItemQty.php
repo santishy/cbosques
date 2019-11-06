@@ -26,8 +26,10 @@ class AdjustItemQty
      */
     public function handle(UpdatedQuotation $event)
     {
+
         $newStatus = $event->quotation->getAttribute('status');
         $oldStatus = $event->quotation->getOriginal('status');
+        
         if($oldStatus == 'ACEPTADO'){
           $event->quotation->item->specification->qty += $event->quotation->total();
         }elseif($newStatus == 'ACEPTADO')

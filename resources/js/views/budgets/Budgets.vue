@@ -88,7 +88,7 @@ export default {
     */
     infiniteHandler($state){
       axios({
-        url:'api/budgets',
+        url:'api/budgets/',
         method:'GET',
         params:{
           page:this.page

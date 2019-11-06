@@ -22,7 +22,7 @@ class AuthServiceProvider extends ServiceProvider
         'App\User' => 'App\Policies\UserPolicy',
         Department::class =>DepartmentPolicy::class,
         //Notification::class => NotificationPolicy::class,
-        QuotationPolicy::class => QuotationPolicy::class,
+        Quotation::class => QuotationPolicy::class,
         DatabaseNotification::class => NotificationPolicy::class,
     ];
 

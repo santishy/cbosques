@@ -70,8 +70,7 @@ class QuotationController extends Controller
     * 1) NotifyUserAboutUpdatedQuotation que esta en App\Quotation, se activa events:updated
     */
     public function update(Request $request,Quotation $quotation){
-      //return $request->all();
-    //  $this->validateQuote($request);
+      $this->authorize('update',$quotation);
       Validator::make($request->all(),[
         'item_id' => 'exists:items,id|required',
         'qty' => ['Numeric','required',new validateQuoteAmount($request->item_id,$request->iva,$request->status)],
@@ -82,15 +81,14 @@ class QuotationController extends Controller
          'file' => 'El campo debe contener un archivo'])->validate();
       try {
         DB::beginTransaction();
-        $this->authorize('update',$quotation);
-        $quotation->message = $request->message;
+      //  $quotation->message = $request->message;
         $quotation->update(['status'=> $request->status]);// aki aplica el ajuste para rebajar ¿para aumentar? checkar por favor
-        if($request->notification_id)
-        {
-          $notification = DatabaseNotification::find($request->notification_id);
-          $notification->data = $quotation;
-          $notification->save();
-        }
+        // if($request->notification_id)
+        // {
+        //   $notification = DatabaseNotification::find($request->notification_id);
+        //   $notification->data = $quotation;
+        //   $notification->save();
+        // }
         DB::commit();
         return response()->json(['quotation' => new QuoteResource($quotation)]);
       }catch (\Exception $e) {

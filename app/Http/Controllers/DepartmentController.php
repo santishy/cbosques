@@ -83,7 +83,7 @@ class DepartmentController extends Controller
      */
     public function update(Request $request, $id)
     {
-      $this->autorizhe();
+    //  $this->autorizhe();
       Validator::make($request->all(),[
         'name' => "required|unique:departments,name,$request->id",
       ],[
