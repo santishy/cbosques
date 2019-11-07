@@ -43,12 +43,10 @@ export default {
     *
     */
     setDepartmentId(event){
-      console.log(event)
       if(this.selected_element){
         this.selected_element.classList.remove('active')
       }
       this.department_id=event.target.dataset.id
-      console.log('otro id'+ this.department_id)
       event.target.classList.add('active')
       this.$emit('setDepartmentId',this.department_id);
       this.selected_element = event.toElement;
@@ -60,6 +58,7 @@ export default {
     *
     */
     getItemsByDepartment(){
+      this.$emit('loading')
       axios({
         url:'api/department/items',
         params:{

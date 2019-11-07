@@ -17,8 +17,8 @@
                 :to="{
                      name:unreadNotification.data.link,
                      params: {
-                               id:unreadNotification.id,
-                               'notification':unreadNotification.data.data,
+                               'notification_id':unreadNotification.id,
+                               'id':unreadNotification.data.data.id,
                              }
                      }">{{unreadNotification.data.text}}
               </router-link>
@@ -37,8 +37,8 @@
                 :to="{
                      name:readNotification.data.link,
                      params: {
-                               id:readNotification.id,
-                               'notification':readNotification.data.data,
+                               'notification_id':readNotification.id,
+                               'id':readNotification.data.data.id,
                              }
                      }">{{readNotification.data.text}}
               </router-link>

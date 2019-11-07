@@ -2,7 +2,9 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-4">
-        <department-list v-on:getItemsByDepartment="ItemsByDepartment" v-on:setDepartmentId="DepartmentId"/>
+        <department-list v-on:getItemsByDepartment="ItemsByDepartment"
+                         v-on:setDepartmentId="DepartmentId"
+                         v-on:loading="showLoadingMessage"/>
       </div>
       <div class="col-lg-8">
         <div class="card">
@@ -12,9 +14,10 @@
             <form id="formData" @submit.prevent="store">
               <div class="form-group">
                 <label for="item_id">Presupuestos</label>
-                <select @change="setDepartatmentItemId"
-                        :class="['form-control', 'border-0', hasError.item_id ? 'is-invalid' : '']" name="item_id">
-                  <option value="">Elige el presupuesto para tu cotización</option>
+                <select @change="setDepartmentItemId"
+                        :class="['form-control', 'border-0', hasError.item_id ? 'is-invalid' : '']"
+                         name="item_id" id="departmentsItems">
+                  <option value="" :selected="true">Elige el presupuesto para tu cotización</option>
                   <option v-for="item in items" :value="item.id">{{item.concept+' '+item.qty}}</option>
                 </select>
                 <small class="text-danger" v-if="hasError.item_id">{{hasError.item_id[0]}}</small>
@@ -65,7 +68,7 @@
               <div v-if="upload" class="progress mt-2 mb-2">
                 <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" :aria-valuenow="load" aria-valuemin="0" aria-valuemax="100" :style="{'width':load+'%'}"></div>
               </div>
-              <button class="btn btn-success " name="button">Guardar</button>
+              <button class="btn btn-success btn-block" name="button">Guardar</button>
             </form>
           </div>
         </div>
@@ -106,15 +109,19 @@ export default {
       *
       */
       ItemsByDepartment(data){
+        var select=document.getElementById('departmentsItems');
+        select.options[0].selected=true;
+        select.options[0].text='Elige el presupuesto para tu cotización';
         if(data.length)
           return this.items = data;
         return this.items=[]
+
       },
       /*
       *Al cambiar el select de items de departamento, se dispara este evento el cual
       *agrega el item_id a el data(){return { form:{} }}
       */
-      setDepartatmentItemId(event){
+      setDepartmentItemId(event){
         this.form.item_id = event.target.value;
       },
       /*
@@ -130,6 +137,7 @@ export default {
       *
       */
       store(){
+        this.loadingItems=true
         this.hasError={}
         const fd = new FormData(document.getElementById('formData'));
         fd.append('department_id',this.form.department_id);
@@ -148,14 +156,21 @@ export default {
           }
         }).then((response)=>{
           this.upload = false;
-          console.log(response)
+          Swal.fire({
+            type: 'success',
+            title: 'Cotización creado correctamente',
+          })
         }).catch((error)=>{
           if(error.response.data.errors){
             this.hasError = error.response.data.errors;
           }
-          console.log(error);
+          this.upload = false;
         })
-      }
+      },
+      showLoadingMessage(){
+        var select=document.getElementById('departmentsItems');
+        select.options[0].text='Espere un momento, cargando...';
+      },
     }
 
 }

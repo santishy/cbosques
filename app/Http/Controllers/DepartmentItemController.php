@@ -21,7 +21,8 @@ class DepartmentItemController extends Controller
         'required' => 'El campo es requerido',
         'unique' => 'Ya existe esta cuenta en el departamento',
       ])->validate();
-      return Department::find($request->department_id)->items()->attach($request->item_id);
+      Department::find($request->department_id)->items()->attach($request->item_id);
+      return response()->json(['success'=>true]);
     }
     public function destroy(Request $request,$department_id){
       Validator::make($request->all(),[

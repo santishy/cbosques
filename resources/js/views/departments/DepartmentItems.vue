@@ -2,16 +2,23 @@
   <div class="container">
     <div class="row d-flex justify-content-center">
       <div class="col-md-3">
-        <department-list v-on:getItemsByDepartment="ItemsByDepartment" v-on:setDepartmentId="DepartmentId"></department-list>
+        <department-list v-on:getItemsByDepartment="ItemsByDepartment"
+                         v-on:setDepartmentId="DepartmentId">
+        </department-list>
       </div>
       <div class="col-md-6">
-
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Presupuestos</h5>
             <form>
-              <div style="margin-bottom:0 !important" v-for="item in items" class="form-group form-check">
-                <input @change="store" type="checkbox" :value="item.id" class="form-check-input" :id="item.id" :checked="item.checked">
+              <div style="margin-bottom:0 !important" v-for="(item,index) in items" class="form-group form-check">
+                <input @change="store"
+                       type="checkbox"
+                       :value="item.id"
+                       class="form-check-input"
+                       :data-index="index"
+                       :id="item.id"
+                       :checked="item.checked">
                 <label class="form-check-label" :for="item.id">{{item.concept}}</label>
               </div>
             </form>
@@ -25,7 +32,6 @@
 <script>
 
 import DepartmentList from './DepartmentList'
-
 export default {
   data(){
     return{
@@ -39,7 +45,6 @@ export default {
     'department-list':DepartmentList
   },
   mounted(){
-    //this.getData('api/departments')
     this.getData('api/cycles/items')
   },
   methods:{
@@ -84,7 +89,6 @@ export default {
     *
     */
     ItemsByDepartment(data){
-
       this.addFalseCheckedOption();
       if(data.length)
         this.checked(data)
@@ -94,7 +98,7 @@ export default {
     *Agrega la opcion checked en falso, en todo el array items que esta en el componente.
     */
     addFalseCheckedOption(){
-      return this.items.filter(function(obj){
+      return this.items.map(function(obj){
         return Vue.set(obj,'checked',false);
       });
     },
@@ -106,9 +110,9 @@ export default {
     store(event){
       var department_id = this.department_id;
       var data = new Object();
+      var index = event.target.dataset.index;
       data.deparment_id = department_id;
       var store = new Promise((resolve,reject)=>{
-        console.log('dentro del store:'+department_id)
         if(department_id != "")
           if(event.target.checked){
             data.url = 'api/department-item/store';
@@ -128,14 +132,19 @@ export default {
           url:data.url,
           data:{department_id:this.department_id,item_id:event.target.value}
         }).then((response)=>{
-          console.log(response)
+            Vue.set(this.items[index],'checked',!this.items[index]['checked']);
         }).catch((error)=>{
           console.log(this.department_id)
           console.log(error)
         })
       }).catch((message)=>{
         event.target.checked=false;
-        return alert('Primero debe escoger un departamento')
+        Swal.fire({
+          type: 'warning',
+          title: 'Primero debes elegir un departamento.',
+          showConfirmButton: false,
+          timer: 1500
+        })
       })
     },
     DepartmentId(id){

@@ -39,7 +39,7 @@ Route::group([
   Route::get('quotations','QuotationController@index');
   Route::post('quotations','QuotationController@store');
   Route::put('quotations/{quotation}','QuotationController@update');
-  Route::get('quotations/{id}','QuotationController@show')->name('quotations.show');
+  Route::get('quotations/{quotation}','QuotationController@show');
   Route::get('quotations/download/{archive}','QuotationController@download');
   Route::get('roles','RoleController@index');
 });

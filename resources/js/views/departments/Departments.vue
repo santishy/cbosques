@@ -74,7 +74,6 @@ export default {
     axios({
       method:'GET',
       url:this.url,
-
     }).then((response)=>{
       if(response.data.data.length)
       {
@@ -102,7 +101,8 @@ export default {
       }).then((response)=>{
         if(response.status == 200){
           Vue.set(response.data,'editing',false)
-          this.array.push(response.data)
+          this.array.unshift(response.data)
+          this.name='';
         }
       }).catch((error)=>{
         if(error.response.data.errors)

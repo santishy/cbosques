@@ -94,7 +94,7 @@ let vueRouter = new VueRouter({
       name:'quotation-creation'
     },
     {
-      path:'/quotations/show/:id,notification', // el parametro num, solo es para que cambie la url
+      path:'/quotations/show/:id,:notification_id', // el parametro num, solo es para que cambie la url
       component:ShowQuotation,
       name:'quotations-show',
       requiresAuth:true,

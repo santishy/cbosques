@@ -101,10 +101,10 @@ export default {
     },
     addBudget(newBudget){
       Vue.set(newBudget,'editing',false);
-      this.array.push(newBudget);
+      this.array.unshift(newBudget);
     },
     adjustItemQty(item){
-      this.budget_qty -=item.qty 
+      this.budget_qty -=item.qty
     },
     callUpdateDatabaseRecord(ind){
       this.updateDatabaseRecord(ind).then((response)=>{

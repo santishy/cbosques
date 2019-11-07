@@ -28,7 +28,7 @@ class ItemController extends Controller
     public function index(Request $request)
     {
         $budget = Budget::find($request->budget_id);
-        return new ItemsCollection($budget->items()->paginate(25));
+        return new ItemsCollection($budget->items()->orderBy('id','desc')->paginate(25));
     }
 
     /**

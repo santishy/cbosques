@@ -58,5 +58,6 @@ else
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
 import Swal from 'sweetalert2';
 window.Swal = Swal;

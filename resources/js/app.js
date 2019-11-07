@@ -39,14 +39,11 @@ const app = new Vue({
 
                   return axios.post('/api/auth/refresh', {
                       token:localStorage.getItem('access_token')
-                  }).then(response => {
-                      console.log('entro aki?')
-                      console.log(response) //guardar el token
+                  }).then(response => {  
                       error.response.config.headers['Authorization'] = 'Bearer ' + response.data.access_token;
                       return axios(error.response.config);
                   }).catch(error => {
                       store.dispatch('logout')
-                      //vueRouter.push('/login');
                       return Promise.reject(error);
                   })
               });

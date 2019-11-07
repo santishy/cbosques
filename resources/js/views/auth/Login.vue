@@ -1,13 +1,11 @@
 <template>
-  <div class="container">
-      <div class="row justify-content-center">
+  <div  class="container">
+      <div :style="{height:'100vh'}" class="row d-flex justify-content-center align-items-center">
           <div class="col-md-8">
               <div class="card">
                   <div class="card-header">Login</div>
                   <div class="card-body">
                       <form @submit.prevent="methodLogin">
-                          <!-- @csrf -->
-
                           <div class="form-group row">
                               <label for="email" class="col-md-4 col-form-label text-md-right">Email</label>
 
@@ -69,7 +67,7 @@ export default {
       const email = this.email;
       const password = this.password
       this.login({email,password}).then((response) =>{
-        
+
         this.$router.push('/')
       })
        .catch((error) => {

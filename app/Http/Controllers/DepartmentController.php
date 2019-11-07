@@ -18,7 +18,7 @@ class DepartmentController extends Controller
     }
     public function index()
     {
-        return response()->json(['data'=>Department::all()]);
+        return response()->json(['data'=>Department::orderBy('id','desc')->get()]);
     }
 
     /**

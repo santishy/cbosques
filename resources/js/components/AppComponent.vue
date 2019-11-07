@@ -1,6 +1,6 @@
 <template>
-  <div class="">
-    <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+  <div  :style="{'min-height':'100vh'}">
+    <nav v-if="isLoggedIn" class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
         <div class="container">
             <a class="navbar-brand" :href="'/'">
                 Budgets
@@ -48,7 +48,7 @@
             </div>
         </div>
     </nav>
-    <main class="py-4">
+    <main :class="{'py-4':isLoggedIn}" >
         <router-view :key="$route.fullPath"></router-view>
     </main>
   </div>

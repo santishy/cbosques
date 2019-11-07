@@ -73,11 +73,9 @@ export default {
   computed:{
     hasErrorQty()
     {
-      console.log('error qty')
       return ['form-control', this.hasError.qty ? 'is-invalid' : ''];
     },
     hasErrorConcept(){
-      console.log('error concept')
       return ['form-control', this.hasError.concept ? 'is-invalid' : ''];
     }
   },
@@ -97,12 +95,11 @@ export default {
         method:'POST',
         data:this.formData()
       }).then((response)=>{
+        this.form={};
         this.$emit('newBudget',response.data.data)
         if(this.isItem){
-          //this.budget_qty -= response.data.data.qty
           this.$emit('storedItem',response.data.data)
         }
-
       }).catch((error)=>{
         if(error.response.data.errors)
           this.hasError = error.response.data.errors;

@@ -117,7 +117,7 @@ export default {
     */
     addBudget(budget){
       Vue.set(budget,'editing',false);
-      this.array.push(budget);
+      this.array.unshift(budget);
     }
   }
 }

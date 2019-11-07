@@ -55,7 +55,7 @@ class QuotationController extends Controller
     }
 
     public function show(Quotation $quotation){
-      return $quotation;
+      return new QuoteResource($quotation);
     }
     /**
     *

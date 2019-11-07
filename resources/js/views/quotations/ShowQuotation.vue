@@ -2,10 +2,10 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-6">
-        <quotation-component :notification="notification"/>
+        <quotation-component :notification="quotation"/>
       </div>
       <div class="col-md-6">
-        <status-message :quotation="notification" :notification_id="id"></status-message>
+        <status-message :quotation="quotation" :notification_id="notification_id"></status-message>
       </div>
     </div>
   </div>
@@ -14,11 +14,15 @@
 import StatusMessage from '../../components/quotations/StatusMessage.vue';
 import QuotationComponent from '../../components/quotations/QuotationComponent.vue'
 export default {
-  props:['notification','id'],
+  props:['notification_id','id'],
+  data(){
+    return{
+      quotation:{}
+    }
+  },
   created(){
-
-    //console.log(this.notification)
-    this.markAsRead(this.notification)
+    this.getQuotation(this.id)
+    this.markAsRead(this.notification_id)
   },
   components:{
     'status-message':StatusMessage,
@@ -32,7 +36,7 @@ export default {
     */
     markAsRead(notification){
       axios({
-        url:'api/notifications/'+this.id,
+        url:'api/notifications/'+this.notification_id,
         method:'PUT',
         data:{id:this.id}
       }).then((response)=>{
@@ -41,6 +45,16 @@ export default {
         console.log(error)
       })
     },
+    getQuotation(id){
+      axios({
+        url:'/api/quotations/'+id,
+        method:'get',
+      }).then((response)=>{
+        this.quotation = response.data.data
+      }).catch((error)=>{
+        console.log(error)
+      })
+    }
   }
 }
 </script>
