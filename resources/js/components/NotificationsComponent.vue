@@ -12,9 +12,7 @@
                           params: {
                                     //el parametro num solo es para que cambie la url
                                     'notification_id':unreadNotification.id,
-                                    'id':unreadNotification.data.data.id,
-                                  }
-}">
+                                    'id':unreadNotification.data.data.id,}}">
           {{unreadNotification.data.text}}
         </router-link>
         <div class="dropdown-divider"></div>

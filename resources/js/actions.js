@@ -46,10 +46,13 @@ const login = ({commit},user) =>{
       method:'POST'
     }).then(response =>{
       const access_token = response.data.access_token;
-      const user  = response.data.user;
+      const authUser  = response.data.user;
+      const roles = response.data.roles;
       localStorage.setItem('access_token',response.data.access_token);
       window.axios.defaults.headers.common['Authorization'] = 'Bearer '+response.data.access_token;
-      commit('auth_success',access_token,user)
+      commit('auth_success',access_token)
+      commit('auth_user',authUser);
+      commit('auth_roles',roles);
       resolve(response)
     }).catch((error)=>{
       commit('auth_error')

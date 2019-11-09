@@ -58,40 +58,17 @@ export default {
       password:"",
     }
   },
-  created(){
-
-  },
   methods:{
     ...mapActions(['login']),
     methodLogin(){
       const email = this.email;
       const password = this.password
       this.login({email,password}).then((response) =>{
-
         this.$router.push('/')
       })
        .catch((error) => {
          console.log(error)
        })
-      // this.$store.dispatch('login', { email, password })
-      //  .then(() => this.$router.push('/'))
-      //  .catch((error) => {
-      //    console.log(error)
-      //  })
-      // axios({
-      //   method:'POST',
-      //   url:'http://budgets.dev:3000/api/auth/login',
-      //   data:{
-      //     'email':this.email,
-      //     'password':this.password
-      //   }
-      // }).then((response)=>{
-      //
-      //   localStorage.setItem('access_token',response.data.access_token);
-      //   window.axios.defaults.headers.common['Authorization'] = 'Bearer '+localStorage.getItem('access_token');
-      // }).catch((error)=>{
-      //   console.log(error)
-      // })
     }
   }
 }

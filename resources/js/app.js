@@ -16,7 +16,8 @@ Vue.component('notifications-component',require('./components/NotificationsCompo
 Vue.use('InfiniteLoading');
 import vueRouter from './routes.js';
 import {store} from './store.js';
-//Vue.use(Swal)
+import auth from './mixins/auth.js';
+Vue.mixin(auth);
 const app = new Vue({
     el: '#app',
     router:vueRouter,
@@ -39,7 +40,7 @@ const app = new Vue({
 
                   return axios.post('/api/auth/refresh', {
                       token:localStorage.getItem('access_token')
-                  }).then(response => {  
+                  }).then(response => {
                       error.response.config.headers['Authorization'] = 'Bearer ' + response.data.access_token;
                       return axios(error.response.config);
                   }).catch(error => {

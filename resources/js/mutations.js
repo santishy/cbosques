@@ -26,16 +26,20 @@ const auth_request = (state) => {
   state.status = 'loading'
 }
 
-const auth_success = (state,token,user) => {
+const auth_success = (state,token) => {
   state.access_token =  token;
-  state.status = 'success',
-  state.user = user;
+  state.status = 'success'
 }
-
+const auth_user=(state,authUser)=>{
+  state.user = authUser;
+}
 const auth_error = (state) =>{
   state.status = 'error';
 }
-
+const auth_roles = (state,roles) => {
+  localStorage.setItem('roles',JSON.stringify(roles));
+  state.roles = roles;
+}
 const auth_logout = (state) => {
   state.status = '';
   state.access_token = '';
@@ -47,6 +51,8 @@ export default{
   setCycle,
   deactivateCycles,
   cycleUpdate,
+  auth_user,
+  auth_roles,
   auth_request,
   auth_success,
   auth_error,

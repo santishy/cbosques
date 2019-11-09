@@ -14,6 +14,7 @@ import QuotationCreation from './views/quotations/QuotationCreation';
 import QuotationIndex from './views/quotations/QuotationIndex.vue';
 import ShowQuotation from './views/quotations/ShowQuotation';
 import AllNotifications from './views/notifications/AllNotifications'
+import AuthorizationDenied from './views/auth/AuthorizationDenied';
 import {store} from './store';
 let vueRouter = new VueRouter({
   routes:[
@@ -22,7 +23,8 @@ let vueRouter = new VueRouter({
       component:Create,
       name:'create',
       meta:{
-          requiresAuth:true
+          requiresAuth:true,
+          permissions:['admin']
         }
     },
     {
@@ -30,7 +32,8 @@ let vueRouter = new VueRouter({
       component:Budgets,
       name:'budgets',
       meta:{
-          requiresAuth:true
+          requiresAuth:true,
+          permissions:['admin']
         }
     },
 
@@ -53,7 +56,8 @@ let vueRouter = new VueRouter({
       component:Items,
       name:'items',
       meta:{
-          requiresAuth:true
+          requiresAuth:true,
+          permissions:['admin']
         }
     },
     {
@@ -61,7 +65,8 @@ let vueRouter = new VueRouter({
       component:Departments,
       name:'departments',
       meta:{
-          requiresAuth:true
+          requiresAuth:true,
+          permissions:['admin'],
         }
     },
     {
@@ -69,7 +74,8 @@ let vueRouter = new VueRouter({
       component:DepartmentItems,
       name:"departmentItems",
       meta:{
-          requiresAuth:true
+          requiresAuth:true,
+          permissions:['admin'],
         }
     },
     {
@@ -77,7 +83,8 @@ let vueRouter = new VueRouter({
       component:QuotationDepartmentItems,
       name:"quotationDepartmentItems",
       meta:{
-          requiresAuth:true
+          requiresAuth:true,
+          permissions:['admin','cotizador','autorizador'],
         }
     },
     {
@@ -85,30 +92,51 @@ let vueRouter = new VueRouter({
       component:Register,
       name:"register",
       meta:{
-        requiresAuth:true
+        requiresAuth:true,
+        permissions:['admin'],
       }
     },
     {
       path:'/quotation/create/:id',
       component:QuotationCreation,
-      name:'quotation-creation'
+      name:'quotation-creation',
+      meta:{
+        requiresAuth:true,
+        permissions:['admin','cotizador','autorizador'],
+      }
     },
     {
       path:'/quotations/show/:id,:notification_id', // el parametro num, solo es para que cambie la url
       component:ShowQuotation,
       name:'quotations-show',
-      requiresAuth:true,
+      meta:{
+        requiresAuth:true,
+        permissions:['admin','autorizador'],
+      },
       props:true
     },
     {
       path:'/notifications/index',
       component:AllNotifications,
-      name:'all-notifications'
+      name:'all-notifications',
+      meta:{
+        requiresAuth:true,
+        permissions:['admin','autorizador'],
+      }
     },
     {
       path:'/quotation-index',
       component:QuotationIndex,
-      name:'quotation-index'
+      name:'quotation-index',
+      meta:{
+        requiresAuth:true,
+        permissions:['admin','autorizador'],
+      }
+    },
+    {
+      path:'/authorization-denied',
+      component:AuthorizationDenied,
+      name:'authorization-denied'
     },
     {
       path:'*',
@@ -118,16 +146,44 @@ let vueRouter = new VueRouter({
   ],
     mode:'hash'
 })
+function hasRoles(permissions){
+  if(typeof permissions != 'undefined'){
+  let roles = store.getters.getRoles;
+  return roles.some((role)=>{
+    if(permissions.includes(role))
+      return true;
+  })
+  return false
+}
+}
 vueRouter.beforeEach((to, from, next) => {
   if(to.matched.some(record => record.meta.requiresAuth)) {
-    if (store.getters.isLoggedIn) {
-      next()
-      return
+    if(store.getters.isLoggedIn) {
+      if(to.matched.some(record => record.meta.permissions))
+      {
+        console.log(to.matched[0].meta.permissions)
+        if(hasRoles(to.matched[0].meta.permissions)){
+          return next()
+        }
+        else {
+          return next({name:'authorization-denied'})
+        }
+      }
+      return next()
     }
-    next('/login')
+    return next('/login')
   } else {
-    next()
+    return next()
   }
+  // if(to.matched.some(record => record.meta.requiresAuth)) {
+  //   if(store.getters.isLoggedIn) {
+  //     next()
+  //     return
+  //   }
+  //   next('/login')
+  // } else {
+  //   next()
+  // }
 })
 Vue.use(VueRouter);
 export default vueRouter;

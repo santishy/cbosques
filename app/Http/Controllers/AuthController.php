@@ -9,7 +9,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
-
+use App\Http\Resources\RolesCollection;
 class AuthController extends Controller
 {
     public function __construct(){
@@ -58,11 +58,13 @@ class AuthController extends Controller
     }
 
     public function respondWithToken($token){
+      $authUser = auth()->user();
       return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60,
-            'user' => auth()->user()->roles,
+            'user' =>$authUser,
+            'roles' => $authUser->roles->pluck('name'),
         ]);
     }
     public function me(){
