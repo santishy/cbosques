@@ -39,7 +39,7 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
-      $this->authorize('store',new Department);
+      //$this->authorize('store',new Department);
       Validator::make($request->all(),[
         'name' => "required|unique:departments",
       ],[
