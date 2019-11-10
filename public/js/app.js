@@ -3521,6 +3521,10 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
       this.hasError = {};
       axios({
+        headers: {
+          "x-custom-header": "my custom header value",
+          "Access-Control-Allow-Origin": "*"
+        },
         url: this.url,
         method: 'POST',
         data: {
