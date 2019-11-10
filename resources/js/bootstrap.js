@@ -36,8 +36,8 @@ if (token) {
 } else {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
-if(localStorage.getItem('access_token')){
-    window.axios.defaults.headers.common['Authorization'] = 'Bearer '+localStorage.getItem('access_token');
+if(sessionStorage.getItem('access_token')){
+    window.axios.defaults.headers.common['Authorization'] = 'Bearer '+sessionStorage.getItem('access_token');
   }
 else
   console.log('no entro')

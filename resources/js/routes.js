@@ -146,22 +146,25 @@ let vueRouter = new VueRouter({
   ],
     mode:'hash'
 })
+
+// function que se encarga de revisar los permisos que tiene el usuario actual
 function hasRoles(permissions){
   if(typeof permissions != 'undefined'){
-  let roles = store.getters.getRoles;
-  return roles.some((role)=>{
-    if(permissions.includes(role))
-      return true;
-  })
-  return false
-}
+    let roles = store.getters.getRoles;
+    return roles.some((role)=>{
+      if(permissions.includes(role))
+        return true;
+    })
+    return false
+  }
 }
 vueRouter.beforeEach((to, from, next) => {
+
   if(to.matched.some(record => record.meta.requiresAuth)) {
     if(store.getters.isLoggedIn) {
+      store.dispatch('getUnreadNotifications')
       if(to.matched.some(record => record.meta.permissions))
       {
-        console.log(to.matched[0].meta.permissions)
         if(hasRoles(to.matched[0].meta.permissions)){
           return next()
         }

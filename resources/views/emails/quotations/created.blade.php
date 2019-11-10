@@ -1,7 +1,17 @@
 @component('mail::message')
 # COTIZACIÓN CREADA
 
-<b>{{$notifiable->name}}</b> a creado una nueva cotización:
+<b> {{$quotation->user->name}} </b> a creado una nueva cotización:
+
+<h2>Detalles</h2>
+@component('mail::panel')
+<ul>
+  <li> <b> Departamento: </b> {{ $quotation->department->name }}  </li>
+  <li> <b> Cuenta: </b> {{$quotation->item->specification->concept}}  </li>
+  <li> <b> Fondos de cuenta: </b>  $ {{number_format($quotation->item->specification->qty,2)}} </li>
+</ul>
+@endcomponent
+
 
 @component('mail::table')
   |DESCRIPCIÓN|COSTO|IVA|TOTAL|

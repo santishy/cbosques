@@ -3,7 +3,7 @@
     <nav v-if="isLoggedIn" class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
         <div class="container">
             <a class="navbar-brand" :href="'/'">
-                Budgets
+                Control Presupuestal
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="">
                 <span class="navbar-toggler-icon"></span>
@@ -41,8 +41,14 @@
                   <li v-if="!isLoggedIn" class="nav-item">
                     <router-link class="nav-link" to="/login">Login</router-link>
                   </li>
-                  <li v-else class="nav-item pull-right">
-                    <a href="#" class="nav-link" @click.prevent="redirect">Cerrar Sesión</a>
+                  <li v-else class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      usuario
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a href="#" class="nav-link" @click.prevent="redirect">Cerrar Sesión</a>
+                    </div>
+
                   </li>
                 </ul>
             </div>
@@ -63,7 +69,7 @@
         'notifications-component':NotificationsComponent
       },
       computed:{
-        ...mapGetters(['isLoggedIn']),
+        ...mapGetters(['isLoggedIn','user']),
       },
       methods:{
         ...mapActions(['logout']),

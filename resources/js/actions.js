@@ -48,7 +48,7 @@ const login = ({commit},user) =>{
       const access_token = response.data.access_token;
       const authUser  = response.data.user;
       const roles = response.data.roles;
-      localStorage.setItem('access_token',response.data.access_token);
+      sessionStorage.setItem('access_token',response.data.access_token);
       window.axios.defaults.headers.common['Authorization'] = 'Bearer '+response.data.access_token;
       commit('auth_success',access_token)
       commit('auth_user',authUser);
@@ -56,7 +56,7 @@ const login = ({commit},user) =>{
       resolve(response)
     }).catch((error)=>{
       commit('auth_error')
-      localStorage.removeItem('access_token')
+      sessionStorage.removeItem('access_token')
       reject(error)
     })
   })
@@ -64,7 +64,7 @@ const login = ({commit},user) =>{
 const logout = ({commit}) => {
   return new Promise((resolve, reject) => {
     commit('auth_logout')
-    localStorage.removeItem('access_token')
+    sessionStorage.removeItem('access_token')
     delete axios.defaults.headers.common['Authorization']
     resolve()
   })

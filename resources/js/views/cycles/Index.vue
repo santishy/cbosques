@@ -6,6 +6,7 @@
       <th>Fin</th>
       <th>Activo</th>
       <th>Acciones</th>
+      <th>Seleccionar</th>
     </thead>
     <tbody>
       <tr  v-for="(cycle,ind) in array">
@@ -49,6 +50,11 @@
             <i class="fas fa-trash"></i>
           </div>
         </td>
+        <td>
+          <span :style="{'cursor':'pointer'}" @click="selectCycle(cycle.id)">
+            <i class="fas fa-mouse-pointer"></i>
+          </span>
+        </td>
       </tr>
     </tbody>
   </table>
@@ -60,7 +66,7 @@ import {mapState} from 'vuex';
 import {mapGetters} from 'vuex';
 import Date from './edit/Date';
 import actionsMixin from '../../mixins/actionsMixin';
-
+import {mapMutations} from 'vuex';
 export default {
 
   name:'Index',
@@ -88,25 +94,19 @@ export default {
   },
 
   methods:{
-    //cambia el estado editing, del array Cycles.
-    // edit(event){
-    //   let index = event.toElement.dataset.index;
-    //   this.cycles[index].editing=!this.cycles[index].editing;
-    // },
-    // cycleUpdateInTheDatabase(event){
-    //   this.edit(event)
-    //   let cycle = this.$store.getters.getCycleByIndex(event.target.dataset.index)
-    //   axios({
-    //     url:'api/cycles/'+cycle.id,
-    //     method:'PUT',
-    //     data:cycle,
-    //   }).then((response)=>{
-    //     console.log(response)
-    //   }).catch((error)=>{
-    //     console.log(error)
-    //   })
-    // },
-    ...mapActions(['getCycles'])
+    selectCycle(cycle_id){
+      axios({
+        method:'PUT',
+        data:{id:cycle_id},
+        url:'/api/cycles/select-cycle'
+      }).then((response)=>{
+        console.log(response.data)
+        this.deactivateCycles();
+        this.activateCycle(response.data.id)
+      })
+    },
+    ...mapActions(['getCycles']),
+    ...mapMutations(['setCycle','deactivateCycles','activateCycle']),
   }
 }
 </script>

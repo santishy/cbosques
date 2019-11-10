@@ -21,7 +21,7 @@ Route::group([
 Route::group([
   'middleware' => 'jwt'
 ],function(){
-
+  Route::put('cycles/select-cycle','CycleController@selectCycle');
   Route::get('cycles/items','CycleController@items');
   Route::resource('cycles','CycleController');
   Route::resource('budgets','BudgetController');

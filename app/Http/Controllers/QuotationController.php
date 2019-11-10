@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Notifications\DatabaseNotification;
 use App\Http\Resources\QuotationsCollection;
 use App\Http\Resources\QuoteResource;
+use App\Mail\BudgetCreated;
 
 class QuotationController extends Controller
 {
@@ -95,5 +96,9 @@ class QuotationController extends Controller
         DB::rollback();
         return $e;
       }
+    }
+    public function email(){
+      $quotation = Quotation::find(1);
+      return (new BudgetCreated($quotation,'notifiable'))->render();
     }
 }

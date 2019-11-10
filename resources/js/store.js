@@ -10,11 +10,11 @@ export const store = new Vuex.Store({
   state:{
     cycles:[],
     status:'',
-    access_token:localStorage.getItem('access_token') || '',
+    access_token:sessionStorage.getItem('access_token') || '',
     user:{},
     unreadNotifications:[],
     hasError:{},
-    roles:JSON.parse(localStorage.getItem('roles')) || '',
+    roles:JSON.parse(sessionStorage.getItem('roles')) || '',
   },
   mutations,
   actions,

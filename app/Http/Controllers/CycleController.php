@@ -7,6 +7,7 @@ use App\Cycle;
 use Illuminate\Support\Facades\Validator;
 use App\Rules\DateGreaterThan;
 use App\Events\CycleInsert;
+use App\Events\UpdatedCycle;
 use App\Http\Resources\Cycle as CycleCollection;
 use App\Rules\UpdateCycleDate;
 use Carbon\Carbon;
@@ -95,7 +96,12 @@ class CycleController extends Controller
      */
     public function update(Request $request, $id)
     {
+      $this->validateUpdate($request,$id);
+      $cycle = Cycle::where('id',$id)->update($request->except('_token','editing'));
+      return $cycle;
+    }
 
+    public function validateUpdate($request,$id){
       $validator= Validator::make($request->all(),[
         'initialized_at' => ['required','date',"validateDateRange:$request->finalized_at",new UpdateCycleDate($id)],
         'finalized_at' => ['required','date',new UpdateCycleDate($id)]
@@ -103,16 +109,20 @@ class CycleController extends Controller
         'required' => 'El campo es requerido',
         'date' => 'Formato incorrecto, fecha invalida'
       ])->validate();
-      $cycle = Cycle::where('id',$id)->update($request->except('_token','editing'));
-      return $cycle;
     }
-
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function selectCycle(Request $request){
+      $cycle = Cycle::findOrFail($request->id);
+      $cycle->active = 1;
+      $cycle->save();
+      event(new CycleInsert($cycle)); //Debo cambiar el nombre ya que lo uso en actualizar e insertar
+      return $cycle;
+    }
     public function destroy($id)
     {
         //

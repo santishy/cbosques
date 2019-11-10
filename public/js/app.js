@@ -1761,6 +1761,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1768,7 +1774,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   components: {
     'notifications-component': _NotificationsComponent__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['isLoggedIn'])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['isLoggedIn', 'user'])),
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(['logout']), {
     redirect: function redirect() {
       var _this = this;
@@ -2113,6 +2119,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
 //
 //
 //
@@ -3003,6 +3012,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -3030,7 +3046,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   components: {
     'date': _edit_Date__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(['getCycles']))
+  methods: _objectSpread({
+    selectCycle: function selectCycle(cycle_id) {
+      var _this2 = this;
+
+      axios({
+        method: 'PUT',
+        data: {
+          id: cycle_id
+        },
+        url: '/api/cycles/select-cycle'
+      }).then(function (response) {
+        console.log(response.data);
+
+        _this2.deactivateCycles();
+
+        _this2.activateCycle(response.data.id);
+      });
+    }
+  }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(['getCycles']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(['setCycle', 'deactivateCycles', 'activateCycle']))
 });
 
 /***/ }),
@@ -43080,7 +43114,7 @@ var render = function() {
           [
             _c("div", { staticClass: "container" }, [
               _c("a", { staticClass: "navbar-brand", attrs: { href: "/" } }, [
-                _vm._v("\n              Budgets\n          ")
+                _vm._v("\n              Control Presupuestal\n          ")
               ]),
               _vm._v(" "),
               _vm._m(0),
@@ -43263,20 +43297,49 @@ var render = function() {
                             ],
                             1
                           )
-                        : _c("li", { staticClass: "nav-item pull-right" }, [
+                        : _c("li", { staticClass: "nav-item dropdown" }, [
                             _c(
                               "a",
                               {
-                                staticClass: "nav-link",
-                                attrs: { href: "#" },
-                                on: {
-                                  click: function($event) {
-                                    $event.preventDefault()
-                                    return _vm.redirect($event)
-                                  }
+                                staticClass: "nav-link dropdown-toggle",
+                                attrs: {
+                                  href: "#",
+                                  id: "navbarDropdown",
+                                  role: "button",
+                                  "data-toggle": "dropdown",
+                                  "aria-haspopup": "true",
+                                  "aria-expanded": "false"
                                 }
                               },
-                              [_vm._v("Cerrar Sesión")]
+                              [
+                                _vm._v(
+                                  "\n                    usuario\n                  "
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "dropdown-menu",
+                                attrs: { "aria-labelledby": "navbarDropdown" }
+                              },
+                              [
+                                _c(
+                                  "a",
+                                  {
+                                    staticClass: "nav-link",
+                                    attrs: { href: "#" },
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        return _vm.redirect($event)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("Cerrar Sesión")]
+                                )
+                              ]
                             )
                           ])
                     ],
@@ -43835,9 +43898,26 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", {}, [_vm._v("\n  hola mundo\n")])
+  return _vm._m(0)
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "container" }, [
+      _c(
+        "div",
+        { staticClass: "row justify-content-center align-items-center" },
+        [
+          _c("div", { staticClass: "col-md-4 col-sm-8 col-xs-10" }, [
+            _c("h1", [_vm._v("Bienvenido")])
+          ])
+        ]
+      )
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -45360,6 +45440,21 @@ var render = function() {
               },
               [_c("i", { staticClass: "fas fa-trash" })]
             )
+          ]),
+          _vm._v(" "),
+          _c("td", [
+            _c(
+              "span",
+              {
+                style: { cursor: "pointer" },
+                on: {
+                  click: function($event) {
+                    return _vm.selectCycle(cycle.id)
+                  }
+                }
+              },
+              [_c("i", { staticClass: "fas fa-mouse-pointer" })]
+            )
           ])
         ])
       }),
@@ -45381,7 +45476,9 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", [_vm._v("Activo")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Acciones")])
+      _c("th", [_vm._v("Acciones")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Seleccionar")])
     ])
   }
 ]
@@ -62739,7 +62836,7 @@ var login = function login(_ref2, user) {
       var access_token = response.data.access_token;
       var authUser = response.data.user;
       var roles = response.data.roles;
-      localStorage.setItem('access_token', response.data.access_token);
+      sessionStorage.setItem('access_token', response.data.access_token);
       window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.access_token;
       commit('auth_success', access_token);
       commit('auth_user', authUser);
@@ -62747,7 +62844,7 @@ var login = function login(_ref2, user) {
       resolve(response);
     })["catch"](function (error) {
       commit('auth_error');
-      localStorage.removeItem('access_token');
+      sessionStorage.removeItem('access_token');
       reject(error);
     });
   });
@@ -62757,7 +62854,7 @@ var logout = function logout(_ref3) {
   var commit = _ref3.commit;
   return new Promise(function (resolve, reject) {
     commit('auth_logout');
-    localStorage.removeItem('access_token');
+    sessionStorage.removeItem('access_token');
     delete axios.defaults.headers.common['Authorization'];
     resolve();
   });
@@ -62869,7 +62966,7 @@ var app = new Vue({
 
       axios.interceptors.response.eject(interceptor);
       return axios.post('/api/auth/refresh', {
-        token: localStorage.getItem('access_token')
+        token: sessionStorage.getItem('access_token')
       }).then(function (response) {
         error.response.config.headers['Authorization'] = 'Bearer ' + response.data.access_token;
         return axios(error.response.config);
@@ -62930,8 +63027,8 @@ if (token) {
   console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
-if (localStorage.getItem('access_token')) {
-  window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token');
+if (sessionStorage.getItem('access_token')) {
+  window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + sessionStorage.getItem('access_token');
 } else console.log('no entro');
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
@@ -63523,8 +63620,15 @@ var deactivateCycles = function deactivateCycles(state) {
     return cycle.active === 1;
   });
   var index = state.cycles.indexOf(cycle);
-  console.log('index: ' + index);
   state.cycles[index].active = 0;
+};
+
+var activateCycle = function activateCycle(state, id) {
+  var cycle = state.cycles.find(function (cycle) {
+    return cycle.id === id;
+  });
+  var index = state.cycles.indexOf(cycle);
+  state.cycles[index].active = 1;
 }; //actualiza un elemento del array cycles, solo del array de VUEX y no de el backend.
 
 
@@ -63554,7 +63658,7 @@ var auth_error = function auth_error(state) {
 };
 
 var auth_roles = function auth_roles(state, roles) {
-  localStorage.setItem('roles', JSON.stringify(roles));
+  sessionStorage.setItem('roles', JSON.stringify(roles));
   state.roles = roles;
 };
 
@@ -63574,7 +63678,8 @@ var auth_logout = function auth_logout(state) {
   auth_request: auth_request,
   auth_success: auth_success,
   auth_error: auth_error,
-  auth_logout: auth_logout
+  auth_logout: auth_logout,
+  activateCycle: activateCycle
 });
 
 /***/ }),
@@ -63737,7 +63842,7 @@ var vueRouter = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     component: _views_Error404__WEBPACK_IMPORTED_MODULE_3__["default"]
   }],
   mode: 'hash'
-});
+}); // function que se encarga de revisar los permisos que tiene el usuario actual
 
 function hasRoles(permissions) {
   if (typeof permissions != 'undefined') {
@@ -63754,11 +63859,11 @@ vueRouter.beforeEach(function (to, from, next) {
     return record.meta.requiresAuth;
   })) {
     if (_store__WEBPACK_IMPORTED_MODULE_17__["store"].getters.isLoggedIn) {
+      _store__WEBPACK_IMPORTED_MODULE_17__["store"].dispatch('getUnreadNotifications');
+
       if (to.matched.some(function (record) {
         return record.meta.permissions;
       })) {
-        console.log(to.matched[0].meta.permissions);
-
         if (hasRoles(to.matched[0].meta.permissions)) {
           return next();
         } else {
@@ -63816,11 +63921,11 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
     cycles: [],
     status: '',
-    access_token: localStorage.getItem('access_token') || '',
+    access_token: sessionStorage.getItem('access_token') || '',
     user: {},
     unreadNotifications: [],
     hasError: {},
-    roles: JSON.parse(localStorage.getItem('roles')) || ''
+    roles: JSON.parse(sessionStorage.getItem('roles')) || ''
   },
   mutations: _mutations__WEBPACK_IMPORTED_MODULE_3__["default"],
   actions: _actions__WEBPACK_IMPORTED_MODULE_2__["default"],
