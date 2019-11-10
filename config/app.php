@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://polar-hollows-17421.herokuapp.com/'),
+    'url' => env('APP_URL', 'http://167.172.224.165'),
 
     'asset_url' => env('ASSET_URL', null),
 
@@ -119,7 +119,7 @@ return [
     |
     */
 
-    'key' => env('APP_KEY'),
+    'key' => env('APP_KEY','qVCcpPLuOmKfRvASLcskM4uOOHfrsGKvBa4My6xAGaLSQdfC7hzBYFYzCoj7zzof'),
 
     'cipher' => 'AES-256-CBC',
 
