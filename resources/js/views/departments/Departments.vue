@@ -95,10 +95,6 @@ export default {
     store(){
       this.hasError={};
       axios({
-        headers: {
-            "x-custom-header" : "my custom header value",
-            "Access-Control-Allow-Origin": "*"
-        },
         url:this.url,
         method:'POST',
         data:{name:this.name}
