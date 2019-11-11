@@ -86,7 +86,7 @@ return [
 
     'username' => env('MAIL_USERNAME','sistema@ccbosque.edu.mx'),
 
-    'password' => env('MAIL_PASSWORD','wpqersxbxjicfowk'),
+    'password' => env('MAIL_PASSWORD','vdpunuyvrrhtltrv'),
 
     /*
     |--------------------------------------------------------------------------
