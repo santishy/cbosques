@@ -1,7 +1,7 @@
 const getCycles = (context) => {
   return new Promise((resolve,reject)=>{
     axios({
-      url:'api/cycles',
+      url:'/api/cycles',
       method:'GET'
     }).then((response)=>{
       context.commit('addCycles',response.data.data);
