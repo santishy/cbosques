@@ -15,7 +15,7 @@ const getUnreadNotifications = (context)=>{
   return new Promise((resolve,reject)=>{
     axios({
       method:'GET',
-      url:'/api/notifications/unreadNotifications',
+      url:'/api/notifications/unreadNotifications/',
     }).then((response) => {
       if(response.data.unreadNotifications.length)
         context.commit('setUnreadNotifications',response.data.unreadNotifications);
