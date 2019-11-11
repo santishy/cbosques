@@ -36,7 +36,7 @@ export default {
     */
     markAsRead(notification){
       axios({
-        url:'api/notifications/'+this.notification_id,
+        url:'/api/notifications/'+this.notification_id,
         method:'PUT',
         data:{id:this.id}
       }).then((response)=>{
