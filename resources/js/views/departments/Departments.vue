@@ -63,7 +63,7 @@ export default {
   data(){
     return{
       array:[],
-      url:'api/departments/',
+      url:'/api/departments/',
       page:1,
       name:'',
       hasError:{}

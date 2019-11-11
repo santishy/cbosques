@@ -3484,7 +3484,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   data: function data() {
     return {
       array: [],
-      url: 'api/departments/',
+      url: '/api/departments/',
       page: 1,
       name: '',
       hasError: {}
@@ -63012,8 +63012,8 @@ try {
 
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-axios.defaults.headers.common['Access-Control-Allow-Origin'] = 'http://167.172.224.165' + ', http://167.172.224.165';
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'; //axios.defaults.headers.common['Access-Control-Allow-Origin'] = 'http://167.172.224.165' + ', http://167.172.224.165
+
 /**
  * Next we will register the CSRF Token as a common header with Axios so that
  * all outgoing HTTP requests automatically have it attached. This is just
