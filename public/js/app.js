@@ -3484,7 +3484,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   data: function data() {
     return {
       array: [],
-      url: '/api/departments/',
+      url: '/api/departments',
       page: 1,
       name: '',
       hasError: {}
