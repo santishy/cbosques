@@ -56,7 +56,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'address' => env('MAIL_FROM_ADDRESS', 'sistema@ccbosque.edu.mx'),
         'name' => env('MAIL_FROM_NAME', 'COLEGIO CERVANTES BOSQUE'),
     ],
 
@@ -84,9 +84,9 @@ return [
     |
     */
 
-    'username' => env('MAIL_USERNAME'),
+    'username' => env('MAIL_USERNAME','sistema@ccbosque.edu.mx'),
 
-    'password' => env('MAIL_PASSWORD'),
+    'password' => env('MAIL_PASSWORD','wpqersxbxjicfowk'),
 
     /*
     |--------------------------------------------------------------------------
