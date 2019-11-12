@@ -36,7 +36,7 @@ export default {
     */
     markAsRead(notification){
       axios({
-        url:'/api/notifications/'+this.notification_id,
+        url:'/api/notifications/'+this.notification_id+'/',
         method:'PUT',
         data:{id:this.id}
       }).then((response)=>{
@@ -47,7 +47,7 @@ export default {
     },
     getQuotation(id){
       axios({
-        url:'/api/quotations/'+id,
+        url:'/api/quotations/'+id+'/',
         method:'get',
       }).then((response)=>{
         this.quotation = response.data.data
