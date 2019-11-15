@@ -2428,6 +2428,15 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _components_quotations_QuotationComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/quotations/QuotationComponent */ "./resources/js/components/quotations/QuotationComponent.vue");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
 //
 //
 //
@@ -2437,7 +2446,46 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      quotations: [],
+      page: 1
+    };
+  },
+  components: {
+    'quotation-component': _components_quotations_QuotationComponent__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  methods: {
+    infiniteHandler: function infiniteHandler($state) {
+      var _this = this;
+
+      axios({
+        url: '/api/quotations/',
+        method: 'GET',
+        params: {
+          page: this.page
+        }
+      }).then(function (response) {
+        if (response.data.data.length) {
+          var _this$quotations;
+
+          _this.page++;
+
+          (_this$quotations = _this.quotations).push.apply(_this$quotations, _toConsumableArray(response.data.data));
+
+          $state.loaded();
+        } else {
+          $state.complete();
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  }
+});
 
 /***/ }),
 
@@ -44709,26 +44757,31 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "container" }, [
+    _c(
+      "div",
+      {},
+      [
+        _vm._l(_vm.quotations, function(quotation, index) {
+          return _c(
+            "div",
+            {
+              key: index,
+              staticClass: "col-lg-4 col-md-4 col-sm-6 col-xs-10  mb-2",
+              style: { display: "inline-block" }
+            },
+            [_c("quotation-component", { attrs: { notification: quotation } })],
+            1
+          )
+        }),
+        _vm._v(" "),
+        _c("infinite-loading", { on: { infinite: _vm.infiniteHandler } })
+      ],
+      2
+    )
+  ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c(
-        "div",
-        { staticClass: "row justify-content-center align-items-center" },
-        [
-          _c("div", { staticClass: "col-md-4 col-sm-8 col-xs-10" }, [
-            _c("h1", [_vm._v("Bienvenido")])
-          ])
-        ]
-      )
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
