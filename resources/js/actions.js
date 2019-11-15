@@ -111,8 +111,27 @@ const register = ({commit},user) => {
           })
   })
 }
+/*
+*Este metodo obtiene los usuarios, lo hice principalmente para la vista UserIndex
+*
+*/
+const getUsers = ({commit}) =>{
+  return new Promise((resolve,reject) => {
+    axios({
+      url:'/api/users/',
+      method:'GET',
+    }).then((response)=>{
+      if(response.data.data.length)
+        commit('setUsers',response.data.data);
+        resolve(response.data.data)
+    }).catch((error)=>{
+      reject(error);
+    })
+  })
+}
 export default{
   getCycles,
+  getUsers,
   login,
   logout,
   register,

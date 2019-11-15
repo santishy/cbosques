@@ -18,6 +18,9 @@ Route::group([
   Route::post('me', 'AuthController@me')->name('me');
   Route::post('register','AuthController@register');
 });
+Route::namespace('Auth')->group(function () {
+    Route::resource('users','UserController');
+});
 Route::group([
   'middleware' => 'jwt'
 ],function(){

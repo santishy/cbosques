@@ -12,6 +12,7 @@ export const store = new Vuex.Store({
     status:'',
     access_token:sessionStorage.getItem('access_token') || '',
     user:{},
+    users:[],
     unreadNotifications:[],
     hasError:{},
     roles:JSON.parse(sessionStorage.getItem('roles')) || '',

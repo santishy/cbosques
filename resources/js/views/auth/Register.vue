@@ -131,7 +131,6 @@ export default {
     assignRole(event){
       if(event.target.checked){
           this.assignedRoles.push(event.target.value)
-          console.log(this.assignedRoles)
       }
       else
         {

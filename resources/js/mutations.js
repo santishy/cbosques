@@ -52,18 +52,30 @@ const auth_logout = (state) => {
   state.status = '';
   state.access_token = '';
 }
+const setUsers = (state,users) =>{
+  state.users=users
+}
+const updateUser = (state,data) => {
+  Vue.set(state.users,data.index,data.user)
+}
+const destroyUser = (state,index) =>{
+  state.users.splice(index,1);
+}
 
 export default{
   addCycles,
   setUnreadNotifications,
   setCycle,
+  destroyUser,
   deactivateCycles,
   cycleUpdate,
+  setUsers,
   auth_user,
   auth_roles,
   auth_request,
   auth_success,
   auth_error,
   auth_logout,
-  activateCycle
+  activateCycle,
+  updateUser
 }

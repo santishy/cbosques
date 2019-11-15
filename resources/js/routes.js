@@ -10,6 +10,7 @@ import Departments from './views/departments/Departments'
 import DepartmentItems  from './views/departments/DepartmentItems'
 import QuotationDepartmentItems from './views/quotations/QuotationDepartmentItems'
 import Register from './views/auth/Register';
+import UserIndex from './views/auth/UserIndex';
 import QuotationCreation from './views/quotations/QuotationCreation';
 import QuotationIndex from './views/quotations/QuotationIndex.vue';
 import ShowQuotation from './views/quotations/ShowQuotation';
@@ -97,6 +98,15 @@ let vueRouter = new VueRouter({
       }
     },
     {
+      path:'/users',
+      component:UserIndex,
+      name:'users-index',
+      meta:{
+        requiresAuth:true,
+        permissions:['admin']
+      }
+    },
+    {
       path:'/quotation/create/:id',
       component:QuotationCreation,
       name:'quotation-creation',
@@ -159,7 +169,6 @@ function hasRoles(permissions){
   }
 }
 vueRouter.beforeEach((to, from, next) => {
-
   if(to.matched.some(record => record.meta.requiresAuth)) {
     if(store.getters.isLoggedIn) {
       store.dispatch('getUnreadNotifications')
@@ -178,15 +187,6 @@ vueRouter.beforeEach((to, from, next) => {
   } else {
     return next()
   }
-  // if(to.matched.some(record => record.meta.requiresAuth)) {
-  //   if(store.getters.isLoggedIn) {
-  //     next()
-  //     return
-  //   }
-  //   next('/login')
-  // } else {
-  //   next()
-  // }
 })
 Vue.use(VueRouter);
 export default vueRouter;

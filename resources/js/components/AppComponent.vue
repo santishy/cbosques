@@ -34,8 +34,15 @@
                       <router-link class="nav-link":to="{ name: 'quotation-index', params: {} }">Listar</router-link>
                     </div>
                   </li>
-                  <li>
-                    <router-link class="nav-link" :to="{ name: 'register', params: {} }">Registrar Usuarios</router-link>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Usuarios
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <router-link class="nav-link" :to="{ name: 'register', params: {} }">Registrar Usuarios</router-link>
+                        <router-link class="nav-link" to="/users">Listar</router-link>
+                    </div>
+
                   </li>
                   <notifications-component/>
                   <li v-if="!isLoggedIn" class="nav-item">

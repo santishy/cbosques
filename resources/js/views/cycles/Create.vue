@@ -66,7 +66,6 @@ export default {
         this.setCycle(response.data)
         this.deactivateCycles();
       }).catch((error)=>{
-        console.log(error.response.data.errors)
           if(error.response.data.errors)
             {
               this.hasError = error.response.data.errors;

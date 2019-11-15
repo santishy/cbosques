@@ -20,8 +20,7 @@ class NotificationsController extends Controller
     }
     public function read($id){
       $this->authorize('read',DatabaseNotification::find($id));
-      DatabaseNotification::find($id)->markAsRead();
-      return;
+      return DatabaseNotification::find($id)->markAsRead();
     }
     public function destroy($id){
       return response()->json(['notificationDeleted'=>DatabaseNotification::find($id)->delete()]);
