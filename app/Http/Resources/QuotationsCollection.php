@@ -20,9 +20,12 @@ class QuotationsCollection extends ResourceCollection
           'description' => $quotation->description,
           'qty' => $quotation->qty,
           'status' => $quotation->status,
+          'created_at' => $quotation->created_at->format('Y M d'),
           'iva' => $quotation->iva(),
+          'enum_iva' => $quotation->iva,
           'total' => $quotation->total(),
           'user_name' => $quotation->user->name,
+          'archive' => explode('/',$quotation->archive)[1],
           'item_id' => $quotation->item_id,
           'cycle_id' => $quotation->cycle_id
         ];

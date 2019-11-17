@@ -28,6 +28,7 @@ class QuotationController extends Controller
       //  $this->authorize('store',new Quotation); PENSAR BIEN EN LA VALIDACION PARA LOS TRES TIPOS DE USERS 2
         DB::beginTransaction();
         $quotation = new Quotation($request->all());
+        $quotation->iva = (boolean) $request->iva;
         $quotation->archive = $request->file('archive')->store('quotations');
         $quotation->cycle_id = session('cycle')->id;
         $quotation->user_id = Auth::user()->id;
@@ -47,7 +48,7 @@ class QuotationController extends Controller
         'iva' => 'required',
         'item_id' => 'exists:items,id|required',
         'department_id' => 'exists:departments,id',
-        'qty' => ['Numeric','required',new validateQuoteAmount($request->item_id,$request->iva)],
+        'qty' => ['Numeric','required',new validateQuoteAmount($request->item_id,(boolean)$request->iva)],
         'archive' => ['file','required'],
       ],['required'=>'El campo es requerido',
          'exists'=>'El campo no existe en la base de datos',
@@ -83,7 +84,7 @@ class QuotationController extends Controller
       try {
         DB::beginTransaction();
       //  $quotation->message = $request->message;
-        $quotation->update(['status'=> $request->status]);// aki aplica el ajuste para rebajar ¿para aumentar? checkar por favor
+        $quotation->update(['status'=> $request->status,'qty'=>$request->qty,'iva'=>$request->iva]);// aki aplica el ajuste para rebajar ¿para aumentar? checkar por favor
         // if($request->notification_id)
         // {
         //   $notification = DatabaseNotification::find($request->notification_id);

@@ -23,7 +23,9 @@ class BudgetController extends Controller
      */
     public function index()
     {
-       return new BudgetsCollection(Cycle::find(session('cycle')->id)->budgets()->where('cycle_id',session('cycle')->id)->orderBy('id','desc')->paginate(25));
+       return new BudgetsCollection(Cycle::find(session('cycle')->id)
+                                    ->budgets()->where('cycle_id',session('cycle')->id)
+                                    ->orderBy('id','desc')->paginate(25));
     }
 
     /**

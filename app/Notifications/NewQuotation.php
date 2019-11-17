@@ -10,7 +10,7 @@ use App\User;
 use App\Http\Resources\QuoteResource;
 use App\Mail\BudgetCreated;
 
-class NewQuotation extends Notification
+class NewQuotation extends Notification 
 {
     use Queueable;
     public $quotation;

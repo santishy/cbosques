@@ -15,9 +15,9 @@ class CreateQuotationsTable extends Migration
     {
         Schema::create('quotations', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->float('qty');
+            $table->double('qty');
             $table->string('description',300);
-            $table->enum('iva',[false,true]);
+            $table->boolean('iva');
             $table->bigInteger('cycle_id');
             $table->string('archive')->nullable();
             $table->string('status',25);

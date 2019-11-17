@@ -82,7 +82,6 @@ export default {
     ...mapGetters(['getCycleByIndex'])
   },
   mounted(){
-
     this.getCycles().then((response)=>{
       this.array = response.data.data
     }).catch((error)=>{

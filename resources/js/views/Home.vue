@@ -2,7 +2,7 @@
 <div class="container">
   <div class="">
     <div :style="{'display':'inline-block'}" v-for="(quotation,index) in quotations" :key="index" class="col-lg-4 col-md-4 col-sm-6 col-xs-10  mb-2" >
-      <quotation-component  :notification="quotation"/>
+      <quotation-component @setQuotation="update" :index="index" :notification="quotation"/>
     </div>
     <infinite-loading @infinite="infiniteHandler"></infinite-loading>
   </div>
@@ -23,7 +23,7 @@ export default {
   methods:{
     infiniteHandler($state){
       axios({
-        url:'/api/quotations/',
+        url:'/api/users/quotations/',
         method:'GET',
         params:{
           page:this.page
@@ -42,7 +42,9 @@ export default {
         console.log(error)
       })
     },
-
+    update(event){
+      Vue.set(this.quotations,event.index,event.quotation)
+    }
   }
 }
 </script>

@@ -12622,6 +12622,10 @@ a.text-dark:focus {
   }
 }
 
+body {
+  font-family: "Roboto", sans-serif;
+}
+
 .circle {
   width: 15px;
   height: 15px;
@@ -12752,5 +12756,10 @@ a.text-dark:focus {
   -webkit-transform: translateX(10px);
           transform: translateX(10px);
   opacity: 0;
+}
+
+.download {
+  color: white;
+  font-size: 1.5em;
 }
 

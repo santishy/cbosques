@@ -6,8 +6,11 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UsersCollection;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 use App\Role;
+use App\Quotation;
 use App\Http\Resources\UserResource;
+use App\Http\Resources\QuotationsCollection;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -57,6 +60,11 @@ class UserController extends Controller
     public function setRoles($request,$user){
       $user->roles()->toggle([$request->value]);
       return new UserResource($user);
+    }
+    public function quotations(){
+      if(Auth::user()->hasRoles(['admin','autorizador']))
+        return new QuotationsCollection(Quotation::orderBy('id','desc')->paginate(25));
+      return new QuotationsCollection(Auth::user()->quotations()->orderBy('id','desc')->paginate(25));
     }
     public function destroy($id){
       return response()->json(['delete'=>User::findOrFail($id)->delete()]);

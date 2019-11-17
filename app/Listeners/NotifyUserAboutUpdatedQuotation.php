@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\QuoteResponse;
 
-class NotifyUserAboutUpdatedQuotation
+class NotifyUserAboutUpdatedQuotation implements ShouldQueue
 {
     /**
      * Create the event listener.
@@ -30,6 +30,6 @@ class NotifyUserAboutUpdatedQuotation
     public function handle(UpdatedQuotation $event)
     {
       $user = $event->quotation->user;
-      Notification::send($user,new QuoteResponse($event->quotation));
+      Notification::queue($user,new QuoteResponse($event->quotation));
     }
 }

@@ -9,6 +9,10 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+body{
+  //font-family: 'Roboto Slab', serif;
+  font-family: 'Roboto', sans-serif;
+}
 .circle {
      width: 15px;
      height: 15px;
@@ -132,4 +136,8 @@
 /* .slide-fade-leave-active for <2.1.8 */ {
   transform: translateX(10px);
   opacity: 0;
+}
+.download{
+  color:white;
+  font-size: 1.5em;
 }

@@ -18,7 +18,7 @@ class CreateSpecificationsTable extends Migration
             $table->bigInteger('specificationable_id')->unsigned();
             $table->string('specificationable_type',40);
             $table->bigInteger('cycle_id');
-            $table->double('qty', 8, 2)->default(0);
+            $table->double('qty', 12, 2)->default(0);
             $table->string('concept',150);
             $table->timestamps();
         });
