@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\RolesCollection;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\RegisteredUser;
+
 class AuthController extends Controller
 {
     public function __construct(){
@@ -41,6 +44,8 @@ class AuthController extends Controller
         $roles = json_decode($request->roles);
         $user->roles()->attach($roles);
         $user->departments()->attach(json_decode($request->departments));
+        $user->password = $request->password;
+        Notification::send($user,new RegisteredUser);
         DB::commit();
         return $user;
       }catch (\Exception $e) {

@@ -80,12 +80,7 @@ class UserController extends Controller
       return response()->json(['delete'=>User::findOrFail($id)->delete()]);
     }
     public function items(){
-      // return Auth::user()->departments()->with(['items'=>function($query){
-      //   $query->with(['specification'])->where('cycle_id',session('cycle')->id);
-      // }])->get();
-      return new ItemsThroughDepartmentsCollection(Auth::user()->departments()->with(['items'=>function($query){
-        $query->with(['specification'])->where('cycle_id',session('cycle')->id);
-      }])->get());
+      return new ItemsThroughDepartmentsCollection(Auth::user()->itemsThroughDepartmentsAssigned());
 
       /*
       *

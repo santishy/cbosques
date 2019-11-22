@@ -142,9 +142,10 @@ export default {
                 title: 'Usuario agregado correctamente',
                 text: 'Se enviaran sus credenciales al correo registrado.',
               })
-              this.clearValuesFormData();
+              this.clearValuesForFormData();
             }
       }).catch((error)=>{
+        console.log(error)
         if(error.response.data.errors){
           this.hasError = error.response.data.errors;
         }

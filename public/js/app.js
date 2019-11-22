@@ -3015,9 +3015,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             text: 'Se enviaran sus credenciales al correo registrado.'
           });
 
-          _this2.clearValuesFormData();
+          _this2.clearValuesForFormData();
         }
       })["catch"](function (error) {
+        console.log(error);
+
         if (error.response.data.errors) {
           _this2.hasError = error.response.data.errors;
         }

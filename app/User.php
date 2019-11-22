@@ -74,4 +74,9 @@ class User extends Authenticatable implements JWTSubject
     public function departments(){
       return $this->morphToMany(Department::class,'departmentable');
     }
+    public function itemsThroughDepartmentsAssigned(){
+      return $this->departments()->with(['items'=>function($query){
+        $query->with(['specification'])->where('cycle_id',session('cycle')->id);
+      }])->get();
+    }
 }
