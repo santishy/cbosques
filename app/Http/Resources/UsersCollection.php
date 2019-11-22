@@ -20,6 +20,8 @@ class UsersCollection extends ResourceCollection
           'name' => $user->name,
           'email' => $user->email,
           'abilitys' => $user->roles->pluck('name')->implode(", "),
+          'assignedDepartments' => $user->departments->pluck('name')->implode(", "),
+          'departments' => $user->departments,
           'roles' => $user->roles,
         ];
       });

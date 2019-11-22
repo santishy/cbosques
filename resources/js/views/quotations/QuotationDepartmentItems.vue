@@ -1,11 +1,6 @@
 <template>
   <div class="container">
-    <div class="row">
-      <div class="col-lg-4">
-        <department-list v-on:getItemsByDepartment="ItemsByDepartment"
-                         v-on:setDepartmentId="DepartmentId"
-                         v-on:loading="showLoadingMessage"/>
-      </div>
+    <div class="row justify-content-center">
       <div class="col-lg-8">
         <div class="card">
           <div class="card-body">
@@ -18,7 +13,9 @@
                         :class="['form-control', 'border-0', hasError.item_id ? 'is-invalid' : '']"
                          name="item_id" id="departmentsItems">
                   <option value="" :selected="true">Elige el presupuesto para tu cotización</option>
-                  <option v-for="item in items" :value="item.id">{{item.concept+' '+item.qty}}</option>
+
+                  <option v-for="item in items" :data-department-id="item.department_id"
+                          :value="item.id">{{item.concept+' '+item.qty}}</option>
                 </select>
                 <small class="text-danger" v-if="hasError.item_id">{{hasError.item_id[0]}}</small>
               </div>
@@ -80,9 +77,21 @@
 <script>
 import DepartmentList from '../departments/DepartmentList'
 export default {
+    mounted(){
+      axios({
+        method:'GET',
+        url:'/api/users/items/',
+      }).then((response)=>{
+        console.log(response.data.data.length)
+        this.ItemsByDepartment(response.data.data)
+      }).catch((error)=>{
+        console.log(error)
+      })
+    },
     components:{
       'department-list':DepartmentList
     },
+
     data(){
       return{
         department_id:'',
@@ -112,8 +121,18 @@ export default {
         var select=document.getElementById('departmentsItems');
         select.options[0].selected=true;
         select.options[0].text='Elige el presupuesto para tu cotización';
-        if(data.length)
-          return this.items = data;
+        if(data.length){
+          this.items=[];
+          data.forEach(department =>{
+            let element={}
+            department.items.forEach(item =>{
+              element=item;
+            })
+            element['department_id'] = department.department_id;
+            this.items.push(element)
+          })
+          return;
+        }
         return this.items=[]
 
       },
@@ -123,6 +142,7 @@ export default {
       */
       setDepartmentItemId(event){
         this.form.item_id = event.target.value;
+        this.form.department_id = event.target.options[event.target.options.selectedIndex].dataset.departmentId
       },
       /*
       *En este metodo, obtenemos el archivo cargado y lo pasamos a la variable fileSelected

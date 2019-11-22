@@ -23,6 +23,7 @@ class AuthController extends Controller
           'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
           'password' => ['required', 'string', 'min:8', 'confirmed'],
           'roles' => ['required'],
+          'departments' => 'required'
       ],[
         'required' => 'El campo es requerido',
         'unique' => 'Este registro ya existe en la base de datos',
@@ -39,6 +40,7 @@ class AuthController extends Controller
         ]);
         $roles = json_decode($request->roles);
         $user->roles()->attach($roles);
+        $user->departments()->attach(json_decode($request->departments));
         DB::commit();
         return $user;
       }catch (\Exception $e) {

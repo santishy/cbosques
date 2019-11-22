@@ -16,6 +16,7 @@ export const store = new Vuex.Store({
     unreadNotifications:[],
     hasError:{},
     roles:JSON.parse(sessionStorage.getItem('roles')) || '',
+    departments:[]
   },
   mutations,
   actions,

@@ -16,6 +16,7 @@ class CreateItemsTable extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('budget_id')->unsigned();
+            $table->bigInteger('cycle_id')->unsigned();
             $table->foreign('budget_id')->references('id')->on('budgets')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });

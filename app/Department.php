@@ -8,6 +8,10 @@ class Department extends Model
 {
     protected $fillable = ['name'];
     public function items(){
-      return $this->belongsToMany(Item::class);
+      return $this->morphedByMany(Item::class,'departmentable');
     }
+    public function scopeCurrentCycle($query){
+      return $query->where('cycle_id',session('cycle')->id);
+    }
+
 }

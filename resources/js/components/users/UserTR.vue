@@ -26,6 +26,20 @@
     <td v-else class="cursor center" @click="editingRoles">
       {{user.abilitys}}
     </td>
+    <td v-if="editing_departments">
+      <departments-list
+        action="update"
+        :user="user"
+        @close="doneEdit"
+        :index="index"
+        :hasError="hasError"
+        :key="user.id"
+        :assigned-departments="user.departments" />
+    </td>
+    <td v-else  @click="editingDepartments">
+      {{user.assignedDepartments}}
+    </td>
+
     <td>
       <div @click="destroy" >
         <i class="fas fa-trash"></i>
@@ -35,6 +49,7 @@
 </template>
 
 <script>
+import DepartmentsList from '../departments/DepartmentsList';
 import Input from './Input';
 import RolesCheckbox from './RolesCheckbox';
 import {mapMutations} from 'vuex';
@@ -45,6 +60,8 @@ export default {
       editing_name:false,
       editing_email:false,
       editing_roles:false,
+      editing_departments:false,
+      hasError:{},
       error:false
     }
   },
@@ -61,6 +78,9 @@ export default {
     },
     editingRoles(){
       this.editing_roles = !this.editing_roles
+    },
+    editingDepartments(){
+      this.editing_departments = !this.editing_departments
     },
     doneEdit(event){
       console.log('done edit')
@@ -87,6 +107,7 @@ export default {
   components:{
     'input-user':Input,
     'roles-checkbox':RolesCheckbox,
+    'departments-list':DepartmentsList
   }
 }
 </script>

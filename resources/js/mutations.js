@@ -61,6 +61,9 @@ const updateUser = (state,data) => {
 const destroyUser = (state,index) =>{
   state.users.splice(index,1);
 }
+const setDepartments = (state,departments)=>{
+  state.departments = departments;
+}
 
 export default{
   addCycles,
@@ -77,5 +80,6 @@ export default{
   auth_error,
   auth_logout,
   activateCycle,
-  updateUser
+  updateUser,
+  setDepartments,
 }

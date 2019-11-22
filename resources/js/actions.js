@@ -129,6 +129,19 @@ const getUsers = ({commit}) =>{
     })
   })
 }
+const getDepartments = ({commit})=>{
+  return new Promise((resolve,response)=>{
+    axios({
+      url:'/api/departments',
+      method:'GET'
+    }).then((response)=>{
+      commit('setDepartments',response.data.data)
+      resolve(response.data.data)
+    }).catch((error)=>{
+      reject(error);
+    })
+  })
+}
 export default{
   getCycles,
   getUsers,
@@ -137,4 +150,5 @@ export default{
   register,
   getRoles,
   getUnreadNotifications,
+  getDepartments,
 }

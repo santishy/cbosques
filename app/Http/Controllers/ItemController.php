@@ -53,7 +53,8 @@ class ItemController extends Controller
         DB::beginTransaction();
         $this->validateFormData($request);
         $item = Item::create([
-          'budget_id' => $request->budget_id
+          'budget_id' => $request->budget_id,
+          'cycle_id' => session('cycle')->id,
         ]);
         $item->specification()->create([
           'concept' => $request->concept,

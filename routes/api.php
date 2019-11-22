@@ -19,8 +19,9 @@ Route::group([
   Route::post('register','AuthController@register');
 });
 Route::namespace('Auth')->group(function () {
-    Route::get('users/quotations','UserController@quotations');
-    Route::resource('users','UserController');
+  Route::get('users/items','UserController@items');
+  Route::get('users/quotations','UserController@quotations');
+  Route::resource('users','UserController');
 });
 Route::group([
   'middleware' => 'jwt'

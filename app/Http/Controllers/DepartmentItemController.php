@@ -13,8 +13,8 @@ class DepartmentItemController extends Controller
   }
     public function store(Request $request){
       Validator::make($request->all(),[
-        'department_id' => ['required',Rule::unique('department_item')->where(function($query) use ($request){
-                                return $query->where('item_id',$request->item_id);
+        'department_id' => ['required',Rule::unique('departmentables')->where(function($query) use ($request){
+                                return $query->where('departmentable_id',$request->item_id)->where('departmentable_type','App\Item');
                               })],
         'item_id' => ['required'],],
       [

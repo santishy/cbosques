@@ -1,11 +1,6 @@
 <template>
   <div class="form-group">
-    <div class="row justify-content-end">
-      <span :style="{'cursor':'pointer'}" class="badge  badge-secondary" @click="close">
-      Cerrar <i class="fas fa-times"></i>
-      </span>
-    </div>
-
+  <close @close="doneEdit"/>
     <form>
       <div v-for="(role,index) in roles" class="custom-control custom-checkbox">
         <input @change="assignRole"
@@ -20,16 +15,18 @@
     </form>
   </div>
 </template>
-
 <script>
 import {mapMutations} from 'vuex';
+import Close from '../Close';
 export default {
   props:['assigned-roles','user','index'],
+  components:{
+    'close':Close
+  },
   data(){
     return {
       roles:[],
       hasError:{
-
       }
     }
   },
@@ -73,7 +70,7 @@ export default {
           return true;
       })
     },
-    close(){
+    doneEdit(){
       console.log('close')
       this.$emit('close','editing_roles');
     },

@@ -9,6 +9,9 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use App\Role;
 use App\Quotation;
+use App\Budget;
+use Illuminate\Database\Eloquent\Builder;
+use App\Http\Resources\ItemsThroughDepartmentsCollection;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\QuotationsCollection;
 use Illuminate\Support\Facades\Validator;
@@ -33,6 +36,9 @@ class UserController extends Controller
           break;
         case 'email':
           return  $this->setEmail($request,$user);
+          break;
+        case 'department_id':
+          return $this->setDepartments($request,$user);
           break;
         default:
           return $this->setRoles($request,$user);
@@ -61,6 +67,10 @@ class UserController extends Controller
       $user->roles()->toggle([$request->value]);
       return new UserResource($user);
     }
+    public function setDepartments($request,$user){
+      $user->departments()->toggle([$request->value]);
+      return new UserResource($user);
+    }
     public function quotations(){
       if(Auth::user()->hasRoles(['admin','autorizador']))
         return new QuotationsCollection(Quotation::orderBy('id','desc')->paginate(25));
@@ -69,5 +79,24 @@ class UserController extends Controller
     public function destroy($id){
       return response()->json(['delete'=>User::findOrFail($id)->delete()]);
     }
+    public function items(){
+      // return Auth::user()->departments()->with(['items'=>function($query){
+      //   $query->with(['specification'])->where('cycle_id',session('cycle')->id);
+      // }])->get();
+      return new ItemsThroughDepartmentsCollection(Auth::user()->departments()->with(['items'=>function($query){
+        $query->with(['specification'])->where('cycle_id',session('cycle')->id);
+      }])->get());
 
+      /*
+      *
+      *Si no tuviera la columna cycle_id en items, utilizaria esta consulta
+      */
+      // return Auth::user()->departments()->with(['items'=>function($query){
+      //
+      //     $query->whereHas('budget',function (Builder $query) { // si tiene la relacion i cumple con la condicion
+      //       $query->where('cycle_id',session('cycle')->id);
+      //     })->with(['specification']);
+      //
+      //   }])->get();
+    }
 }

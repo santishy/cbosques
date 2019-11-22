@@ -19,6 +19,8 @@ class UserResource extends JsonResource
         'name' => $this->name,
         'email' => $this->email,
         'abilitys' => $this->roles->pluck('name')->implode(", "),
+        'assignedDepartments' => $this->departments->pluck('name')->implode(", "),
+        'departments' => $this->departments,
         'roles' => $this->roles,
       ];
     }

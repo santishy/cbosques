@@ -71,4 +71,7 @@ class User extends Authenticatable implements JWTSubject
     public function quotations(){
       return $this->hasMany(Quotation::class);
     }
+    public function departments(){
+      return $this->morphToMany(Department::class,'departmentable');
+    }
 }
