@@ -9,6 +9,7 @@ use App\Cycle;
 use App\Rules\ValidateConcept;
 use App\Http\Resources\NewBudget;
 use App\Http\Resources\BudgetsCollection;
+use App\Http\Resources\QuotationsCollection;
 use Illuminate\Support\Facades\DB;
 use App\Specification;
 class BudgetController extends Controller
@@ -37,7 +38,10 @@ class BudgetController extends Controller
     {
         //
     }
-
+    public function quotations(Budget $budget){
+    //  return $budget->quotations()->where('status','ACEPTADO');
+      return new QuotationsCollection($budget->quotations()->where('status','ACEPTADO')->get());
+    }
     /**
      * Store a newly created resource in storage.
      *

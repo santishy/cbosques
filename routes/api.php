@@ -29,7 +29,9 @@ Route::group([
   Route::put('cycles/select-cycle','CycleController@selectCycle');
   Route::get('cycles/items','CycleController@items');
   Route::resource('cycles','CycleController');
+  Route::get('budgets/quotations/{budget}','BudgetController@quotations');
   Route::resource('budgets','BudgetController');
+  Route::get('items/quotations/{item}','ItemController@quotations');
   Route::resource('items','ItemController');
   Route::resource('specifications','SpecificationController');
   Route::resource('departments','DepartmentController');

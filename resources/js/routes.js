@@ -17,6 +17,7 @@ import ShowQuotation from './views/quotations/ShowQuotation';
 import AllNotifications from './views/notifications/AllNotifications'
 import AuthorizationDenied from './views/auth/AuthorizationDenied';
 import General from './views/Reports/General';
+import QuoteReport from './views/Reports/QuoteReport';
 import {store} from './store';
 let vueRouter = new VueRouter({
   routes:[
@@ -152,6 +153,16 @@ let vueRouter = new VueRouter({
         requiresAuth:true,
         permissions:['admin']
       }
+    },
+    {
+      path:'/quote-report/:option,:id,:concept',
+      component:QuoteReport,
+      name:'quote-report',
+      meta:{
+        requiresAuth:true,
+        permissions:['admin'],
+      },
+      props:true
     },
     {
       path:'/authorization-denied',

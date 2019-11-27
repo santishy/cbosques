@@ -10,20 +10,35 @@
               <th>Concepto</th>
               <th>Monto Inicial</th>
               <th>Monto Actual</th>
-              <th>Cotizaciones A.</th>
               <th>Monto Cotizaciones</th>
+              <th>Nom. Cotizaciones A.</th>
+              <th>Ir Cotizaciones</th>
             </thead>
             <tbody>
               <template v-for="budget in budgets">
-                <tr class="bg-primary font-weight-bolder font-italic">
+                <tr class="bg-primary font-weight-bolder font-italic text-white">
                   <td>{{budget.id}}</td>
                   <td>{{budget.specification.concept}}</td>
                   <td>
                     {{budget.total+budget.specification.qty+totalItems}}
                   </td>
                   <td>{{budget.specification.qty}}</td>
-                  <td>{{budget.quotations_count}}</td>
                   <td>{{budget.total}}</td>
+                  <td>
+                    {{budget.quotations_count}}
+                  </td>
+                  <td>
+                    <router-link class="text-white" :to="{
+                        name:'quote-report',
+                        params:{
+                          option:'budget-quotes',
+                          id:budget.id,
+                          concept:budget.specification.concept
+                        }
+                      }">
+                      <i class="fas fa-link"></i>
+                    </router-link>
+                  </td>
                 </tr>
                 <tr v-for="item in budget.items">
                   <td>{{item.id}}</td>
@@ -32,8 +47,21 @@
                     {{item.total+item.specification.qty}}
                   </td>
                   <td>{{item.specification.qty}}</td>
-                  <td>{{item.quotations_count}}</td>
                   <td>{{item.total}}</td>
+                  <td>
+                    {{item.quotations_count}}
+                  </td>
+                  <td>
+                    <router-link :to="{
+                        name:'quote-report',
+                        params:{
+                          option:'item-quotes',
+                          id:item.id,
+                          concept:item.specification.concept
+                        }}">
+                      <i class="fas fa-link"></i>
+                    </router-link>
+                  </td>
                 </tr>
               </template>
             </tbody>

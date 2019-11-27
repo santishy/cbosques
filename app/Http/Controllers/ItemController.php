@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Rules\ValidateConcept;
 use App\Item;
 use App\Http\Resources\NewItem;
+use App\Http\Resources\QuotationsCollection;
 use App\Events\ItemInsert;
 use App\Specification;
 use App\Events\UpdatedItem;
@@ -96,7 +97,9 @@ class ItemController extends Controller
     {
         //
     }
-
+    public function quotations(Item $item){
+      return new QuotationsCollection($item->quotations()->get());
+    }
     /**
      * Show the form for editing the specified resource.
      *
