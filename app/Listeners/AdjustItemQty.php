@@ -39,7 +39,7 @@ class AdjustItemQty
         if($newStatus == 'ACEPTADO' && $oldStatus == 'ACEPTADO'){
           //$event->quotation->item->specification->qty = 20000;
           if(!$oldIVA && $newIVA)
-            $event->quotation->item->specification->qty += $event->quotation->item->specification->qty*0.16;
+            $event->quotation->item->specification->qty += $event->quotation->qty*0.16;
           elseif($oldIVA && !$newIVA)
             $event->quotation->item->specification->qty -= $event->quotation->iva();
         }

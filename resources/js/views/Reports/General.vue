@@ -1,0 +1,83 @@
+<template>
+  <div class="container">
+    <div class="col-md-9">
+      <div class="card">
+        <div class="card-body">
+          <h3>Reporte General</h3>
+          <table class="table text-center ">
+            <thead>
+              <th>ID</th>
+              <th>Concepto</th>
+              <th>Monto Inicial</th>
+              <th>Monto Actual</th>
+              <th>Cotizaciones A.</th>
+              <th>Monto Cotizaciones</th>
+            </thead>
+            <tbody>
+              <template v-for="budget in budgets">
+                <tr class="bg-primary font-weight-bolder font-italic">
+                  <td>{{budget.id}}</td>
+                  <td>{{budget.specification.concept}}</td>
+                  <td>
+                    {{budget.total+budget.specification.qty+totalItems}}
+                  </td>
+                  <td>{{budget.specification.qty}}</td>
+                  <td>{{budget.quotations_count}}</td>
+                  <td>{{budget.total}}</td>
+                </tr>
+                <tr v-for="item in budget.items">
+                  <td>{{item.id}}</td>
+                  <td>{{item.specification.concept}}</td>
+                  <td>
+                    {{item.total+item.specification.qty}}
+                  </td>
+                  <td>{{item.specification.qty}}</td>
+                  <td>{{item.quotations_count}}</td>
+                  <td>{{item.total}}</td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data(){
+    return {
+      budgets:[],
+      initialBudgetAmount:0,
+      totalItems:0,
+    }
+  },
+  created(){
+    axios({
+      url:'/api/reports/general/',
+      method:'GET',
+    }).then((response)=>{
+      console.log(response)
+      if(response.data.length){
+        this.budgets=response.data
+        this.setTotalItems();
+      }
+    }).catch((error)=>{
+      console.log(error)
+    })
+  },
+  methods:{
+    setTotalItems(){
+      this.budgets.map((budget)=>{
+        budget.items.map((item)=>{
+          this.totalItems+=item.specification.qty;
+        })
+      });
+    }
+  }
+}
+</script>
+
+<style lang="css" scoped>
+</style>

@@ -36,13 +36,20 @@
                   </li>
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Reportes
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <router-link class="nav-link" to="/reports-general">General</router-link>
+                    </div>
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       Usuarios
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <router-link class="nav-link" :to="{ name: 'register', params: {} }">Registrar Usuarios</router-link>
                         <router-link class="nav-link" to="/users">Listar</router-link>
                     </div>
-
                   </li>
                   <notifications-component/>
                   <li v-if="!isLoggedIn" class="nav-item">

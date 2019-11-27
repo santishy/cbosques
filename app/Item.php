@@ -17,4 +17,7 @@ class Item extends Model
   public function departments(){
     return $this->morphToMany(Department::class,'departmentable');
   }
+  public function quotations(){
+    return $this->hasMany(Quotation::class);
+  }
 }

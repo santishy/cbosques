@@ -47,4 +47,5 @@ Route::group([
   Route::get('quotations/{quotation}','QuotationController@show');
   Route::get('quotations/download/{archive}','QuotationController@download');
   Route::get('roles','RoleController@index');
+  Route::get('reports/general','ReportController@general');
 });

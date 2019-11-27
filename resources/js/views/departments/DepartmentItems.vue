@@ -134,8 +134,14 @@ export default {
         }).then((response)=>{
             Vue.set(this.items[index],'checked',!this.items[index]['checked']);
         }).catch((error)=>{
-          console.log(this.department_id)
-          console.log(error)
+          if(error.response.data.errors.item_id)
+            Swal.fire({
+              type:'warning',
+              title:error.response.data.errors.item_id[0],
+              showConfirmButton: false,
+              timer: 1500}
+            )
+            event.target.checked = false;
         })
       }).catch((message)=>{
         event.target.checked=false;

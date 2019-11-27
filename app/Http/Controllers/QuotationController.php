@@ -13,6 +13,7 @@ use Illuminate\Notifications\DatabaseNotification;
 use App\Http\Resources\QuotationsCollection;
 use App\Http\Resources\QuoteResource;
 use App\Mail\BudgetCreated;
+use Illuminate\Database\Eloquent\Builder;
 
 class QuotationController extends Controller
 {
@@ -84,7 +85,11 @@ class QuotationController extends Controller
       try {
         DB::beginTransaction();
       //  $quotation->message = $request->message;
-        $quotation->update(['status'=> $request->status,'qty'=>$request->qty,'iva'=>$request->iva]);// aki aplica el ajuste para rebajar ¿para aumentar? checkar por favor
+        $quotation->iva = $request->iva; // Aqui lo agrego, para la hora de sacar el total con el nuevo iva lo incluya o excluya dependiendo el caso.
+        $quotation->update(['status'=> $request->status,
+                            'qty'=>$request->qty,
+                            'iva'=>$request->iva,
+                            'total'=>$quotation->total()]);// aki aplica el ajuste para rebajar ¿para aumentar? checkar por favor
         // if($request->notification_id)
         // {
         //   $notification = DatabaseNotification::find($request->notification_id);

@@ -10,7 +10,7 @@ use App\Events\UpdatedQuotation;
 class Quotation extends Model
 {
     protected $guarded = ['id'];
-    protected $fillable = ['qty','status','iva','description','item_id','user_id','archive','department_id'];
+    protected $fillable = ['qty','status','iva','total','description','item_id','user_id','archive','department_id'];
     protected $dispatchesEvents=['created' => QuotationCreated::class,
                                   'updating' => UpdatedQuotation::class,];
     public $message;

@@ -13,9 +13,10 @@
                         :class="['form-control', 'border-0', hasError.item_id ? 'is-invalid' : '']"
                          name="item_id" id="departmentsItems">
                   <option value="" :selected="true">Elige el presupuesto para tu cotización</option>
-
-                  <option v-for="item in items" :data-department-id="item.department_id"
-                          :value="item.id">{{item.concept+' '+item.qty}}</option>
+                  <template v-for="item in items">
+                    <option v-for="element in item.items"  :data-department-id="item.department_id"
+                            :value="element.id">{{element.concept+' '+element.qty}}</option>
+                  </template>
                 </select>
                 <small class="text-danger" v-if="hasError.item_id">{{hasError.item_id[0]}}</small>
               </div>
@@ -122,15 +123,15 @@ export default {
         select.options[0].selected=true;
         select.options[0].text='Elige el presupuesto para tu cotización';
         if(data.length){
-          this.items=[];
-          data.forEach(department =>{
-            let element={}
-            department.items.forEach(item =>{
-              element=item;
-            })
-            element['department_id'] = department.department_id;
-            this.items.push(element)
-          })
+          this.items=data;
+          // data.forEach(department =>{
+          //   let element={}
+          //   department.items.forEach(item =>{
+          //     element=item;
+          //   })
+          //   element['department_id'] = department.department_id;
+          //   this.items.push(element)
+          // })
           return;
         }
         return this.items=[]
@@ -181,6 +182,7 @@ export default {
             title: 'Cotización creado correctamente',
           })
         }).catch((error)=>{
+          console.log(error.status)
           if(error.response.data.errors){
             this.hasError = error.response.data.errors;
           }

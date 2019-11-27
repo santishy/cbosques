@@ -16,6 +16,7 @@ import QuotationIndex from './views/quotations/QuotationIndex.vue';
 import ShowQuotation from './views/quotations/ShowQuotation';
 import AllNotifications from './views/notifications/AllNotifications'
 import AuthorizationDenied from './views/auth/AuthorizationDenied';
+import General from './views/Reports/General';
 import {store} from './store';
 let vueRouter = new VueRouter({
   routes:[
@@ -141,6 +142,15 @@ let vueRouter = new VueRouter({
       meta:{
         requiresAuth:true,
         permissions:['admin','autorizador'],
+      }
+    },
+    {
+      path:'/reports-general',
+      component:General,
+      name:'report-general',
+      meta:{
+        requiresAuth:true,
+        permissions:['admin']
       }
     },
     {
