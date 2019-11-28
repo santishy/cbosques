@@ -50,4 +50,6 @@ Route::group([
   Route::get('quotations/download/{archive}','QuotationController@download');
   Route::get('roles','RoleController@index');
   Route::get('reports/general','ReportController@general');
+  Route::get('reports/quotations','ReportController@quotations');
+  Route::get('reports/quotations/by-dates','ReportController@quotationsByDates');
 });

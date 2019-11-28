@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Model;
 use App\Events\QuotationCreated;
 use App\Events\UpdatedQuotation;
-
+use Illuminate\Support\Facades\DB;
 
 class Quotation extends Model
 {
@@ -39,5 +39,14 @@ class Quotation extends Model
     }
     public function total(){
       return $this->qty + $this->iva();
+    }
+    public static function currentCycleQuotes(){
+      return Quotation::where('cycle_id',session('cycle')->id)->where('status','ACEPTADO');
+    }
+    public function scopeByMonth($query,$month){
+      return $query->whereMonth('created_at', $month);
+    }
+    public function scopeByDates($query,$date){
+      return $query->whereBetween(DB::raw('Date(created_at)'),[$date['initialDate'],$date['finalDate']]);
     }
 }

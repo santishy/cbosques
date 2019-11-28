@@ -1,11 +1,44 @@
 <template>
   <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-sm-10 col-xs-12 col-md-8">
+    <div class="row">
+      <div class="col-md-3">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Cotizaciones Autorizadas</h5>
-            <h6 v-if="concept" class="card-subtitle mb-2 text-muted"><b>Cuenta: </b>{{concept}}</h6>
+            <form @submit.prevent="getReport">
+              <div class="form-group">
+                <label for="initial-date">Fecha Inicial</label>
+                <input type="date" class="form-control" id="initial_date" name="initial_date" v-model="form.initialDate">
+              </div>
+              <div class="form-group">
+                <label for="initial-date">Fecha Final</label>
+                <input type="date" class="form-control" name="final_date" id="final_date" v-model="form.finalDate">
+              </div>
+              <div class="form-group">
+                <button name="button" class="btn-info btn-block btn">Realizar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="card mt-2">
+          <div class="card-body">
+            <h5 class="card-title">Por Mes:</h5>
+            <form>
+              <div class="form-group">
+                <div class="custom-control custom-radio" v-for="(month,index) in months">
+                  <input @change="getReportByMonth" type="radio"  name="month"
+                         :id="month+''+index"
+                         class="custom-control-input" :value="(index+1)">
+                  <label class="custom-control-label" :for="month+''+index">{{month}}</label>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{title}}</h5>
             <quote-table :quotations="quotations"/>
           </div>
         </div>
@@ -17,39 +50,64 @@
 <script>
 import QuoteTable from '../../components/quotations/QuoteTable';
 export default {
-  props:['option','id','concept'],
   components:{
-    'quote-table':QuoteTable,
+  'quote-table':QuoteTable
   },
   data(){
     return{
-        quotations:[]
+      quotations:[],
+      form:{},
+      title:'MES ACTUAL',
+      months:['ENERO','FEBRERO','MARZO','ABRIL','MAYO','JUNIO','JULIO','AGOSTO','SEPTIEMBRE','OCTUBRE','NOVIEMBRE','DICIEMBRE']
     }
   },
   created(){
-    console.log(this.option + ' ' + this.id)
-    if(this.option == 'item-quotes')
-    {
-      return this.getQuotes('/api/items/quotations/'+this.id+'/');
-    }
-    return this.getQuotes('/api/budgets/quotations/'+this.id+'/');
+    this.getQuotesMonthCurrent();
   },
   methods:{
-    getQuotes(route){
+    getQuotesMonthCurrent(){
       axios({
-        url:route,
+        url:'/api/reports/quotations/',
         method:'GET',
       }).then((response)=>{
-        console.log(response)
-        if(response.data.data.length){
+        if(response.data.data){
           this.quotations=response.data.data;
+        }
+      }).catch((error)=>{
+        console.log(error)
+      });
+    },
+    getReport(){
+      axios({
+        url:'/api/reports/quotations/by-dates/',
+        params:this.form,
+        method:'GET',
+      }).then((response)=>{
+        if(response.data.data){
+          this.quotations = response.data.data;
+          this.title="DE "+this.form.initialDate+' A '+this.form.finalDate;
+        }
+      }).catch((error)=>{
+        console.log(error)
+      })
+    },
+    getReportByMonth(event){
+      axios({
+        url:'/api/reports/quotations/',
+        method:'GET',
+        params:{
+          'month':event.target.value
+        }
+      }).then((response)=>{
+        if(response.data.data){
+          this.quotations = response.data.data;
+          this.title = 'MES DE '+this.months[event.target.value-1]
         }
       }).catch((error)=>{
         console.log(error)
       })
     }
   }
-
 }
 </script>
 

@@ -40,6 +40,7 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                       <router-link class="nav-link" to="/reports-general">General</router-link>
+                      <router-link class="nav-link"  :to="{ name: 'quote-report' }">Cotizaciones</router-link>
                     </div>
                   </li>
                   <li class="nav-item dropdown">

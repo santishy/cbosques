@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Carbon\Carbon;
 use Validator;
 use App\Specification;
-
+use DB;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -26,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+      DB::statement("SET lc_time_names = 'es_ES'");
       Validator::extend('validateDateRange', function ($attribute, $value, $parameters, $validator) {
           return Carbon::create($value,'America\Mexico_City')->lessThan($parameters[0]);
       });
