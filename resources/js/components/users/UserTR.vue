@@ -93,15 +93,33 @@ export default {
       })
     },
     destroy(){
-      axios({
-        url:'/api/users/'+this.user.id+'/',
-        method:'DELETE'
-      }).then((response)=>{
-        console.log(response)
-        this.destroyUser(this.index);
-      }).catch((error)=>{
-        console.log(error)
-      })
+      Swal.fire({
+          title: '¿Estas seguro?',
+          text: "Se eliminará permanentemente de la base datos",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Si, Eliminar!',
+          cancelButtonText: 'Cancelar'
+        }).then((result) => {
+          if (result.value) {
+            axios({
+              url:'/api/users/'+this.user.id+'/',
+              method:'DELETE'
+            }).then((response)=>{
+              Swal.fire(
+                'Eliminado!',
+                'Se a borrado de la base de datos.',
+                'success'
+              )
+              this.destroyUser(this.index);
+            }).catch((error)=>{
+              console.log(error)
+            })
+          }
+        })
+
     }
   },
   components:{

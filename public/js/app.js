@@ -1781,7 +1781,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 
 
@@ -1983,6 +1982,16 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2669,15 +2678,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     destroy: function destroy() {
       var _this2 = this;
 
-      axios({
-        url: '/api/users/' + this.user.id + '/',
-        method: 'DELETE'
-      }).then(function (response) {
-        console.log(response);
+      Swal.fire({
+        title: '¿Estas seguro?',
+        text: "Se eliminará permanentemente de la base datos",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar!',
+        cancelButtonText: 'Cancelar'
+      }).then(function (result) {
+        if (result.value) {
+          axios({
+            url: '/api/users/' + _this2.user.id + '/',
+            method: 'DELETE'
+          }).then(function (response) {
+            Swal.fire('Eliminado!', 'Se a borrado de la base de datos.', 'success');
 
-        _this2.destroyUser(_this2.index);
-      })["catch"](function (error) {
-        console.log(error);
+            _this2.destroyUser(_this2.index);
+          })["catch"](function (error) {
+            console.log(error);
+          });
+        }
       });
     }
   }),
@@ -4553,7 +4575,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   data: function data() {
     return {
       array: [],
-      url: '/api/departments',
+      url: '/api/departments/',
       page: 1,
       name: '',
       hasError: {}
@@ -44258,7 +44280,7 @@ var render = function() {
           "nav",
           {
             staticClass:
-              "navbar navbar-expand-md navbar-light bg-white shadow-sm"
+              "navbar navbar-expand-lg navbar-dark navbar-full bg-primary"
           },
           [
             _c("div", { staticClass: "container" }, [
@@ -44342,7 +44364,7 @@ var render = function() {
                             _c(
                               "router-link",
                               {
-                                staticClass: "nav-link",
+                                staticClass: "dropdown-item",
                                 attrs: { to: "/departments" }
                               },
                               [_vm._v(" Crear")]
@@ -44351,7 +44373,7 @@ var render = function() {
                             _c(
                               "router-link",
                               {
-                                staticClass: "nav-link",
+                                staticClass: "dropdown-item",
                                 attrs: { to: "/departmentitems" }
                               },
                               [_vm._v("Asignar presupuesto")]
@@ -44392,7 +44414,7 @@ var render = function() {
                             _c(
                               "router-link",
                               {
-                                staticClass: "nav-link",
+                                staticClass: "dropdown-item",
                                 attrs: { to: "/quotation-department-items" }
                               },
                               [_vm._v(" Crear")]
@@ -44401,7 +44423,7 @@ var render = function() {
                             _c(
                               "router-link",
                               {
-                                staticClass: "nav-link",
+                                staticClass: "dropdown-item",
                                 attrs: {
                                   to: { name: "quotation-index", params: {} }
                                 }
@@ -44444,7 +44466,7 @@ var render = function() {
                             _c(
                               "router-link",
                               {
-                                staticClass: "nav-link",
+                                staticClass: "dropdown-item",
                                 attrs: { to: "/reports-general" }
                               },
                               [_vm._v("General")]
@@ -44453,7 +44475,7 @@ var render = function() {
                             _c(
                               "router-link",
                               {
-                                staticClass: "nav-link",
+                                staticClass: "dropdown-item",
                                 attrs: { to: { name: "quote-report" } }
                               },
                               [_vm._v("Cotizaciones")]
@@ -44494,7 +44516,7 @@ var render = function() {
                             _c(
                               "router-link",
                               {
-                                staticClass: "nav-link",
+                                staticClass: "dropdown-item",
                                 attrs: { to: { name: "register", params: {} } }
                               },
                               [_vm._v("Registrar Usuarios")]
@@ -44503,7 +44525,7 @@ var render = function() {
                             _c(
                               "router-link",
                               {
-                                staticClass: "nav-link",
+                                staticClass: "dropdown-item",
                                 attrs: { to: "/users" }
                               },
                               [_vm._v("Listar")]
@@ -44562,7 +44584,7 @@ var render = function() {
                                 _c(
                                   "a",
                                   {
-                                    staticClass: "nav-link",
+                                    staticClass: "dropdown-item",
                                     attrs: { href: "#" },
                                     on: {
                                       click: function($event) {
@@ -66486,17 +66508,32 @@ __webpack_require__.r(__webpack_exports__);
     destroy: function destroy(index) {
       var _this3 = this;
 
-      axios({
-        method: 'DELETE',
-        url: this.url + this.array[index].id
-      }).then(function (response) {
-        console.log(response);
+      Swal.fire({
+        title: '¿Estas seguro?',
+        text: "Se eliminará permanentemente de la base datos",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar!',
+        cancelButtonText: 'Cancelar'
+      }).then(function (result) {
+        if (result.value) {
+          axios({
+            method: 'DELETE',
+            url: _this3.url + _this3.array[index].id
+          }).then(function (response) {
+            console.log(response);
 
-        if (response.status == 200) {
-          _this3.array.splice(index, 1);
+            if (response.status == 200) {
+              _this3.array.splice(index, 1);
+
+              Swal.fire('Eliminado!', 'Se a borrado de la base de datos.', 'success');
+            }
+          })["catch"](function (error) {
+            console.log(error);
+          });
         }
-      })["catch"](function (error) {
-        console.log(error);
       });
     },
     doneEdit: function doneEdit(index) {

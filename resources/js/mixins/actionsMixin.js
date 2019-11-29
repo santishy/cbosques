@@ -89,17 +89,36 @@ export default{
     *
     **/
     destroy(index){
-      axios({
-        method:'DELETE',
-        url:this.url+this.array[index].id,
-      }).then((response)=>{
-        console.log(response)
-        if(response.status == 200){
-          this.array.splice(index,1);
+    Swal.fire({
+        title: '¿Estas seguro?',
+        text: "Se eliminará permanentemente de la base datos",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar!',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.value) {
+          axios({
+            method:'DELETE',
+            url:this.url+this.array[index].id,
+          }).then((response)=>{
+            console.log(response)
+            if(response.status == 200){
+              this.array.splice(index,1);
+              Swal.fire(
+                'Eliminado!',
+                'Se a borrado de la base de datos.',
+                'success'
+              )
+            }
+          }).catch((error)=>{
+            console.log(error)
+          })
         }
-      }).catch((error)=>{
-        console.log(error)
       })
+
     },
     doneEdit(index){
       this.editing = false;

@@ -2,6 +2,16 @@
   <div class="form-group">
     <close @close="doneEdit"/>
     <form>
+      <!-- <div class="form-group">
+        <div class="custom-control custom-radio" v-for="(department,index) in departments">
+          <input type="radio"
+                 class="custom-control-input"
+                 :id="department.id"
+                 :checked='isChecked(department)'
+                 :value="department.id">
+          <label class="custom-control-label" for="PENDIENTE">PENDIENTE</label>
+        </div>
+      </div> -->
       <div v-for="(department,index) in departments" class="custom-control custom-checkbox">
         <input @change="assignDepartment"
                type="checkbox"

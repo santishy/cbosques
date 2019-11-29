@@ -1,6 +1,6 @@
 <template>
   <div  :style="{'min-height':'100vh'}">
-    <nav v-if="isLoggedIn" class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+    <nav v-if="isLoggedIn" class="navbar navbar-expand-lg navbar-dark navbar-full bg-primary">
         <div class="container">
             <a class="navbar-brand" :href="'/'">
                 Control Presupuestal
@@ -21,8 +21,8 @@
                       Departamentos
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <router-link class="nav-link" to="/departments"> Crear</router-link>
-                        <router-link class="nav-link" to="/departmentitems">Asignar presupuesto</router-link>
+                        <router-link class="dropdown-item" to="/departments"> Crear</router-link>
+                        <router-link class="dropdown-item" to="/departmentitems">Asignar presupuesto</router-link>
                     </div>
                   </li>
                   <li class="nav-item dropdown">
@@ -30,8 +30,8 @@
                       Cotizaciones
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <router-link class="nav-link" to="/quotation-department-items"> Crear</router-link>
-                      <router-link class="nav-link":to="{ name: 'quotation-index', params: {} }">Listar</router-link>
+                      <router-link class="dropdown-item" to="/quotation-department-items"> Crear</router-link>
+                      <router-link class="dropdown-item":to="{ name: 'quotation-index', params: {} }">Listar</router-link>
                     </div>
                   </li>
                   <li class="nav-item dropdown">
@@ -39,8 +39,8 @@
                       Reportes
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <router-link class="nav-link" to="/reports-general">General</router-link>
-                      <router-link class="nav-link"  :to="{ name: 'quote-report' }">Cotizaciones</router-link>
+                      <router-link class="dropdown-item" to="/reports-general">General</router-link>
+                      <router-link class="dropdown-item"  :to="{ name: 'quote-report' }">Cotizaciones</router-link>
                     </div>
                   </li>
                   <li class="nav-item dropdown">
@@ -48,8 +48,8 @@
                       Usuarios
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <router-link class="nav-link" :to="{ name: 'register', params: {} }">Registrar Usuarios</router-link>
-                        <router-link class="nav-link" to="/users">Listar</router-link>
+                        <router-link class="dropdown-item" :to="{ name: 'register', params: {} }">Registrar Usuarios</router-link>
+                        <router-link class="dropdown-item" to="/users">Listar</router-link>
                     </div>
                   </li>
                   <notifications-component/>
@@ -61,7 +61,7 @@
                       usuario
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <a href="#" class="nav-link" @click.prevent="redirect">Cerrar Sesión</a>
+                      <a href="#" class="dropdown-item" @click.prevent="redirect">Cerrar Sesión</a>
                     </div>
 
                   </li>
@@ -74,7 +74,6 @@
     </main>
   </div>
 </template>
-
 <script>
     import {mapGetters} from 'vuex'
     import {mapActions} from 'vuex'

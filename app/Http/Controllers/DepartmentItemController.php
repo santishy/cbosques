@@ -13,14 +13,11 @@ class DepartmentItemController extends Controller
     $this->middleware(['roles:admin','cycle']);
   }
     public function store(Request $request){
-      // return response()->json(['res'=>Department::whereHas('items',function(Builder $query){
-      //   $query->where('items.id',1);
-      // })->doesntExist()]);
       Validator::make($request->all(),[
         'department_id' => ['required',Rule::unique('departmentables')->where(function($query) use ($request){
                                 return $query->where('departmentable_id',$request->item_id)->where('departmentable_type','App\\Item');
                               })],
-        'item_id' => ['required',new AssociateDepartment]],
+        'item_id' => ['required']], // ,new AssociateDepartment
       [
         'required' => 'El campo es requerido',
         'unique' => 'Ya existe esta cuenta en el departamento',
