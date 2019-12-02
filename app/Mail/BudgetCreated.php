@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class BudgetCreated extends Mailable
+class BudgetCreated extends Mailable 
 {
     use Queueable, SerializesModels;
     public $quotation;

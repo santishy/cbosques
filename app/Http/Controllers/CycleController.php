@@ -12,6 +12,7 @@ use App\Http\Resources\Cycle as CycleCollection;
 use App\Rules\UpdateCycleDate;
 use Carbon\Carbon;
 use App\Http\Resources\ItemsCollection;
+use App\User;
 
 class CycleController extends Controller
 {

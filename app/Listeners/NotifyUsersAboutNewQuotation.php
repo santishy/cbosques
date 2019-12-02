@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\QuotationCreated;
+use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Auth;
@@ -11,7 +12,7 @@ use App\Notifications\NewQuotation;
 use Illuminate\Database\Eloquent\Builder;
 use App\User;
 
-class NotifyUsersAboutNewQuotation implements ShouldQueue
+class NotifyUsersAboutNewQuotation
 {
     /**
      * Create the event listener.

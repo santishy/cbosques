@@ -1,34 +1,29 @@
 <template>
   <div class="container">
-    <div class="row">
-      <div class="col-sm-6">
-        <quotation-component :notification="quotation"/>
-      </div>
-      <div class="col-md-6">
-        <status-message :quotation="quotation" :notification_id="notification_id"></status-message>
+    <div class="row justify-content-center">
+      <div class="col-sm-8" v-if="quotation">
+        <quotation-component @setQuotation="update" :notification="quotation"/>
       </div>
     </div>
   </div>
 </template>
 <script>
-import StatusMessage from '../../components/quotations/StatusMessage.vue';
 import QuotationComponent from '../../components/quotations/QuotationComponent.vue'
 export default {
   props:['notification_id','id'],
+  components:{
+    'quotation-component':QuotationComponent
+  },
   data(){
     return{
-      quotation:{}
+      quotation:false
     }
   },
   created(){
     this.getQuotation(this.id)
     this.markAsRead(this.notification_id)
-  },
-  components:{
-    'status-message':StatusMessage,
-    'quotation-component':QuotationComponent
-  },
 
+  },
   methods:{
     /*
     * Marca como leida la notificacion al darle click al dropdown
@@ -54,11 +49,14 @@ export default {
       }).catch((error)=>{
         console.log(error)
       })
+    },
+    update(event){
+      this.quotation = event.quotation;
+      this.$set(this.quotation,event.quotation)
     }
   }
 }
 </script>
-
 <style lang="scss" scoped>
 .fas-download{
   cursor:pointer;

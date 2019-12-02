@@ -14,7 +14,7 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          {{this.notification.created_at}}
+          {{notification.created_at}}
         </div>
       </div>
       <div class="row d-flex justify-content-center">
@@ -95,6 +95,7 @@
 <script>
 import {mapState} from 'vuex'
 export default {
+  props:['notification','index'],
   data(){
     return {
       editing:false,
@@ -105,22 +106,27 @@ export default {
       ],
       optionsIVA:[0,1],
       form:{
-        iva:this.notification.enum_iva,
-        status:this.notification.status,
-        item_id:this.notification.item_id,
-        qty:this.notification.qty,
+        // iva:this.notification.enum_iva,
+        // status:this.notification.status,
+        // item_id:this.notification.item_id,
+        // qty:this.notification.qty,
       }
     }
   },
-  props:['notification','index'],
+  mounted(){
+    this.form.iva=this.notification.enum_iva;
+    this.form.status=this.notification.status;
+    this.form.item_id=this.notification.item_id;
+    this.form.qty=this.notification.qty;
+  },
   computed:{
     ...mapState(['access_token']),
     classes(){
       console.log('trigger classes')
       return [{'card':true,
               'text-white bg-dark':this.notification.status === 'PENDIENTE',
-              'text-white bg-primary' : this.notification.status === 'ACEPTADO',
-              'text-white bg-danger' : this.notification.status === 'RECHAZADO'
+              'text-white bg-primary' :this.notification.status === 'ACEPTADO',
+              'text-white bg-danger' :this.notification.status === 'RECHAZADO'
             }];
     }
   },
@@ -133,7 +139,6 @@ export default {
       }).then((response) => {
         console.log(response.data)
         if(response.data){
-
           let data = new Object();
           data.index = this.index;
           data.quotation = response.data.quotation;

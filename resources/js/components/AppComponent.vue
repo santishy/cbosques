@@ -2,9 +2,9 @@
   <div  :style="{'min-height':'100vh'}">
     <nav v-if="isLoggedIn" class="navbar navbar-expand-lg navbar-dark navbar-full bg-primary">
         <div class="container">
-            <a class="navbar-brand" :href="'/'">
+            <router-link class="navbar-brand" to="/">
                 Control Presupuestal
-            </a>
+            </router-link>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="">
                 <span class="navbar-toggler-icon"></span>
             </button>
