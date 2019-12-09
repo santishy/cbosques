@@ -1,11 +1,17 @@
 <template>
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-sm-10 col-xs-12 col-md-8">
+      <div class="col-sm-10 col-xs-12 col-md-10">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Cotizaciones Autorizadas</h5>
-            <h6 v-if="concept" class="card-subtitle mb-2 text-muted"><b>Cuenta: </b>{{concept}}</h6>
+            <h3 class="card-title">
+              Cotizaciones Autorizadas
+              <a class="float-right text-decoration-none text-danger" :href="'/api/items/pdf-quotations/'+id+'?token='+access_token">
+                <span><i class="fas fa-file-pdf"></i></span>
+              </a>
+            </h3>
+            <hr>
+            <h5 v-if="concept" class="card-subtitle mb-2 text-muted"><b>Cuenta: </b>{{concept}}</h5>
             <quote-table :quotations="quotations"/>
           </div>
         </div>
@@ -13,9 +19,9 @@
     </div>
   </div>
 </template>
-
 <script>
 import QuoteTable from '../../components/quotations/QuoteTable';
+import {mapState} from 'vuex';
 export default {
   props:['option','id','concept'],
   components:{
@@ -27,7 +33,6 @@ export default {
     }
   },
   created(){
-    console.log(this.option + ' ' + this.id)
     if(this.option == 'item-quotes')
     {
       return this.getQuotes('/api/items/quotations/'+this.id+'/');
@@ -48,8 +53,10 @@ export default {
         console.log(error)
       })
     }
+  },
+  computed:{
+    ...mapState(['access_token']),
   }
-
 }
 </script>
 

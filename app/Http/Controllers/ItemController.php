@@ -98,7 +98,14 @@ class ItemController extends Controller
         //
     }
     public function quotations(Item $item){
-      return new QuotationsCollection($item->quotations()->get());
+      $quotations=new QuotationsCollection($item->quotations()->where('status','ACEPTADO')->get());
+      return $quotations;
+    }
+    public function pdfQuotations($id){
+      $quotations=$this->quotations(Item::find($id));
+      
+      $pdf = \PDF::loadView('reports.quotations',compact('quotations'));
+      return $pdf->download('reporte.pdf');
     }
     /**
      * Show the form for editing the specified resource.

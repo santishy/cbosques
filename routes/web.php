@@ -15,3 +15,4 @@ Route::get('/archivo',function(){
 Route::get('/', 'HomeController@index');
 
 Route::get('/quotations/email','QuotationController@email');
+Route::get('/itemsWithSpecificationFromBudgets','ReportController@itemsWithSpecificationFromBudgets');

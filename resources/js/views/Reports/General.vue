@@ -4,7 +4,12 @@
       <div class="col-md-11">
         <div class="card">
           <div class="card-body">
-            <h3>Reporte General</h3>
+            <h3>
+              Reporte General
+              <a class="float-right text-decoration-none text-danger" :href="'/api/reports/general-pdf?token='+access_token">
+                <span><i class="fas fa-file-pdf"></i></span>
+              </a>
+            </h3>
             <table class="table text-center ">
               <thead>
                 <th>ID</th>
@@ -75,6 +80,7 @@
 </template>
 
 <script>
+import {mapState} from 'vuex';
 export default {
   data(){
     return {
@@ -106,6 +112,9 @@ export default {
         })
       });
     }
+  },
+  computed:{
+    ...mapState(['access_token']),
   }
 }
 </script>

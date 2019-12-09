@@ -32,6 +32,7 @@ Route::group([
   Route::get('budgets/quotations/{budget}','BudgetController@quotations');
   Route::resource('budgets','BudgetController');
   Route::get('items/quotations/{item}','ItemController@quotations');
+  Route::get('items/pdf-quotations/{item}','ItemController@pdfQuotations');
   Route::resource('items','ItemController');
   Route::resource('specifications','SpecificationController');
   Route::resource('departments','DepartmentController');
@@ -52,4 +53,5 @@ Route::group([
   Route::get('reports/general','ReportController@general');
   Route::get('reports/quotations','ReportController@quotations');
   Route::get('reports/quotations/by-dates','ReportController@quotationsByDates');
+  Route::get('reports/general-pdf','ReportController@pdfGeneral');
 });

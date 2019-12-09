@@ -4,7 +4,7 @@
           <div class="col-md-6 col-xs-11 col-sm-10 col-lg-6">
               <div class="card text-primary border-primary mt-5">
                   <div class="card-body ">
-                    <h3 class="card-title"><span class="font-weight-bolder"><i class="fas fa-sign-in-alt"></i></span> Ingresar al Control Presupuestal</h3>
+                    <h3 class="card-title"><span class="font-weight-bolder"><i class="fas fa-sign-in-alt"></i></span> Ingresar Control Presupuestal</h3>
                     <hr>
                       <form @submit.prevent="methodLogin">
                           <div class="form-group row">
