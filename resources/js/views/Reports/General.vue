@@ -10,7 +10,7 @@
                 <span><i class="fas fa-file-pdf"></i></span>
               </a>
             </h3>
-            <table class="table text-center ">
+            <table class="table text-center table-responsive-xl table-responsive-sm">
               <thead>
                 <th>ID</th>
                 <th>Concepto</th>

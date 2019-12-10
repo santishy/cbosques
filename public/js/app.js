@@ -45873,139 +45873,151 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _c("table", { staticClass: "table text-center " }, [
-                _vm._m(1),
-                _vm._v(" "),
-                _c(
-                  "tbody",
-                  [
-                    _vm._l(_vm.budgets, function(budget) {
-                      return [
-                        _c(
-                          "tr",
-                          {
-                            staticClass:
-                              "bg-primary font-weight-bolder font-italic text-white"
-                          },
-                          [
-                            _c("td", [_vm._v(_vm._s(budget.id))]),
-                            _vm._v(" "),
-                            _c("td", [
-                              _vm._v(_vm._s(budget.specification.concept))
-                            ]),
-                            _vm._v(" "),
-                            _c("td", [
-                              _vm._v(
-                                "\n                    " +
-                                  _vm._s(
-                                    budget.total +
-                                      budget.specification.qty +
-                                      _vm.totalItems[
-                                        budget.specification.concept
-                                      ]
-                                  ) +
-                                  "\n                  "
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c("td", [
-                              _vm._v(_vm._s(budget.specification.qty))
-                            ]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(budget.total))]),
-                            _vm._v(" "),
-                            _c("td", [
-                              _vm._v(
-                                "\n                    " +
-                                  _vm._s(budget.quotations_count) +
-                                  "\n                  "
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c(
-                              "td",
-                              [
-                                _c(
-                                  "router-link",
-                                  {
-                                    staticClass: "text-white",
-                                    attrs: {
-                                      to: {
-                                        name: "quote-budget-report",
-                                        params: {
-                                          option: "budget-quotes",
-                                          id: budget.id,
-                                          concept: budget.specification.concept
+              _c(
+                "table",
+                {
+                  staticClass:
+                    "table text-center table-responsive-xl table-responsive-sm"
+                },
+                [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    [
+                      _vm._l(_vm.budgets, function(budget) {
+                        return [
+                          _c(
+                            "tr",
+                            {
+                              staticClass:
+                                "bg-primary font-weight-bolder font-italic text-white"
+                            },
+                            [
+                              _c("td", [_vm._v(_vm._s(budget.id))]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(_vm._s(budget.specification.concept))
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(
+                                  "\n                    " +
+                                    _vm._s(
+                                      budget.total +
+                                        budget.specification.qty +
+                                        _vm.totalItems[
+                                          budget.specification.concept
+                                        ]
+                                    ) +
+                                    "\n                  "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(_vm._s(budget.specification.qty))
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(budget.total))]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(
+                                  "\n                    " +
+                                    _vm._s(budget.quotations_count) +
+                                    "\n                  "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "td",
+                                [
+                                  _c(
+                                    "router-link",
+                                    {
+                                      staticClass: "text-white",
+                                      attrs: {
+                                        to: {
+                                          name: "quote-budget-report",
+                                          params: {
+                                            option: "budget-quotes",
+                                            id: budget.id,
+                                            concept:
+                                              budget.specification.concept
+                                          }
                                         }
                                       }
-                                    }
-                                  },
-                                  [_c("i", { staticClass: "fas fa-link" })]
+                                    },
+                                    [_c("i", { staticClass: "fas fa-link" })]
+                                  )
+                                ],
+                                1
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _vm._l(budget.items, function(item) {
+                            return _c("tr", [
+                              _c("td", [_vm._v(_vm._s(item.id))]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(_vm._s(item.specification.concept))
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(
+                                  "\n                    " +
+                                    _vm._s(
+                                      item.total + item.specification.qty
+                                    ) +
+                                    "\n                  "
                                 )
-                              ],
-                              1
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _vm._l(budget.items, function(item) {
-                          return _c("tr", [
-                            _c("td", [_vm._v(_vm._s(item.id))]),
-                            _vm._v(" "),
-                            _c("td", [
-                              _vm._v(_vm._s(item.specification.concept))
-                            ]),
-                            _vm._v(" "),
-                            _c("td", [
-                              _vm._v(
-                                "\n                    " +
-                                  _vm._s(item.total + item.specification.qty) +
-                                  "\n                  "
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(item.specification.qty))]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(item.total))]),
-                            _vm._v(" "),
-                            _c("td", [
-                              _vm._v(
-                                "\n                    " +
-                                  _vm._s(item.quotations_count) +
-                                  "\n                  "
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c(
-                              "td",
-                              [
-                                _c(
-                                  "router-link",
-                                  {
-                                    attrs: {
-                                      to: {
-                                        name: "quote-budget-report",
-                                        params: {
-                                          option: "item-quotes",
-                                          id: item.id,
-                                          concept: item.specification.concept
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(_vm._s(item.specification.qty))
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(item.total))]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(
+                                  "\n                    " +
+                                    _vm._s(item.quotations_count) +
+                                    "\n                  "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "td",
+                                [
+                                  _c(
+                                    "router-link",
+                                    {
+                                      attrs: {
+                                        to: {
+                                          name: "quote-budget-report",
+                                          params: {
+                                            option: "item-quotes",
+                                            id: item.id,
+                                            concept: item.specification.concept
+                                          }
                                         }
                                       }
-                                    }
-                                  },
-                                  [_c("i", { staticClass: "fas fa-link" })]
-                                )
-                              ],
-                              1
-                            )
-                          ])
-                        })
-                      ]
-                    })
-                  ],
-                  2
-                )
-              ])
+                                    },
+                                    [_c("i", { staticClass: "fas fa-link" })]
+                                  )
+                                ],
+                                1
+                              )
+                            ])
+                          })
+                        ]
+                      })
+                    ],
+                    2
+                  )
+                ]
+              )
             ])
           ]
         )
