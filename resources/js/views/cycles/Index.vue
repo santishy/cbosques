@@ -1,5 +1,5 @@
 <template>
-  <table class="table table-striped text-center">
+  <table class="table table-striped text-center table-responsive-xl table-responsive-sm">
     <thead>
       <th>Id</th>
       <th>Inicio</th>

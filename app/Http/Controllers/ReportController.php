@@ -31,16 +31,31 @@ class ReportController extends Controller
       return $total;
     }
     public function quotations(Request $request){
-      if(!$request->has('month'))
-        $request->month = Carbon::now()->month;
+      $request = $this->setMonth($request);
       return new QuotationsCollection(Quotation::currentCycleQuotes()->byMonth($request->month)->get());
     }
-    public function pdfQuotesOfTheMonth(Requeste $request){
+    public function pdfQuotesOfTheMonth(Request $request){
       $quotations = $this->quotations($request);
-      $pdf = \PDF::loadView('reports.quotations',compact('quoatations'));
-      return $pdf->download('ReporteCotizacionesAutorizadas');
+      $date = Carbon::now()->format('d-m-Y');
+      $month = Carbon::createFromFormat('!m',$this->setMonth($request)->month)->isoFormat('MMMM');
+      $pdf = \PDF::loadView('reports.quotations',compact(['quotations','date','month']));
+      return $pdf->download('ReporteCotizacionesAutorizadas.pdf');
+    }
+    public function setMonth($request){
+      if(!$request->has('month'))
+        $request->month = Carbon::now()->month;
+      return $request;
     }
     public function quotationsByDates(Request $request){
       return new QuotationsCollection(Quotation::currentCycleQuotes()->byDates($request->all())->get());
+    }
+    public function pdfQuotationsByDates(Request $request){
+
+      $quotations = $this->quotationsByDates($request);
+      $date = Carbon::now()->format('d-m-Y');
+      $initialDate = Carbon::createFromFormat('Y-m-d',$request->initialDate)->isoFormat('dddd, Do MMMM YYYY');
+      $finalDate =  Carbon::createFromFormat('Y-m-d',$request->finalDate)->isoFormat('dddd, Do MMMM YYYY');
+      $pdf = \PDF::loadView('reports.quotations',compact(['quotations','date','initialDate','finalDate']));
+      return $pdf->download('ReporteCotizacionesAutorizadas.pdf');
     }
 }

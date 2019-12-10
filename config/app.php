@@ -80,7 +80,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'es',
 
     /*
     |--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'es',
 
     /*
     |--------------------------------------------------------------------------
@@ -166,6 +166,7 @@ return [
          * Package Service Providers...
          */
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
@@ -176,7 +177,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\CycleServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
-
+        Jenssegers\Date\DateServiceProvider::class,
     ],
 
     /*

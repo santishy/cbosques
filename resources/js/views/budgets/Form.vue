@@ -1,14 +1,14 @@
 <template>
   <div class="row justify-content-center">
       <div class="col-md-12 col-sm-12 col-lg-12 col-xs-10">
-          <div class="card border-dark mb-3">
-            <div v-if="isItem" class="card-header d-flex justify-content-between">
-              <h4>{{title}}</h4>
-              <h3>{{budget_qty}}</h3>
-            </div>
-            <div v-else class="card-header">{{title}}</div>
+          <div class="card border-primary bg-light shadow-sm mb-3">
             <div class="card-body text-dark">
-              <h5 class="card-title">{{subtitle}}</h5>
+              <div v-if="isItem" class="d-flex justify-content-between">
+                <h4>{{title}}</h4>
+                <h4>{{budget_qty}}</h4>
+              </div>
+              <div v-else class="font-weight-bolder">{{title}}</div>
+              <hr>
               <form @submit.prevent="store">
                 <div class="form-group row">
                   <label for="qty" class="col-sm-2 col-form-label">Cantidad</label>

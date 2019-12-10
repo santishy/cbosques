@@ -1,6 +1,6 @@
 <template>
   <div  :style="{'min-height':'100vh'}">
-    <nav v-if="isLoggedIn" class="navbar navbar-expand-lg navbar-dark navbar-full bg-primary">
+    <nav v-if="isLoggedIn" class="navbar navbar-expand-lg navbar-dark navbar-full bg-primary shadow-md mb-3">
         <div class="container">
             <router-link class="navbar-brand" to="/">
                 Control Presupuestal

@@ -27,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
       DB::statement("SET lc_time_names = 'es_ES'");
+      Carbon::setLocale('es');
       Validator::extend('validateDateRange', function ($attribute, $value, $parameters, $validator) {
           return Carbon::create($value,'America\Mexico_City')->lessThan($parameters[0]);
       });

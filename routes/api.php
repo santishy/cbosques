@@ -53,5 +53,8 @@ Route::group([
   Route::get('reports/general','ReportController@general');
   Route::get('reports/quotations','ReportController@quotations');
   Route::get('reports/quotations/by-dates','ReportController@quotationsByDates');
+  Route::get('reports/quotations/pdf-by-dates','ReportController@pdfQuotationsByDates');
   Route::get('reports/general-pdf','ReportController@pdfGeneral');
+  Route::get('reports/pdf-quotes-of-the-month/{month?}','ReportController@pdfQuotesOfTheMonth');
+
 });

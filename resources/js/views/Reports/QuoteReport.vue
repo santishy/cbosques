@@ -38,7 +38,13 @@
       <div class="col-md-9">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">{{title}}</h5>
+            <h5 class="card-title">
+              {{title}}
+              <a class="float-right text-decoration-none text-danger"
+                 :href="url_report">
+                <span><i class="fas fa-file-pdf"></i></span>
+              </a>
+            </h5>
             <quote-table :quotations="quotations"/>
           </div>
         </div>
@@ -49,6 +55,7 @@
 
 <script>
 import QuoteTable from '../../components/quotations/QuoteTable';
+import {mapState} from 'vuex';
 export default {
   components:{
   'quote-table':QuoteTable
@@ -57,6 +64,7 @@ export default {
     return{
       quotations:[],
       form:{},
+      url_report:'',
       title:'MES ACTUAL',
       months:['ENERO','FEBRERO','MARZO','ABRIL','MAYO','JUNIO','JULIO','AGOSTO','SEPTIEMBRE','OCTUBRE','NOVIEMBRE','DICIEMBRE']
     }
@@ -64,8 +72,12 @@ export default {
   created(){
     this.getQuotesMonthCurrent();
   },
+  computed:{
+    ...mapState(['access_token']),
+  },
   methods:{
     getQuotesMonthCurrent(){
+      this.url_report='/api/reports/pdf-quotes-of-the-month/?token='+this.access_token
       axios({
         url:'/api/reports/quotations/',
         method:'GET',
@@ -78,6 +90,7 @@ export default {
       });
     },
     getReport(){
+      this.url_report='/api/reports/quotations/pdf-by-dates/?initialDate='+this.form.initialDate+'&finalDate='+this.form.finalDate+'&token='+this.access_token
       axios({
         url:'/api/reports/quotations/by-dates/',
         params:this.form,
@@ -92,6 +105,7 @@ export default {
       })
     },
     getReportByMonth(event){
+      this.url_report = '/api/reports/pdf-quotes-of-the-month?month='+event.target.value+'&token='+this.access_token
       axios({
         url:'/api/reports/quotations/',
         method:'GET',

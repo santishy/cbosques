@@ -2,20 +2,19 @@
   <div class="container">
     <div class="row">
       <div class="col-md-3 col-lg-3 col-sm-4 col-xs-8">
-        <div class="card border-dark mb-3" >
-          <div class="card-header">Crea el nuevo ciclo escolar</div>
+        <div class="card border-primary mb-3 bg-light shadow-sm" >
           <div class="card-body text-dark">
-            <h5 class="card-title">Ingresa los datos
-            {{numero}}</h5>
+            <h5 class="card-title">Nuevo Ciclo</h5>
+            <hr>
             <form @submit.prevent="store">
               <div class="form-group ">
                 <label for="initialized_at">Inicio</label>
-                <input type="date" v-model="initialized_at" name="initialized_at" :class="['form-control', hasError.initialized_at ? 'is-invalid' : '' ]">
+                <input type="date" v-model="initialized_at" name="initialized_at" :class="['form-control','border-0', hasError.initialized_at ? 'is-invalid' : '' ]">
                 <small v-if="hasError.initialized_at" class="text-danger text-center">{{hasError.initialized_at[0]}}</small>
               </div>
               <div class="form-group">
                 <label for="finalized_at">Fin</label>
-                <input type="date" v-model="finalized_at" name="finalized_at" id="finalized_at" :class="['form-control', hasError.finalized_at ? 'is-invalid' : '']">
+                <input type="date" v-model="finalized_at" name="finalized_at" id="finalized_at" :class="['form-control','border-0', hasError.finalized_at ? 'is-invalid' : '']">
                 <p>
                   <small v-if="hasError.finalized_at" style="padding:0px" class="text-danger text-center">{{hasError.finalized_at[0]}}</small>
                 </p>
@@ -28,7 +27,13 @@
         </div>
       </div>
       <div class="col-md-9 col-lg-9 col-sm-8 col-xs-12">
-        <index-cycles/>
+        <div class="card border-primary mb-3 bg-light shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">Lista de ciclos</h5>
+            <index-cycles/>
+          </div>
+
+        </div>
       </div>
     </div>
   </div>

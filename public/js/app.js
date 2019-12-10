@@ -2963,6 +2963,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_quotations_QuoteTable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../components/quotations/QuoteTable */ "./resources/js/components/quotations/QuoteTable.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -3012,6 +3019,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -3021,6 +3035,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       quotations: [],
       form: {},
+      url_report: '',
       title: 'MES ACTUAL',
       months: ['ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE']
     };
@@ -3028,10 +3043,12 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     this.getQuotesMonthCurrent();
   },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(['access_token'])),
   methods: {
     getQuotesMonthCurrent: function getQuotesMonthCurrent() {
       var _this = this;
 
+      this.url_report = '/api/reports/pdf-quotes-of-the-month/?token=' + this.access_token;
       axios({
         url: '/api/reports/quotations/',
         method: 'GET'
@@ -3046,6 +3063,7 @@ __webpack_require__.r(__webpack_exports__);
     getReport: function getReport() {
       var _this2 = this;
 
+      this.url_report = '/api/reports/quotations/pdf-by-dates/?initialDate=' + this.form.initialDate + '&finalDate=' + this.form.finalDate + '&token=' + this.access_token;
       axios({
         url: '/api/reports/quotations/by-dates/',
         params: this.form,
@@ -3062,6 +3080,7 @@ __webpack_require__.r(__webpack_exports__);
     getReportByMonth: function getReportByMonth(event) {
       var _this3 = this;
 
+      this.url_report = '/api/reports/pdf-quotes-of-the-month?month=' + event.target.value + '&token=' + this.access_token;
       axios({
         url: '/api/reports/quotations/',
         method: 'GET',
@@ -3547,6 +3566,14 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3819,6 +3846,11 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3903,6 +3935,11 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
 //
 //
 //
@@ -44268,7 +44305,7 @@ var render = function() {
           "nav",
           {
             staticClass:
-              "navbar navbar-expand-lg navbar-dark navbar-full bg-primary"
+              "navbar navbar-expand-lg navbar-dark navbar-full bg-primary shadow-md mb-3"
           },
           [
             _c(
@@ -46209,7 +46246,15 @@ var render = function() {
             { staticClass: "card-body" },
             [
               _c("h5", { staticClass: "card-title" }, [
-                _vm._v(_vm._s(_vm.title))
+                _vm._v("\n            " + _vm._s(_vm.title) + "\n            "),
+                _c(
+                  "a",
+                  {
+                    staticClass: "float-right text-decoration-none text-danger",
+                    attrs: { href: _vm.url_report }
+                  },
+                  [_vm._m(1)]
+                )
               ]),
               _vm._v(" "),
               _c("quote-table", { attrs: { quotations: _vm.quotations } })
@@ -46233,6 +46278,12 @@ var staticRenderFns = [
         [_vm._v("Realizar")]
       )
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", [_c("i", { staticClass: "fas fa-file-pdf" })])
   }
 ]
 render._withStripped = true
@@ -46940,191 +46991,243 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "col-md-12 col-xs-12" }, [
-          _c("table", { staticClass: "table text-center" }, [
-            _vm._m(0),
-            _vm._v(" "),
-            _c(
-              "tbody",
-              [
-                _vm._l(_vm.array, function(budget, ind) {
-                  return _c("tr", [
-                    _c("td", [_vm._v(_vm._s(budget.id))]),
-                    _vm._v(" "),
-                    _c("td", [
-                      budget.editing
-                        ? _c("div", [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.form.concept,
-                                  expression: "form.concept"
-                                }
-                              ],
-                              class: [
-                                "border-0",
-                                "form-control",
-                                _vm.hasErrorEditing.concept ? "is-invalid" : ""
-                              ],
-                              attrs: { type: "text", name: "concept" },
-                              domProps: { value: _vm.form.concept },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    _vm.form,
-                                    "concept",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            }),
-                            _vm._v(" "),
-                            _vm.hasErrorEditing.concept
-                              ? _c("small", { staticClass: "text-danger" }, [
-                                  _vm._v(_vm._s(_vm.hasErrorEditing.concept[0]))
-                                ])
-                              : _vm._e()
-                          ])
-                        : _c("div", [
-                            _vm._v(
-                              "\n                " +
-                                _vm._s(budget.concept) +
-                                "\n              "
-                            )
-                          ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      budget.editing
-                        ? _c("div", [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.form.qty,
-                                  expression: "form.qty"
-                                }
-                              ],
-                              class: [
-                                "border-0",
-                                "form-control",
-                                _vm.hasErrorEditing.qty ? "is-invalid" : ""
-                              ],
-                              attrs: { type: "number", name: "qty" },
-                              domProps: { value: _vm.form.qty },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(_vm.form, "qty", $event.target.value)
-                                }
-                              }
-                            }),
-                            _vm._v(" "),
-                            _vm.hasErrorEditing.qty
-                              ? _c("small", { staticClass: "text-danger" }, [
-                                  _vm._v(_vm._s(_vm.hasErrorEditing.qty[0]))
-                                ])
-                              : _vm._e()
-                          ])
-                        : _c("div", [
-                            _vm._v(
-                              "\n                " +
-                                _vm._s(budget.qty) +
-                                "\n              "
-                            )
-                          ])
-                    ]),
+          _c(
+            "div",
+            { staticClass: "card border-primary mb-3 bg-light shadow-sm" },
+            [
+              _c("div", { staticClass: "card-body text-dark" }, [
+                _c("h5", { staticClass: "card-title" }, [
+                  _vm._v("Lista de cuentas generales")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "table",
+                  {
+                    staticClass:
+                      "table text-center table-responsive-xl table-responsive-sm"
+                  },
+                  [
+                    _vm._m(0),
                     _vm._v(" "),
                     _c(
-                      "td",
+                      "tbody",
                       [
-                        _c(
-                          "router-link",
-                          {
-                            attrs: {
-                              to: { name: "items", params: { budget: budget } }
-                            }
-                          },
-                          [_c("i", { staticClass: "fas fa-cubes" })]
-                        )
+                        _vm._l(_vm.array, function(budget, ind) {
+                          return _c("tr", [
+                            _c("td", [_vm._v(_vm._s(budget.id))]),
+                            _vm._v(" "),
+                            _c("td", [
+                              budget.editing
+                                ? _c("div", [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.form.concept,
+                                          expression: "form.concept"
+                                        }
+                                      ],
+                                      class: [
+                                        "border-0",
+                                        "form-control",
+                                        _vm.hasErrorEditing.concept
+                                          ? "is-invalid"
+                                          : ""
+                                      ],
+                                      attrs: { type: "text", name: "concept" },
+                                      domProps: { value: _vm.form.concept },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.form,
+                                            "concept",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _vm.hasErrorEditing.concept
+                                      ? _c(
+                                          "small",
+                                          { staticClass: "text-danger" },
+                                          [
+                                            _vm._v(
+                                              _vm._s(
+                                                _vm.hasErrorEditing.concept[0]
+                                              )
+                                            )
+                                          ]
+                                        )
+                                      : _vm._e()
+                                  ])
+                                : _c("div", [
+                                    _vm._v(
+                                      "\n                    " +
+                                        _vm._s(budget.concept) +
+                                        "\n                  "
+                                    )
+                                  ])
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              budget.editing
+                                ? _c("div", [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.form.qty,
+                                          expression: "form.qty"
+                                        }
+                                      ],
+                                      class: [
+                                        "border-0",
+                                        "form-control",
+                                        _vm.hasErrorEditing.qty
+                                          ? "is-invalid"
+                                          : ""
+                                      ],
+                                      attrs: { type: "number", name: "qty" },
+                                      domProps: { value: _vm.form.qty },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.form,
+                                            "qty",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _vm.hasErrorEditing.qty
+                                      ? _c(
+                                          "small",
+                                          { staticClass: "text-danger" },
+                                          [
+                                            _vm._v(
+                                              _vm._s(_vm.hasErrorEditing.qty[0])
+                                            )
+                                          ]
+                                        )
+                                      : _vm._e()
+                                  ])
+                                : _c("div", [
+                                    _vm._v(
+                                      "\n                    " +
+                                        _vm._s(budget.qty) +
+                                        "\n                  "
+                                    )
+                                  ])
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "td",
+                              [
+                                _c(
+                                  "router-link",
+                                  {
+                                    attrs: {
+                                      to: {
+                                        name: "items",
+                                        params: { budget: budget }
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fas fa-cubes" })]
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "td",
+                              { staticClass: "d-flex justify-content-center" },
+                              [
+                                _c(
+                                  "div",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "show",
+                                        rawName: "v-show",
+                                        value: !budget.editing,
+                                        expression: "!budget.editing"
+                                      }
+                                    ],
+                                    staticClass: "mr-2",
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        _vm.isEditing(parseInt(ind, 10))
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("i", {
+                                      staticClass: "fas fa-highlighter"
+                                    })
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "show",
+                                        rawName: "v-show",
+                                        value: budget.editing,
+                                        expression: "budget.editing"
+                                      }
+                                    ],
+                                    staticClass: "mr-2",
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        return _vm.updateDatabaseRecord(ind)
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fas fa-check" })]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.destroy(ind)
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fas fa-trash" })]
+                                )
+                              ]
+                            )
+                          ])
+                        }),
+                        _vm._v(" "),
+                        _c("infinite-loading", {
+                          on: { infinite: _vm.infiniteHandler }
+                        })
                       ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c("td", { staticClass: "d-flex justify-content-center" }, [
-                      _c(
-                        "div",
-                        {
-                          directives: [
-                            {
-                              name: "show",
-                              rawName: "v-show",
-                              value: !budget.editing,
-                              expression: "!budget.editing"
-                            }
-                          ],
-                          staticClass: "mr-2",
-                          on: {
-                            click: function($event) {
-                              $event.preventDefault()
-                              _vm.isEditing(parseInt(ind, 10))
-                            }
-                          }
-                        },
-                        [_c("i", { staticClass: "fas fa-highlighter" })]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          directives: [
-                            {
-                              name: "show",
-                              rawName: "v-show",
-                              value: budget.editing,
-                              expression: "budget.editing"
-                            }
-                          ],
-                          staticClass: "mr-2",
-                          on: {
-                            click: function($event) {
-                              $event.preventDefault()
-                              return _vm.updateDatabaseRecord(ind)
-                            }
-                          }
-                        },
-                        [_c("i", { staticClass: "fas fa-check" })]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          on: {
-                            click: function($event) {
-                              return _vm.destroy(ind)
-                            }
-                          }
-                        },
-                        [_c("i", { staticClass: "fas fa-trash" })]
-                      )
-                    ])
-                  ])
-                }),
-                _vm._v(" "),
-                _c("infinite-loading", {
-                  on: { infinite: _vm.infiniteHandler }
-                })
-              ],
-              2
-            )
-          ])
+                      2
+                    )
+                  ]
+                )
+              ])
+            ]
+          )
         ])
       ])
     ],
@@ -47136,7 +47239,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("thead", [
+    return _c("thead", { staticClass: "bg-primary text-white" }, [
       _c("th", [_vm._v("ID")]),
       _vm._v(" "),
       _c("th", [_vm._v("Concepto")]),
@@ -47172,131 +47275,129 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row justify-content-center" }, [
     _c("div", { staticClass: "col-md-12 col-sm-12 col-lg-12 col-xs-10" }, [
-      _c("div", { staticClass: "card border-dark mb-3" }, [
-        _vm.isItem
-          ? _c(
-              "div",
-              { staticClass: "card-header d-flex justify-content-between" },
+      _c(
+        "div",
+        { staticClass: "card border-primary bg-light shadow-sm mb-3" },
+        [
+          _c("div", { staticClass: "card-body text-dark" }, [
+            _vm.isItem
+              ? _c("div", { staticClass: "d-flex justify-content-between" }, [
+                  _c("h4", [_vm._v(_vm._s(_vm.title))]),
+                  _vm._v(" "),
+                  _c("h4", [_vm._v(_vm._s(_vm.budget_qty))])
+                ])
+              : _c("div", { staticClass: "font-weight-bolder" }, [
+                  _vm._v(_vm._s(_vm.title))
+                ]),
+            _vm._v(" "),
+            _c("hr"),
+            _vm._v(" "),
+            _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.store($event)
+                  }
+                }
+              },
               [
-                _c("h4", [_vm._v(_vm._s(_vm.title))]),
+                _c("div", { staticClass: "form-group row" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass: "col-sm-2 col-form-label",
+                      attrs: { for: "qty" }
+                    },
+                    [_vm._v("Cantidad")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-sm-10" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.qty,
+                          expression: "form.qty"
+                        }
+                      ],
+                      class: _vm.hasErrorQty,
+                      attrs: { type: "number", id: "qty" },
+                      domProps: { value: _vm.form.qty },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.form, "qty", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _vm.hasError.qty
+                      ? _c("small", { staticClass: "text-danger" }, [
+                          _vm._v(_vm._s(_vm.hasError.qty[0]))
+                        ])
+                      : _vm._e()
+                  ])
+                ]),
                 _vm._v(" "),
-                _c("h3", [_vm._v(_vm._s(_vm.budget_qty))])
+                _c("div", { staticClass: "form-group row" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass: "col-sm-2 col-form-label",
+                      attrs: { for: "concept" }
+                    },
+                    [_vm._v("Concepto")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-sm-10" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.concept,
+                          expression: "form.concept"
+                        }
+                      ],
+                      class: _vm.hasErrorConcept,
+                      attrs: { id: "concept" },
+                      domProps: { value: _vm.form.concept },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.form, "concept", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _vm.hasError.concept
+                      ? _c("small", { staticClass: "text-danger" }, [
+                          _vm._v(_vm._s(_vm.hasError.concept[0]))
+                        ])
+                      : _vm._e()
+                  ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary mb-2 btn-block",
+                    attrs: { type: "submit" }
+                  },
+                  [_vm._v("Guardar")]
+                )
               ]
             )
-          : _c("div", { staticClass: "card-header" }, [
-              _vm._v(_vm._s(_vm.title))
-            ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-body text-dark" }, [
-          _c("h5", { staticClass: "card-title" }, [
-            _vm._v(_vm._s(_vm.subtitle))
-          ]),
-          _vm._v(" "),
-          _c(
-            "form",
-            {
-              on: {
-                submit: function($event) {
-                  $event.preventDefault()
-                  return _vm.store($event)
-                }
-              }
-            },
-            [
-              _c("div", { staticClass: "form-group row" }, [
-                _c(
-                  "label",
-                  {
-                    staticClass: "col-sm-2 col-form-label",
-                    attrs: { for: "qty" }
-                  },
-                  [_vm._v("Cantidad")]
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-sm-10" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.form.qty,
-                        expression: "form.qty"
-                      }
-                    ],
-                    class: _vm.hasErrorQty,
-                    attrs: { type: "number", id: "qty" },
-                    domProps: { value: _vm.form.qty },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(_vm.form, "qty", $event.target.value)
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _vm.hasError.qty
-                    ? _c("small", { staticClass: "text-danger" }, [
-                        _vm._v(_vm._s(_vm.hasError.qty[0]))
-                      ])
-                    : _vm._e()
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group row" }, [
-                _c(
-                  "label",
-                  {
-                    staticClass: "col-sm-2 col-form-label",
-                    attrs: { for: "concept" }
-                  },
-                  [_vm._v("Concepto")]
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-sm-10" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.form.concept,
-                        expression: "form.concept"
-                      }
-                    ],
-                    class: _vm.hasErrorConcept,
-                    attrs: { id: "concept" },
-                    domProps: { value: _vm.form.concept },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(_vm.form, "concept", $event.target.value)
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _vm.hasError.concept
-                    ? _c("small", { staticClass: "text-danger" }, [
-                        _vm._v(_vm._s(_vm.hasError.concept[0]))
-                      ])
-                    : _vm._e()
-                ])
-              ]),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-primary mb-2 btn-block",
-                  attrs: { type: "submit" }
-                },
-                [_vm._v("Guardar")]
-              )
-            ]
-          )
-        ])
-      ])
+          ])
+        ]
+      )
     ])
   ])
 }
@@ -47338,173 +47439,222 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "col-md-12 col-xs-12" }, [
-          _c("table", { staticClass: "table table-striped text-center" }, [
-            _vm._m(0),
-            _vm._v(" "),
-            _c(
-              "tbody",
-              [
-                _vm._l(_vm.array, function(item, ind) {
-                  return _c("tr", [
-                    _c("td", [_vm._v(_vm._s(item.id))]),
-                    _vm._v(" "),
-                    _c("td", [
-                      item.editing
-                        ? _c("div", [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.form.concept,
-                                  expression: "form.concept"
-                                }
-                              ],
-                              class: [
-                                "form-control",
-                                _vm.hasErrorEditing.concept ? "is-invalid" : ""
-                              ],
-                              attrs: { type: "text", name: "concept" },
-                              domProps: { value: _vm.form.concept },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    _vm.form,
-                                    "concept",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            }),
-                            _vm._v(" "),
-                            _vm.hasErrorEditing.concept
-                              ? _c("small", { staticClass: "text-danger" }, [
-                                  _vm._v(_vm._s(_vm.hasErrorEditing.concept[0]))
-                                ])
-                              : _vm._e()
-                          ])
-                        : _c("div", [
-                            _vm._v(
-                              "\n                " +
-                                _vm._s(item.concept) +
-                                "\n              "
-                            )
-                          ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      item.editing
-                        ? _c("div", [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.form.qty,
-                                  expression: "form.qty"
-                                }
-                              ],
-                              class: [
-                                "form-control",
-                                _vm.hasErrorEditing.qty ? "is-invalid" : ""
-                              ],
-                              attrs: { type: "number", name: "qty" },
-                              domProps: { value: _vm.form.qty },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(_vm.form, "qty", $event.target.value)
-                                }
-                              }
-                            }),
-                            _vm._v(" "),
-                            _vm.hasErrorEditing.qty
-                              ? _c("small", { staticClass: "text-danger" }, [
-                                  _vm._v(_vm._s(_vm.hasErrorEditing.qty[0]))
-                                ])
-                              : _vm._e()
-                          ])
-                        : _c("div", [
-                            _vm._v(
-                              "\n                " +
-                                _vm._s(item.qty) +
-                                "\n              "
-                            )
-                          ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", { staticClass: "d-flex justify-content-center" }, [
-                      _c(
-                        "div",
-                        {
-                          directives: [
-                            {
-                              name: "show",
-                              rawName: "v-show",
-                              value: !item.editing,
-                              expression: "!item.editing"
-                            }
-                          ],
-                          staticClass: "mr-2",
-                          on: {
-                            click: function($event) {
-                              $event.preventDefault()
-                              _vm.isEditing(parseInt(ind, 10))
-                            }
-                          }
-                        },
-                        [_c("i", { staticClass: "fas fa-highlighter" })]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          directives: [
-                            {
-                              name: "show",
-                              rawName: "v-show",
-                              value: item.editing,
-                              expression: "item.editing"
-                            }
-                          ],
-                          on: {
-                            click: function($event) {
-                              $event.preventDefault()
-                              return _vm.callUpdateDatabaseRecord(ind)
-                            }
-                          }
-                        },
-                        [_c("i", { staticClass: "fas fa-check" })]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass: "mr-2",
-                          on: {
-                            click: function($event) {
-                              return _vm.destroy(ind)
-                            }
-                          }
-                        },
-                        [_c("i", { staticClass: "fas fa-trash" })]
-                      )
-                    ])
-                  ])
-                }),
+          _c(
+            "div",
+            { staticClass: "card border-primary mb-3 bg-light shadow-sm" },
+            [
+              _c("div", { staticClass: "card-body text-dark" }, [
+                _c("h5", { staticClass: "card-title" }, [
+                  _vm._v("Lista de rubros (sub cuentas de generales)")
+                ]),
                 _vm._v(" "),
-                _c("infinite-loading", {
-                  on: { infinite: _vm.infiniteHandler }
-                })
-              ],
-              2
-            )
-          ])
+                _c(
+                  "table",
+                  {
+                    staticClass:
+                      "table table-striped text-center table-responsive-xl table-responsive-sm"
+                  },
+                  [
+                    _vm._m(0),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      [
+                        _vm._l(_vm.array, function(item, ind) {
+                          return _c("tr", [
+                            _c("td", [_vm._v(_vm._s(item.id))]),
+                            _vm._v(" "),
+                            _c("td", [
+                              item.editing
+                                ? _c("div", [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.form.concept,
+                                          expression: "form.concept"
+                                        }
+                                      ],
+                                      class: [
+                                        "form-control",
+                                        _vm.hasErrorEditing.concept
+                                          ? "is-invalid"
+                                          : ""
+                                      ],
+                                      attrs: { type: "text", name: "concept" },
+                                      domProps: { value: _vm.form.concept },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.form,
+                                            "concept",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _vm.hasErrorEditing.concept
+                                      ? _c(
+                                          "small",
+                                          { staticClass: "text-danger" },
+                                          [
+                                            _vm._v(
+                                              _vm._s(
+                                                _vm.hasErrorEditing.concept[0]
+                                              )
+                                            )
+                                          ]
+                                        )
+                                      : _vm._e()
+                                  ])
+                                : _c("div", [
+                                    _vm._v(
+                                      "\n                    " +
+                                        _vm._s(item.concept) +
+                                        "\n                  "
+                                    )
+                                  ])
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              item.editing
+                                ? _c("div", [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.form.qty,
+                                          expression: "form.qty"
+                                        }
+                                      ],
+                                      class: [
+                                        "form-control",
+                                        _vm.hasErrorEditing.qty
+                                          ? "is-invalid"
+                                          : ""
+                                      ],
+                                      attrs: { type: "number", name: "qty" },
+                                      domProps: { value: _vm.form.qty },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.form,
+                                            "qty",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _vm.hasErrorEditing.qty
+                                      ? _c(
+                                          "small",
+                                          { staticClass: "text-danger" },
+                                          [
+                                            _vm._v(
+                                              _vm._s(_vm.hasErrorEditing.qty[0])
+                                            )
+                                          ]
+                                        )
+                                      : _vm._e()
+                                  ])
+                                : _c("div", [
+                                    _vm._v(
+                                      "\n                    " +
+                                        _vm._s(item.qty) +
+                                        "\n                  "
+                                    )
+                                  ])
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "td",
+                              { staticClass: "d-flex justify-content-center" },
+                              [
+                                _c(
+                                  "div",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "show",
+                                        rawName: "v-show",
+                                        value: !item.editing,
+                                        expression: "!item.editing"
+                                      }
+                                    ],
+                                    staticClass: "mr-2",
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        _vm.isEditing(parseInt(ind, 10))
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("i", {
+                                      staticClass: "fas fa-highlighter"
+                                    })
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "show",
+                                        rawName: "v-show",
+                                        value: item.editing,
+                                        expression: "item.editing"
+                                      }
+                                    ],
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        return _vm.callUpdateDatabaseRecord(ind)
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fas fa-check" })]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "mr-2",
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.destroy(ind)
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fas fa-trash" })]
+                                )
+                              ]
+                            )
+                          ])
+                        }),
+                        _vm._v(" "),
+                        _c("infinite-loading", {
+                          on: { infinite: _vm.infiniteHandler }
+                        })
+                      ],
+                      2
+                    )
+                  ]
+                )
+              ])
+            ]
+          )
         ])
       ])
     ],
@@ -47516,7 +47666,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("thead", [
+    return _c("thead", { staticClass: "bg-primary text-white" }, [
       _c("th", [_vm._v("ID")]),
       _vm._v(" "),
       _c("th", [_vm._v("Concepto")]),
@@ -47551,125 +47701,143 @@ var render = function() {
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-3 col-lg-3 col-sm-4 col-xs-8" }, [
-        _c("div", { staticClass: "card border-dark mb-3" }, [
-          _c("div", { staticClass: "card-header" }, [
-            _vm._v("Crea el nuevo ciclo escolar")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-body text-dark" }, [
-            _c("h5", { staticClass: "card-title" }, [
-              _vm._v("Ingresa los datos\n          " + _vm._s(_vm.numero))
-            ]),
-            _vm._v(" "),
-            _c(
-              "form",
-              {
-                on: {
-                  submit: function($event) {
-                    $event.preventDefault()
-                    return _vm.store($event)
+        _c(
+          "div",
+          { staticClass: "card border-primary mb-3 bg-light shadow-sm" },
+          [
+            _c("div", { staticClass: "card-body text-dark" }, [
+              _c("h5", { staticClass: "card-title" }, [_vm._v("Nuevo Ciclo")]),
+              _vm._v(" "),
+              _c("hr"),
+              _vm._v(" "),
+              _c(
+                "form",
+                {
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.store($event)
+                    }
                   }
-                }
-              },
-              [
-                _c("div", { staticClass: "form-group " }, [
-                  _c("label", { attrs: { for: "initialized_at" } }, [
-                    _vm._v("Inicio")
-                  ]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.initialized_at,
-                        expression: "initialized_at"
-                      }
-                    ],
-                    class: [
-                      "form-control",
-                      _vm.hasError.initialized_at ? "is-invalid" : ""
-                    ],
-                    attrs: { type: "date", name: "initialized_at" },
-                    domProps: { value: _vm.initialized_at },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
+                },
+                [
+                  _c("div", { staticClass: "form-group " }, [
+                    _c("label", { attrs: { for: "initialized_at" } }, [
+                      _vm._v("Inicio")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.initialized_at,
+                          expression: "initialized_at"
                         }
-                        _vm.initialized_at = $event.target.value
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _vm.hasError.initialized_at
-                    ? _c("small", { staticClass: "text-danger text-center" }, [
-                        _vm._v(_vm._s(_vm.hasError.initialized_at[0]))
-                      ])
-                    : _vm._e()
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "finalized_at" } }, [
-                    _vm._v("Fin")
-                  ]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.finalized_at,
-                        expression: "finalized_at"
-                      }
-                    ],
-                    class: [
-                      "form-control",
-                      _vm.hasError.finalized_at ? "is-invalid" : ""
-                    ],
-                    attrs: {
-                      type: "date",
-                      name: "finalized_at",
-                      id: "finalized_at"
-                    },
-                    domProps: { value: _vm.finalized_at },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
+                      ],
+                      class: [
+                        "form-control",
+                        "border-0",
+                        _vm.hasError.initialized_at ? "is-invalid" : ""
+                      ],
+                      attrs: { type: "date", name: "initialized_at" },
+                      domProps: { value: _vm.initialized_at },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.initialized_at = $event.target.value
                         }
-                        _vm.finalized_at = $event.target.value
                       }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm.hasError.finalized_at
+                    }),
+                    _vm._v(" "),
+                    _vm.hasError.initialized_at
                       ? _c(
                           "small",
-                          {
-                            staticClass: "text-danger text-center",
-                            staticStyle: { padding: "0px" }
-                          },
-                          [_vm._v(_vm._s(_vm.hasError.finalized_at[0]))]
+                          { staticClass: "text-danger text-center" },
+                          [_vm._v(_vm._s(_vm.hasError.initialized_at[0]))]
                         )
                       : _vm._e()
-                  ])
-                ]),
-                _vm._v(" "),
-                _vm._m(0)
-              ]
-            )
-          ])
-        ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "finalized_at" } }, [
+                      _vm._v("Fin")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.finalized_at,
+                          expression: "finalized_at"
+                        }
+                      ],
+                      class: [
+                        "form-control",
+                        "border-0",
+                        _vm.hasError.finalized_at ? "is-invalid" : ""
+                      ],
+                      attrs: {
+                        type: "date",
+                        name: "finalized_at",
+                        id: "finalized_at"
+                      },
+                      domProps: { value: _vm.finalized_at },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.finalized_at = $event.target.value
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("p", [
+                      _vm.hasError.finalized_at
+                        ? _c(
+                            "small",
+                            {
+                              staticClass: "text-danger text-center",
+                              staticStyle: { padding: "0px" }
+                            },
+                            [_vm._v(_vm._s(_vm.hasError.finalized_at[0]))]
+                          )
+                        : _vm._e()
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(0)
+                ]
+              )
+            ])
+          ]
+        )
       ]),
       _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "col-md-9 col-lg-9 col-sm-8 col-xs-12" },
-        [_c("index-cycles")],
-        1
-      )
+      _c("div", { staticClass: "col-md-9 col-lg-9 col-sm-8 col-xs-12" }, [
+        _c(
+          "div",
+          { staticClass: "card border-primary mb-3 bg-light shadow-sm" },
+          [
+            _c(
+              "div",
+              { staticClass: "card-body" },
+              [
+                _c("h5", { staticClass: "card-title" }, [
+                  _vm._v("Lista de ciclos")
+                ]),
+                _vm._v(" "),
+                _c("index-cycles")
+              ],
+              1
+            )
+          ]
+        )
+      ])
     ])
   ])
 }
@@ -47708,198 +47876,217 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("table", { staticClass: "table table-striped text-center" }, [
-    _vm._m(0),
-    _vm._v(" "),
-    _c(
-      "tbody",
-      _vm._l(_vm.array, function(cycle, ind) {
-        return _c("tr", [
-          _c("td", [_vm._v(_vm._s(cycle.id))]),
-          _vm._v(" "),
-          _c("td", [
-            cycle.editing
-              ? _c("div", { staticClass: "form-group" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.form.initialized_at,
-                        expression: "form.initialized_at"
-                      }
-                    ],
-                    class: [
-                      "form-control",
-                      _vm.hasErrorEditing.initialized_at ? "is-invalid" : ""
-                    ],
-                    attrs: { type: "date", name: "initialized_at", index: ind },
-                    domProps: { value: _vm.form.initialized_at },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
+  return _c(
+    "table",
+    {
+      staticClass:
+        "table table-striped text-center table-responsive-xl table-responsive-sm"
+    },
+    [
+      _vm._m(0),
+      _vm._v(" "),
+      _c(
+        "tbody",
+        _vm._l(_vm.array, function(cycle, ind) {
+          return _c("tr", [
+            _c("td", [_vm._v(_vm._s(cycle.id))]),
+            _vm._v(" "),
+            _c("td", [
+              cycle.editing
+                ? _c("div", { staticClass: "form-group" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.initialized_at,
+                          expression: "form.initialized_at"
                         }
-                        _vm.$set(
-                          _vm.form,
-                          "initialized_at",
-                          $event.target.value
+                      ],
+                      class: [
+                        "form-control",
+                        _vm.hasErrorEditing.initialized_at ? "is-invalid" : ""
+                      ],
+                      attrs: {
+                        type: "date",
+                        name: "initialized_at",
+                        index: ind
+                      },
+                      domProps: { value: _vm.form.initialized_at },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.form,
+                            "initialized_at",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _vm.hasErrorEditing.initialized_at
+                      ? _c(
+                          "small",
+                          {
+                            staticClass: "text-danger text-center",
+                            staticStyle: { padding: "0px" }
+                          },
+                          [
+                            _vm._v(
+                              _vm._s(_vm.hasErrorEditing.initialized_at[0])
+                            )
+                          ]
                         )
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _vm.hasErrorEditing.initialized_at
-                    ? _c(
-                        "small",
+                      : _vm._e()
+                  ])
+                : _c("div", [
+                    _vm._v(
+                      "\n            " +
+                        _vm._s(cycle.initialized_at) +
+                        "\n          "
+                    )
+                  ])
+            ]),
+            _vm._v(" "),
+            _c("td", [
+              cycle.editing
+                ? _c("div", { staticClass: "form-group" }, [
+                    _c("input", {
+                      directives: [
                         {
-                          staticClass: "text-danger text-center",
-                          staticStyle: { padding: "0px" }
-                        },
-                        [_vm._v(_vm._s(_vm.hasErrorEditing.initialized_at[0]))]
-                      )
-                    : _vm._e()
-                ])
-              : _c("div", [
-                  _vm._v(
-                    "\n            " +
-                      _vm._s(cycle.initialized_at) +
-                      "\n          "
-                  )
-                ])
-          ]),
-          _vm._v(" "),
-          _c("td", [
-            cycle.editing
-              ? _c("div", { staticClass: "form-group" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.form.finalized_at,
-                        expression: "form.finalized_at"
-                      }
-                    ],
-                    class: [
-                      "form-control",
-                      _vm.hasErrorEditing.finalized_at ? "is-invalid" : ""
-                    ],
-                    attrs: { type: "date", name: "finalized_at", index: ind },
-                    domProps: { value: _vm.form.finalized_at },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.finalized_at,
+                          expression: "form.finalized_at"
                         }
-                        _vm.$set(_vm.form, "finalized_at", $event.target.value)
+                      ],
+                      class: [
+                        "form-control",
+                        _vm.hasErrorEditing.finalized_at ? "is-invalid" : ""
+                      ],
+                      attrs: { type: "date", name: "finalized_at", index: ind },
+                      domProps: { value: _vm.form.finalized_at },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.form,
+                            "finalized_at",
+                            $event.target.value
+                          )
+                        }
                       }
+                    }),
+                    _vm._v(" "),
+                    _vm.hasErrorEditing.finalized_at
+                      ? _c(
+                          "small",
+                          {
+                            staticClass: "text-danger text-center",
+                            staticStyle: { padding: "0px" }
+                          },
+                          [_vm._v(_vm._s(_vm.hasErrorEditing.finalized_at[0]))]
+                        )
+                      : _vm._e()
+                  ])
+                : _c("div", [
+                    _vm._v(
+                      "\n          " + _vm._s(cycle.finalized_at) + "\n        "
+                    )
+                  ])
+            ]),
+            _vm._v(" "),
+            _c("td", { staticClass: "text-center " }, [
+              _c("div", { staticClass: "d-flex justify-content-center" }, [
+                cycle.active
+                  ? _c("div", { staticClass: "circle bg-success " })
+                  : _c("div", { staticClass: "circle bg-danger" })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("td", { staticClass: "d-flex justify-content-center" }, [
+              _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: !cycle.editing,
+                      expression: "!cycle.editing"
                     }
-                  }),
-                  _vm._v(" "),
-                  _vm.hasErrorEditing.finalized_at
-                    ? _c(
-                        "small",
-                        {
-                          staticClass: "text-danger text-center",
-                          staticStyle: { padding: "0px" }
-                        },
-                        [_vm._v(_vm._s(_vm.hasErrorEditing.finalized_at[0]))]
-                      )
-                    : _vm._e()
-                ])
-              : _c("div", [
-                  _vm._v(
-                    "\n          " + _vm._s(cycle.finalized_at) + "\n        "
-                  )
-                ])
-          ]),
-          _vm._v(" "),
-          _c("td", { staticClass: "text-center " }, [
-            _c("div", { staticClass: "d-flex justify-content-center" }, [
-              cycle.active
-                ? _c("div", { staticClass: "circle bg-success " })
-                : _c("div", { staticClass: "circle bg-danger" })
+                  ],
+                  staticClass: "mr-2",
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      _vm.isEditing(parseInt(ind, 10))
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "fas fa-highlighter" })]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: cycle.editing,
+                      expression: "cycle.editing"
+                    }
+                  ],
+                  staticClass: "mr-2",
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.updateDatabaseRecord(ind)
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "fas fa-check" })]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  on: {
+                    click: function($event) {
+                      return _vm.destroy(ind)
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "fas fa-trash" })]
+              )
+            ]),
+            _vm._v(" "),
+            _c("td", [
+              _c(
+                "span",
+                {
+                  style: { cursor: "pointer" },
+                  on: {
+                    click: function($event) {
+                      return _vm.selectCycle(cycle.id)
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "fas fa-mouse-pointer" })]
+              )
             ])
-          ]),
-          _vm._v(" "),
-          _c("td", { staticClass: "d-flex justify-content-center" }, [
-            _c(
-              "div",
-              {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value: !cycle.editing,
-                    expression: "!cycle.editing"
-                  }
-                ],
-                staticClass: "mr-2",
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    _vm.isEditing(parseInt(ind, 10))
-                  }
-                }
-              },
-              [_c("i", { staticClass: "fas fa-highlighter" })]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value: cycle.editing,
-                    expression: "cycle.editing"
-                  }
-                ],
-                staticClass: "mr-2",
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.updateDatabaseRecord(ind)
-                  }
-                }
-              },
-              [_c("i", { staticClass: "fas fa-check" })]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                on: {
-                  click: function($event) {
-                    return _vm.destroy(ind)
-                  }
-                }
-              },
-              [_c("i", { staticClass: "fas fa-trash" })]
-            )
-          ]),
-          _vm._v(" "),
-          _c("td", [
-            _c(
-              "span",
-              {
-                style: { cursor: "pointer" },
-                on: {
-                  click: function($event) {
-                    return _vm.selectCycle(cycle.id)
-                  }
-                }
-              },
-              [_c("i", { staticClass: "fas fa-mouse-pointer" })]
-            )
           ])
-        ])
-      }),
-      0
-    )
-  ])
+        }),
+        0
+      )
+    ]
+  )
 }
 var staticRenderFns = [
   function() {
