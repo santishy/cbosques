@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-11">
-        <div class="card">
+        <div class="card border-primary mb-3 bg-light shadow-sm">
           <div class="card-body">
             <h3>
               Reporte General

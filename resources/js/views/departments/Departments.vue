@@ -2,9 +2,10 @@
   <div class="container">
     <div class="row">
       <div class="col-md-4 col-sm-4 col-xs-12 col-lg-4">
-        <div class="card border-dark mb-3">
-          <div class="card-header">Crear Departamento</div>
+        <div class="card border-primary mb-3 shadow-sm">
           <div class="card-body text-dark">
+            <h3>Crear Departamento</h3>
+            <hr>
             <form @submit.prevent="store">
               <div class="form-group">
                 <label for="name">Nombre</label>
@@ -19,39 +20,45 @@
         </div>
       </div>
       <div class="col-md-8 col-sm-8 col-xs-12 col-lg-8">
-        <table class="table text-center table-striped">
-          <thead>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Acciones</th>
-          </thead>
-          <tbody>
-            <tr v-for="(department,ind) in array">
-              <td>{{department.id}}</td>
-              <td>
-                <div v-if="department.editing">
-                  <input :class="['form-control',hasErrorEditing.name ? 'is-invalid' : '']"  type="text" name="" v-model="form.name">
-                  <small v-if="hasErrorEditing.name && department.editing" class="text-danger">{{hasErrorEditing.name[0]}}</small>
-                </div>
-                <div v-else>
-                  {{department.name}}
-                </div>
-              </td>
-              <td class="d-flex justify-content-center">
-                  <div class="mr-2" v-show="!department.editing"  @click="isEditing(parseInt(ind,10))">
-                     <i class="fas fa-highlighter" ></i>
-                  </div>
-                  <div class="mr-2" v-show="department.editing" @click="updateDatabaseRecord(ind)">
-                      <i class="fas fa-check"></i>
-                  </div>
-                  <div @click="destroy(ind)" >
-                    <i class="fas fa-trash"></i>
-                  </div>
-              </td>
-            </tr>
-            <!-- <infinite-loading @infinite="infiniteHandler"></infinite-loading> -->
-          </tbody>
-        </table>
+        <div class="card border-primary mb-3 bg-light shadow-sm">
+          <div class="card-body text-dark">
+            <h3>Departamentos</h3>
+            <hr>
+            <table class="table text-center table-striped">
+              <thead>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Acciones</th>
+              </thead>
+              <tbody>
+                <tr v-for="(department,ind) in array">
+                  <td>{{department.id}}</td>
+                  <td>
+                    <div v-if="department.editing">
+                      <input :class="['form-control',hasErrorEditing.name ? 'is-invalid' : '']"  type="text" name="" v-model="form.name">
+                      <small v-if="hasErrorEditing.name && department.editing" class="text-danger">{{hasErrorEditing.name[0]}}</small>
+                    </div>
+                    <div v-else>
+                      {{department.name}}
+                    </div>
+                  </td>
+                  <td class="d-flex justify-content-center">
+                      <div class="mr-2" v-show="!department.editing"  @click="isEditing(parseInt(ind,10))">
+                         <i class="fas fa-highlighter" ></i>
+                      </div>
+                      <div class="mr-2" v-show="department.editing" @click="updateDatabaseRecord(ind)">
+                          <i class="fas fa-check"></i>
+                      </div>
+                      <div @click="destroy(ind)" >
+                        <i class="fas fa-trash"></i>
+                      </div>
+                  </td>
+                </tr>
+                <!-- <infinite-loading @infinite="infiniteHandler"></infinite-loading> -->
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </div>

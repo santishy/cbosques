@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-3 col-lg-3 col-sm-4 col-xs-8">
-        <div class="card border-primary mb-3 bg-light shadow-sm" >
+        <div class="card border-primary mb-3 shadow-sm" >
           <div class="card-body text-dark">
             <h5 class="card-title">Nuevo Ciclo</h5>
             <hr>
@@ -27,7 +27,7 @@
         </div>
       </div>
       <div class="col-md-9 col-lg-9 col-sm-8 col-xs-12">
-        <div class="card border-primary mb-3 bg-light shadow-sm">
+        <div class="card border-primary mb-3  shadow-sm">
           <div class="card-body">
             <h5 class="card-title">Lista de ciclos</h5>
             <index-cycles/>

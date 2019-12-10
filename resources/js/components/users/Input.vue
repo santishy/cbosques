@@ -11,7 +11,6 @@
            <small v-if="error.email" style="padding:0px" class="text-danger text-center">{{error.email[0]}}</small>
   </div>
 </template>
-
 <script>
 import {mapMutations} from 'vuex';
 export default {

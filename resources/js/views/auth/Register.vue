@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-7 col-xs-10">
-        <div class="card">
+        <div class="card border-primary shadow-sm mb-3">
           <div class="card-body">
             <div class="card-title">Registrar usuario</div>
               <form id="formData" @submit.prevent="userRegister">
@@ -65,7 +65,7 @@
         </div>
       </div>
       <div class="col-md-4 col-xs-10">
-        <div class="card">
+        <div class="card border-primary shadow-sm mb-3">
           <div class="card-body">
             <div class="card-title">Asignar roles</div>
               <form>
@@ -81,7 +81,7 @@
                </form>
             </div>
           </div>
-          <div class="card mt-2">
+          <div class="card mt-2 border-primary shadow-sm mb-3">
             <div class="card-body">
               <div class="card-title">
                 Asignar Departamentos

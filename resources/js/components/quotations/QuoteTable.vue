@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <table class="table text-center table-inverse table-striped">
+    <table class="table text-center table-inverse table-striped table-responsive-sm table-responsive-xl">
       <a href="quotations/"></a>
       <thead class="bg-primary text-white">
         <tr>

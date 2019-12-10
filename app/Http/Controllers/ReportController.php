@@ -50,7 +50,6 @@ class ReportController extends Controller
       return new QuotationsCollection(Quotation::currentCycleQuotes()->byDates($request->all())->get());
     }
     public function pdfQuotationsByDates(Request $request){
-
       $quotations = $this->quotationsByDates($request);
       $date = Carbon::now()->format('d-m-Y');
       $initialDate = Carbon::createFromFormat('Y-m-d',$request->initialDate)->isoFormat('dddd, Do MMMM YYYY');

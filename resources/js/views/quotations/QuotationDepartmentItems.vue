@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-8">
-        <div class="card">
+        <div class="card border-primary mb-3 bg-light shadow-sm">
           <div class="card-body">
             <h5 class="card-title">Crear Cotización</h5>
             <h6 class="card-subtitle mb-2 text-muted"></h6>
@@ -66,7 +66,7 @@
               <div v-if="upload" class="progress mt-2 mb-2">
                 <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" :aria-valuenow="load" aria-valuemin="0" aria-valuemax="100" :style="{'width':load+'%'}"></div>
               </div>
-              <button class="btn btn-success btn-block" name="button">Guardar</button>
+              <button class="btn btn-primary btn-block" name="button">Guardar</button>
             </form>
           </div>
         </div>

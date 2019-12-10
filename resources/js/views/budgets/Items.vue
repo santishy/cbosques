@@ -3,11 +3,11 @@
     <form-budgets v-on:newBudget="addBudget" @storedItem="adjustItemQty" :budget_qty="budget_qty" :title="this.$route.params.budget.concept" subtitle="Crear Rubro" url="/api/items"></form-budgets>
     <div class="row">
       <div class="col-md-12 col-xs-12">
-        <div class="card border-primary mb-3 bg-light shadow-sm" >
+        <div class="card border-primary mb-3 shadow-sm" >
           <div class="card-body text-dark">
             <h5 class="card-title">Lista de rubros (sub cuentas de generales)</h5>
             <table class="table table-striped text-center table-responsive-xl table-responsive-sm">
-              <thead class="bg-primary text-white">
+              <thead>
                 <th>ID</th>
                 <th>Concepto</th>
                 <th>Cantidad</th>

@@ -7,9 +7,10 @@
         </department-list>
       </div>
       <div class="col-md-6">
-        <div class="card">
+        <div class="card border-primary mb-3 shadow-sm">
           <div class="card-body">
             <h5 class="card-title">Presupuestos</h5>
+            <hr>
             <form>
               <div style="margin-bottom:0 !important" v-for="(item,index) in items" class="form-group form-check">
                 <input @change="store"

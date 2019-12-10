@@ -2,23 +2,26 @@
   <div class="container">
     <div class="row justify-content-center align-items-center">
       <div class="col-md-10 col-sm-12">
-        <table class="table">
-          <thead>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Correo</th>
-            <th>Habilidad</th>
-            <th>Departamentos</th>
-            <th>Acciones</th>
-          </thead>
-          <tbody>
-            <user-tr v-for="(user,index) in users"
-                     :key="user.id"
-                     :index="index"
-                     :error="error"
-                     :user="user"/>
-          </tbody>
-        </table>
+        <div class="card border-primary shadow-sm mb-3">
+          <table class="table table-striped table-responsive-sm table-responsive-xl">
+            <thead>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Correo</th>
+              <th>Habilidad</th>
+              <th>Departamentos</th>
+              <th>Acciones</th>
+            </thead>
+            <tbody>
+              <user-tr v-for="(user,index) in users"
+                       :key="user.id"
+                       :index="index"
+                       :error="error"
+                       :user="user"/>
+            </tbody>
+          </table>
+        </div>
+
       </div>
     </div>
   </div>

@@ -12,12 +12,13 @@
     <div class="card">
       <div class="card-body">
         @if(isset($month))
-          <h4 class="card-title">Reporte de el mes de {{$month}}</h4>
+          <h5 class="card-title">Reporte de el mes de {{$month}}</h5>
+        @elseif(isset($initialDate))
+          <h5 class="card-title">Reporte de: {{$initialDate}} a {{$finalDate}}</h5>
+        @else
+          <h5>Reporte de la cuenta: {{$concept}}</h5>
         @endif
-        @if(isset($initialDate))
-            <h4 class="card-title">Reporte de: {{$initialDate}} a {{$finalDate}}</h4>
-        @endif
-        <table class="table table-striped table-responsive-xl table-responsive-sm">
+        <table class="table table-striped">
           <thead>
             <tr>
               <th>ID</th>
@@ -31,9 +32,7 @@
           <tbody>
             @foreach ($quotations as $quotation)
               <tr>
-                <td>
-                  {{$quotation->id}}
-                </td>
+                <td>{{$quotation->id}}</td>
                 <td>{{$quotation->user->name}}</td>
                 <td>{{$quotation->description}}</td>
                 <td>${{number_format($quotation->iva,2)}}</td>

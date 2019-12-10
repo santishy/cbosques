@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-3">
-        <div class="card">
+        <div class="card border-primary mb-3 bg-light shadow-sm">
           <div class="card-body">
             <form @submit.prevent="getReport">
               <div class="form-group">
@@ -19,7 +19,7 @@
             </form>
           </div>
         </div>
-        <div class="card mt-2">
+        <div class="card mt-2 border-primary mb-3 bg-light shadow-sm">
           <div class="card-body">
             <h5 class="card-title">Por Mes:</h5>
             <form>
@@ -36,7 +36,7 @@
         </div>
       </div>
       <div class="col-md-9">
-        <div class="card">
+        <div class="card border-primary mb-3 bg-light shadow-sm">
           <div class="card-body">
             <h5 class="card-title">
               {{title}}

@@ -15,7 +15,7 @@ use App\Http\Resources\QuotationsCollection;
 use App\Events\ItemInsert;
 use App\Specification;
 use App\Events\UpdatedItem;
-
+use Carbon\Carbon;
 class ItemController extends Controller
 {
     /**
@@ -102,9 +102,11 @@ class ItemController extends Controller
       return $quotations;
     }
     public function pdfQuotations($id){
-      $quotations=$this->quotations(Item::find($id));
-      
-      $pdf = \PDF::loadView('reports.quotations',compact('quotations'));
+      $item = Item::find($id);
+      $quotations=$this->quotations($item);
+      $date = Carbon::now()->format('d-m-Y');
+      $concept = $item->specification->concept;
+      $pdf = \PDF::loadView('reports.quotations',compact(['quotations','date','concept']));
       return $pdf->download('reporte.pdf');
     }
     /**

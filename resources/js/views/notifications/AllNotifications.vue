@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-6 col-xs-10">
-        <div class="card">
+        <div class="card border-primary shadow-sm mb-3">
           <div class="card-body">
             <h3 class="card-title">
               Notificaciones no leídas
@@ -27,7 +27,7 @@
         </div>
       </div>
       <div class="col-md-6 col-xs-10">
-        <div class="card">
+        <div class="card border-primary shadow-sm mb-3">
           <div class="card-body">
             <h3 class="card-title">
               Notificaciones leídas

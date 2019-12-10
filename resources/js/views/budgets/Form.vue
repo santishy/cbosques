@@ -1,7 +1,7 @@
 <template>
   <div class="row justify-content-center">
       <div class="col-md-12 col-sm-12 col-lg-12 col-xs-10">
-          <div class="card border-primary bg-light shadow-sm mb-3">
+          <div class="card border-primary shadow-sm mb-3">
             <div class="card-body text-dark">
               <div v-if="isItem" class="d-flex justify-content-between">
                 <h4>{{title}}</h4>
@@ -24,7 +24,7 @@
                     <small v-if="hasError.concept" class="text-danger">{{hasError.concept[0]}}</small>
                   </div>
                 </div>
-                <button  type="submit" class="btn btn-primary mb-2 btn-block">Guardar</button>
+                <button  type="submit" class="btn btn-primary mb-2">Guardar</button>
               </form>
             </div>
           </div>
