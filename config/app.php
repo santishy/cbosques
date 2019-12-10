@@ -177,7 +177,6 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\CycleServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
-        Jenssegers\Date\DateServiceProvider::class,
     ],
 
     /*
