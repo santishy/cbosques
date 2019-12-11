@@ -2012,6 +2012,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2022,7 +2032,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   data: function data() {
     return {
-      assignDepartments: []
+      department_id: ''
     };
   },
   created: function created() {
@@ -2037,8 +2047,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     assignDepartment: function assignDepartment(event) {
       if (event.target.checked) // AQUIIIII NO ES IGUAL QUE EL OTRO METODO NO ENTRA CUANDO NO ESTA CHEKEADO Y CAMBIA
         if (this.action !== 'update') {
-          this.assignDepartments.push(event.target.value);
-          return this.$emit('assignedDepartments', this.assignDepartments);
+          this.department_id = event.target.value;
+          return this.$emit('assignedDepartment', this.department_id);
         }
       return this.update(event);
     },
@@ -3349,7 +3359,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       form: {},
       roles: [],
       assignedRoles: [],
-      assignedDepartments: [],
+      assignedDepartment: '',
       hasError: {}
     };
   },
@@ -3369,13 +3379,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     setFormData: function setFormData() {
       var formData = new FormData(document.getElementById('formData'));
       formData.append('roles', JSON.stringify(this.assignedRoles));
-      formData.append('departments', JSON.stringify(this.assignedDepartments));
+      formData.append('department_id', this.assignedDepartment);
       return formData;
     },
     clearValuesForFormData: function clearValuesForFormData() {
       this.form = {};
       this.assignedRoles = [];
-      this.assignedDepartments = [];
+      this.assignedDepartment = '';
     },
     userRegister: function userRegister() {
       var _this2 = this;
@@ -3409,8 +3419,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       } //this.assignedRoles.push
 
     },
-    setAssignedDepartments: function setAssignedDepartments(event) {
-      this.assignedDepartments = event;
+    setAssignedDepartment: function setAssignedDepartment(event) {
+      this.assignedDepartment = event;
     }
   })
 });
@@ -44926,33 +44936,48 @@ var render = function() {
         "form",
         [
           _vm._l(_vm.departments, function(department, index) {
-            return _c(
-              "div",
-              { staticClass: "custom-control custom-checkbox" },
-              [
-                _c("input", {
-                  class: [
-                    "custom-control-input",
-                    _vm.hasError.departments ? "is-invalid" : ""
-                  ],
-                  attrs: { type: "checkbox", id: department.id },
-                  domProps: {
-                    checked: _vm.isChecked(department),
-                    value: department.id
-                  },
-                  on: { change: _vm.assignDepartment }
-                }),
-                _vm._v(" "),
-                _c(
-                  "label",
+            return _c("div", { staticClass: "custom-control custom-radio" }, [
+              _c("input", {
+                directives: [
                   {
-                    staticClass: "custom-control-label",
-                    attrs: { for: department.id }
-                  },
-                  [_vm._v("\n        " + _vm._s(department.name) + "\n      ")]
-                )
-              ]
-            )
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.department_id,
+                    expression: "department_id"
+                  }
+                ],
+                class: [
+                  "custom-control-input",
+                  _vm.hasError.departments ? "is-invalid" : ""
+                ],
+                attrs: {
+                  type: "radio",
+                  id: "customRadio" + department.id,
+                  name: "department_id"
+                },
+                domProps: {
+                  value: department.id,
+                  checked: _vm._q(_vm.department_id, department.id)
+                },
+                on: {
+                  change: [
+                    function($event) {
+                      _vm.department_id = department.id
+                    },
+                    _vm.assignDepartment
+                  ]
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "label",
+                {
+                  staticClass: "custom-control-label",
+                  attrs: { for: "customRadio" + department.id }
+                },
+                [_vm._v(_vm._s(department.name))]
+              )
+            ])
           }),
           _vm._v(" "),
           _vm.hasError.departments
@@ -46921,7 +46946,7 @@ var render = function() {
               _vm._v(" "),
               _c("departments-list", {
                 attrs: { hasError: _vm.hasError },
-                on: { assignedDepartments: _vm.setAssignedDepartments }
+                on: { assignedDepartment: _vm.setAssignedDepartment }
               })
             ],
             1

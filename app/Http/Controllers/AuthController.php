@@ -26,7 +26,7 @@ class AuthController extends Controller
           'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
           'password' => ['required', 'string', 'min:8', 'confirmed'],
           'roles' => ['required'],
-          'departments' => 'required'
+          'department_id' => 'required'
       ],[
         'required' => 'El campo es requerido',
         'unique' => 'Este registro ya existe en la base de datos',
@@ -43,7 +43,7 @@ class AuthController extends Controller
         ]);
         $roles = json_decode($request->roles);
         $user->roles()->attach($roles);
-        $user->departments()->attach(json_decode($request->departments));
+        $user->departments()->attach($request->departments);
         $user->password = $request->password;
         Notification::send($user,new RegisteredUser);
         DB::commit();

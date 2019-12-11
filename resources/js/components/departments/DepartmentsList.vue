@@ -12,7 +12,17 @@
           <label class="custom-control-label" for="PENDIENTE">PENDIENTE</label>
         </div>
       </div> -->
-      <div v-for="(department,index) in departments" class="custom-control custom-checkbox">
+      <div v-for="(department,index) in departments" class="custom-control custom-radio">
+        <input type="radio"
+               :id="'customRadio'+department.id"
+               v-model="department_id"
+               :value="department.id"
+               @change="assignDepartment"
+               name="department_id"
+               :class="['custom-control-input', hasError.departments ? 'is-invalid' : '']">
+        <label class="custom-control-label" :for="'customRadio'+department.id">{{department.name}}</label>
+      </div>
+      <!-- <div v-for="(department,index) in departments" class="custom-control custom-checkbox">
         <input @change="assignDepartment"
                type="checkbox"
                :class="['custom-control-input', hasError.departments ? 'is-invalid' : '']"
@@ -22,7 +32,7 @@
         <label class="custom-control-label" :for="department.id">
           {{department.name}}
         </label>
-      </div>
+      </div> -->
       <small v-if="hasError.departments" class="text-danger">{{hasError.departments[0]}}</small>
     </form>
   </div>
@@ -39,7 +49,7 @@ export default {
   },
   data(){
     return {
-      assignDepartments:[]
+      department_id:''
     }
   },
   created(){
@@ -55,8 +65,8 @@ export default {
     assignDepartment(event){
       if(event.target.checked)// AQUIIIII NO ES IGUAL QUE EL OTRO METODO NO ENTRA CUANDO NO ESTA CHEKEADO Y CAMBIA
         if(this.action !== 'update'){
-          this.assignDepartments.push(event.target.value)
-          return this.$emit('assignedDepartments',this.assignDepartments)
+          this.department_id=event.target.value
+          return this.$emit('assignedDepartment',this.department_id)
         }
       return this.update(event)
     },

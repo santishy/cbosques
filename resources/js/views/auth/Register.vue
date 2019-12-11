@@ -86,7 +86,7 @@
               <div class="card-title">
                 Asignar Departamentos
               </div>
-              <departments-list :hasError="hasError" @assignedDepartments="setAssignedDepartments"/>
+              <departments-list :hasError="hasError" @assignedDepartment="setAssignedDepartment"/>
             </div>
           </div>
         </div>
@@ -105,7 +105,7 @@ export default {
       form:{},
       roles:[],
       assignedRoles:[],
-      assignedDepartments:[],
+      assignedDepartment:'',
       hasError:{}
     }
   },
@@ -124,13 +124,13 @@ export default {
     setFormData(){
       var formData = new FormData(document.getElementById('formData'));
       formData.append('roles',JSON.stringify(this.assignedRoles))
-      formData.append('departments',JSON.stringify(this.assignedDepartments))
+      formData.append('department_id',this.assignedDepartment)
       return formData;
     },
     clearValuesForFormData(){
       this.form={};
       this.assignedRoles=[];
-      this.assignedDepartments=[];
+      this.assignedDepartment='';
     },
     userRegister(){
       this.hasError={}
@@ -164,8 +164,8 @@ export default {
         }
       //this.assignedRoles.push
     },
-    setAssignedDepartments(event){
-      this.assignedDepartments = event;
+    setAssignedDepartment(event){
+      this.assignedDepartment = event;
     },
   }
 }
