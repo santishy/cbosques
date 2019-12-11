@@ -46,6 +46,7 @@ class DepartmentController extends Controller
         'required' => 'El campo es requerido',
         'unique' => 'Ya existe este departamento en la base de datos',
       ])->validate();
+      return $request->all();
       $department = Department::create($request->all());
       return response()->Json($department);
     }
