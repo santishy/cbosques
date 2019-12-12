@@ -90,16 +90,6 @@ class QuotationController extends Controller
         $quotation->status = $request->status;
         $quotation->total = $quotation->total();
         $quotation->save();
-        // $quotation->update(['status'=> $request->status,
-        //                     'qty'=>$request->qty,
-        //                     'iva'=>$request->iva,
-        //                     'total'=>$quotation->total()]);// aki aplica el ajuste para rebajar ¿para aumentar? checkar por favor
-        // if($request->notification_id)
-        // {
-        //   $notification = DatabaseNotification::find($request->notification_id);
-        //   $notification->data = $quotation;
-        //   $notification->save();
-        // }
         DB::commit();
         return response()->json(['quotation' => new QuoteResource($quotation)]);
       }catch (\Exception $e) {

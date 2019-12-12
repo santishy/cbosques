@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Mail\UpdatedQuotationStatus;
 
-class QuoteResponse extends Notification
+class QuoteResponse extends Notification implements ShouldQueue
 {
     use Queueable;
 

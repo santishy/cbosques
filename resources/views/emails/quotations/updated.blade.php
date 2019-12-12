@@ -1,12 +1,18 @@
 @component('mail::message')
-# cotización {{$quotation->status}}
+# Tu cotización a sido respondida.
+
+<p>
+  Tu presupuesto, con descripcion: {{$quotation->description}}
+  a sido: <b>{{$quotation->status}}</b>
+</p>
+
 
 @isset($quotation->message)
   {{$quotation->message}}
 @endisset
 
-@component('mail::button', ['url' => 'google.com','color' => 'primary'])
-Ir
+@component('mail::button', ['url' => url('/'), 'color' => 'green'])
+View Invoice
 @endcomponent
 
 Gracias por su atención,<br>
