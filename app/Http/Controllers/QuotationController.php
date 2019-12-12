@@ -86,10 +86,14 @@ class QuotationController extends Controller
         DB::beginTransaction();
       //  $quotation->message = $request->message;
         $quotation->iva = $request->iva; // Aqui lo agrego, para la hora de sacar el total con el nuevo iva lo incluya o excluya dependiendo el caso.
-        $quotation->update(['status'=> $request->status,
-                            'qty'=>$request->qty,
-                            'iva'=>$request->iva,
-                            'total'=>$quotation->total()]);// aki aplica el ajuste para rebajar ¿para aumentar? checkar por favor
+        $quotation->qty = $request->qty;
+        $quotation->status = $request->status;
+        $quotation->total = $quotation->total();
+        $quotation->save();
+        // $quotation->update(['status'=> $request->status,
+        //                     'qty'=>$request->qty,
+        //                     'iva'=>$request->iva,
+        //                     'total'=>$quotation->total()]);// aki aplica el ajuste para rebajar ¿para aumentar? checkar por favor
         // if($request->notification_id)
         // {
         //   $notification = DatabaseNotification::find($request->notification_id);
