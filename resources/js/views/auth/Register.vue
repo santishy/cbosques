@@ -1,69 +1,6 @@
 <template>
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-md-7 col-xs-10">
-        <div class="card border-primary shadow-sm mb-3">
-          <div class="card-body">
-            <div class="card-title">Registrar usuario</div>
-              <form id="formData" @submit.prevent="userRegister">
-                <div class="form-group row">
-                  <label for="name" class="col-md-4 col-form-label text-md-right">Nombre</label>
-                  <div class="col-md-6">
-                    <input id="name"
-                           type="text"
-                           :class="['form-control', hasError.name ? 'is-invalid' : '']"
-                           name="name"
-                           v-model="form.name"
-                           autocomplete="name"
-                           autofocus>
-                    <small v-if="hasError.name" class="text-danger">{{hasError.name[0]}}</small>
-                  </div>
-                 </div>
-                 <div class="form-group row">
-                  <label for="email" class="col-md-4 col-form-label text-md-right">Email</label>
-                   <div class="col-md-6">
-                    <input v-model="form.email"
-                           id="email" type="email"
-                           :class="['form-control',hasError.email ? 'is-invalid' : '']"
-                           name="email">
-                    <small class="text-danger" v-if="hasError.email">{{hasError.email[0]}}</small>
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
-                    <div class="col-md-6">
-                      <input id="password"
-                             v-model="form.password"
-                             type="password"
-                             :class="['form-control', hasError.password ? 'is-invalid' : ''] "
-                             name="password"
-                             autocomplete="new-password">
-                      <small v-if="hasError.password" class="text-danger">{{hasError.password[0]}}</small>
-                    </div>
-                </div>
-                <div class="form-group row">
-                  <label for="password-confirm" class="col-md-4 col-form-label text-md-right">Confirmar Password</label>
-                  <div class="col-md-6">
-                    <input id="password-confirm"
-                      v-model="form.password_confirmation"
-                      type="password"
-                      :class="['form-control',hasError.password_confirmation ? 'is-invalid' : '']"
-                      name="password_confirmation"
-                      autocomplete="new-password">
-                    <small v-if="hasError.password_confirmation" class="text-danger">{{hasError.password_confirmation[0]}}</small>
-                </div>
-              </div>
-              <div class="form-group row mb-0">
-                <div class="col-md-6 offset-md-4">
-                  <button type="submit" class="btn btn-primary">
-                    Registrar
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
       <div class="col-md-4 col-xs-10">
         <div class="card border-primary shadow-sm mb-3">
           <div class="card-body">
@@ -87,6 +24,69 @@
                 Asignar Departamentos
               </div>
               <departments-list :hasError="hasError" @assignedDepartment="setAssignedDepartment"/>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-7 col-xs-10">
+          <div class="card border-primary shadow-sm mb-3">
+            <div class="card-body">
+              <div class="card-title">Registrar usuario</div>
+                <form id="formData" @submit.prevent="userRegister">
+                  <div class="form-group row">
+                    <label for="name" class="col-md-4 col-form-label text-md-right">Nombre</label>
+                    <div class="col-md-6">
+                      <input id="name"
+                             type="text"
+                             :class="['form-control', hasError.name ? 'is-invalid' : '']"
+                             name="name"
+                             v-model="form.name"
+                             autocomplete="name"
+                             autofocus>
+                      <small v-if="hasError.name" class="text-danger">{{hasError.name[0]}}</small>
+                    </div>
+                   </div>
+                   <div class="form-group row">
+                    <label for="email" class="col-md-4 col-form-label text-md-right">Email</label>
+                     <div class="col-md-6">
+                      <input v-model="form.email"
+                             id="email" type="email"
+                             :class="['form-control',hasError.email ? 'is-invalid' : '']"
+                             name="email">
+                      <small class="text-danger" v-if="hasError.email">{{hasError.email[0]}}</small>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
+                      <div class="col-md-6">
+                        <input id="password"
+                               v-model="form.password"
+                               type="password"
+                               :class="['form-control', hasError.password ? 'is-invalid' : ''] "
+                               name="password"
+                               autocomplete="new-password">
+                        <small v-if="hasError.password" class="text-danger">{{hasError.password[0]}}</small>
+                      </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="password-confirm" class="col-md-4 col-form-label text-md-right">Confirmar Password</label>
+                    <div class="col-md-6">
+                      <input id="password-confirm"
+                        v-model="form.password_confirmation"
+                        type="password"
+                        :class="['form-control',hasError.password_confirmation ? 'is-invalid' : '']"
+                        name="password_confirmation"
+                        autocomplete="new-password">
+                      <small v-if="hasError.password_confirmation" class="text-danger">{{hasError.password_confirmation[0]}}</small>
+                  </div>
+                </div>
+                <div class="form-group row mb-0">
+                  <div class="col-md-6 offset-md-4">
+                    <button type="submit" class="btn btn-primary">
+                      Registrar
+                    </button>
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
         </div>

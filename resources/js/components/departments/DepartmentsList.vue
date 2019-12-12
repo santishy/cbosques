@@ -1,38 +1,17 @@
 <template>
   <div class="form-group">
-    <close @close="doneEdit"/>
+    <close v-if="action=='update'"@close="doneEdit"/>
     <form>
-      <!-- <div class="form-group">
-        <div class="custom-control custom-radio" v-for="(department,index) in departments">
-          <input type="radio"
-                 class="custom-control-input"
-                 :id="department.id"
-                 :checked='isChecked(department)'
-                 :value="department.id">
-          <label class="custom-control-label" for="PENDIENTE">PENDIENTE</label>
-        </div>
-      </div> -->
       <div v-for="(department,index) in departments" class="custom-control custom-radio">
         <input type="radio"
                :id="'customRadio'+department.id"
-               v-model="department_id"
                :value="department.id"
+               :checked='isChecked(department)'
                @change="assignDepartment"
                name="department_id"
                :class="['custom-control-input', hasError.departments ? 'is-invalid' : '']">
         <label class="custom-control-label" :for="'customRadio'+department.id">{{department.name}}</label>
       </div>
-      <!-- <div v-for="(department,index) in departments" class="custom-control custom-checkbox">
-        <input @change="assignDepartment"
-               type="checkbox"
-               :class="['custom-control-input', hasError.departments ? 'is-invalid' : '']"
-               :id="department.id"
-               :checked='isChecked(department)'
-               :value="department.id">
-        <label class="custom-control-label" :for="department.id">
-          {{department.name}}
-        </label>
-      </div> -->
       <small v-if="hasError.departments" class="text-danger">{{hasError.departments[0]}}</small>
     </form>
   </div>
@@ -49,7 +28,7 @@ export default {
   },
   data(){
     return {
-      department_id:''
+      department_id:true
     }
   },
   created(){
@@ -57,7 +36,6 @@ export default {
   },
   methods:{
     doneEdit(){
-      console.log('close')
       this.$emit('close','editing_departments');
     },
     ...mapActions(['getDepartments']),
@@ -90,6 +68,7 @@ export default {
       if(this.action!='update')
         return;
       return this.assignedDepartments.some(assignDepartment => {
+        console.log(assignDepartment.id +' '+department.id)
         if(assignDepartment.id == department.id)
           return true;
       })

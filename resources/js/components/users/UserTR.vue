@@ -52,6 +52,7 @@
 import DepartmentsList from '../departments/DepartmentsList';
 import Input from './Input';
 import RolesCheckbox from './RolesCheckbox';
+
 import {mapMutations} from 'vuex';
 export default {
   props:['user','index'],

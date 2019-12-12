@@ -25,4 +25,5 @@ Ir
 
 Gracias por su atención,<br>
 {{ config('app.name') }}
+
 @endcomponent

@@ -2001,27 +2001,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -2032,7 +2011,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   data: function data() {
     return {
-      department_id: ''
+      department_id: true
     };
   },
   created: function created() {
@@ -2040,7 +2019,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   methods: _objectSpread({
     doneEdit: function doneEdit() {
-      console.log('close');
       this.$emit('close', 'editing_departments');
     }
   }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(['getDepartments']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(['updateUser']), {
@@ -2077,6 +2055,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     isChecked: function isChecked(department) {
       if (this.action != 'update') return;
       return this.assignedDepartments.some(function (assignDepartment) {
+        console.log(assignDepartment.id + ' ' + department.id);
         if (assignDepartment.id == department.id) return true;
       });
     }
@@ -3444,7 +3423,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
 //
 //
 //
@@ -44930,7 +44908,9 @@ var render = function() {
     "div",
     { staticClass: "form-group" },
     [
-      _c("close", { on: { close: _vm.doneEdit } }),
+      _vm.action == "update"
+        ? _c("close", { on: { close: _vm.doneEdit } })
+        : _vm._e(),
       _vm._v(" "),
       _c(
         "form",
@@ -44938,14 +44918,6 @@ var render = function() {
           _vm._l(_vm.departments, function(department, index) {
             return _c("div", { staticClass: "custom-control custom-radio" }, [
               _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.department_id,
-                    expression: "department_id"
-                  }
-                ],
                 class: [
                   "custom-control-input",
                   _vm.hasError.departments ? "is-invalid" : ""
@@ -44957,16 +44929,9 @@ var render = function() {
                 },
                 domProps: {
                   value: department.id,
-                  checked: _vm._q(_vm.department_id, department.id)
+                  checked: _vm.isChecked(department)
                 },
-                on: {
-                  change: [
-                    function($event) {
-                      _vm.department_id = department.id
-                    },
-                    _vm.assignDepartment
-                  ]
-                }
+                on: { change: _vm.assignDepartment }
               }),
               _vm._v(" "),
               _c(
@@ -46182,169 +46147,154 @@ var render = function() {
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-3" }, [
-        _c(
-          "div",
-          { staticClass: "card border-primary mb-3 bg-light shadow-sm" },
-          [
-            _c("div", { staticClass: "card-body" }, [
-              _c(
-                "form",
-                {
-                  on: {
-                    submit: function($event) {
-                      $event.preventDefault()
-                      return _vm.getReport($event)
-                    }
+        _c("div", { staticClass: "card border-primary mb-3 shadow-sm" }, [
+          _c("div", { staticClass: "card-body" }, [
+            _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.getReport($event)
                   }
-                },
-                [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("label", { attrs: { for: "initial-date" } }, [
-                      _vm._v("Fecha Inicial")
-                    ]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.initialDate,
-                          expression: "form.initialDate"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: {
-                        type: "date",
-                        id: "initial_date",
-                        name: "initial_date"
-                      },
-                      domProps: { value: _vm.form.initialDate },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.form, "initialDate", $event.target.value)
-                        }
-                      }
-                    })
+                }
+              },
+              [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "initial-date" } }, [
+                    _vm._v("Fecha Inicial")
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("label", { attrs: { for: "initial-date" } }, [
-                      _vm._v("Fecha Final")
-                    ]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.finalDate,
-                          expression: "form.finalDate"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: {
-                        type: "date",
-                        name: "final_date",
-                        id: "final_date"
-                      },
-                      domProps: { value: _vm.form.finalDate },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.form, "finalDate", $event.target.value)
-                        }
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.form.initialDate,
+                        expression: "form.initialDate"
                       }
-                    })
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      type: "date",
+                      id: "initial_date",
+                      name: "initial_date"
+                    },
+                    domProps: { value: _vm.form.initialDate },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.form, "initialDate", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "initial-date" } }, [
+                    _vm._v("Fecha Final")
                   ]),
                   _vm._v(" "),
-                  _vm._m(0)
-                ]
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.form.finalDate,
+                        expression: "form.finalDate"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      type: "date",
+                      name: "final_date",
+                      id: "final_date"
+                    },
+                    domProps: { value: _vm.form.finalDate },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.form, "finalDate", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _vm._m(0)
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card mt-2 border-primary mb-3 shadow-sm" }, [
+          _c("div", { staticClass: "card-body" }, [
+            _c("h5", { staticClass: "card-title" }, [_vm._v("Por Mes:")]),
+            _vm._v(" "),
+            _c("form", [
+              _c(
+                "div",
+                { staticClass: "form-group" },
+                _vm._l(_vm.months, function(month, index) {
+                  return _c(
+                    "div",
+                    { staticClass: "custom-control custom-radio" },
+                    [
+                      _c("input", {
+                        staticClass: "custom-control-input",
+                        attrs: {
+                          type: "radio",
+                          name: "month",
+                          id: month + "" + index
+                        },
+                        domProps: { value: index + 1 },
+                        on: { change: _vm.getReportByMonth }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "custom-control-label",
+                          attrs: { for: month + "" + index }
+                        },
+                        [_vm._v(_vm._s(month))]
+                      )
+                    ]
+                  )
+                }),
+                0
               )
             ])
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "card mt-2 border-primary mb-3 bg-light shadow-sm" },
-          [
-            _c("div", { staticClass: "card-body" }, [
-              _c("h5", { staticClass: "card-title" }, [_vm._v("Por Mes:")]),
-              _vm._v(" "),
-              _c("form", [
-                _c(
-                  "div",
-                  { staticClass: "form-group" },
-                  _vm._l(_vm.months, function(month, index) {
-                    return _c(
-                      "div",
-                      { staticClass: "custom-control custom-radio" },
-                      [
-                        _c("input", {
-                          staticClass: "custom-control-input",
-                          attrs: {
-                            type: "radio",
-                            name: "month",
-                            id: month + "" + index
-                          },
-                          domProps: { value: index + 1 },
-                          on: { change: _vm.getReportByMonth }
-                        }),
-                        _vm._v(" "),
-                        _c(
-                          "label",
-                          {
-                            staticClass: "custom-control-label",
-                            attrs: { for: month + "" + index }
-                          },
-                          [_vm._v(_vm._s(month))]
-                        )
-                      ]
-                    )
-                  }),
-                  0
-                )
-              ])
-            ])
-          ]
-        )
+          ])
+        ])
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "col-md-9" }, [
-        _c(
-          "div",
-          { staticClass: "card border-primary mb-3 bg-light shadow-sm" },
-          [
-            _c(
-              "div",
-              { staticClass: "card-body" },
-              [
-                _c("h5", { staticClass: "card-title" }, [
-                  _vm._v(
-                    "\n            " + _vm._s(_vm.title) + "\n            "
-                  ),
-                  _c(
-                    "a",
-                    {
-                      staticClass:
-                        "float-right text-decoration-none text-danger",
-                      attrs: { href: _vm.url_report }
-                    },
-                    [_vm._m(1)]
-                  )
-                ]),
-                _vm._v(" "),
-                _c("quote-table", { attrs: { quotations: _vm.quotations } })
-              ],
-              1
-            )
-          ]
-        )
+        _c("div", { staticClass: "card border-primary mb-3 shadow-sm" }, [
+          _c(
+            "div",
+            { staticClass: "card-body" },
+            [
+              _c("h5", { staticClass: "card-title" }, [
+                _vm._v("\n            " + _vm._s(_vm.title) + "\n            "),
+                _c(
+                  "a",
+                  {
+                    staticClass: "float-right text-decoration-none text-danger",
+                    attrs: { href: _vm.url_report }
+                  },
+                  [_vm._m(1)]
+                )
+              ]),
+              _vm._v(" "),
+              _c("quote-table", { attrs: { quotations: _vm.quotations } })
+            ],
+            1
+          )
+        ])
       ])
     ])
   ])
@@ -46663,6 +46613,75 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "row justify-content-center" }, [
+      _c("div", { staticClass: "col-md-4 col-xs-10" }, [
+        _c("div", { staticClass: "card border-primary shadow-sm mb-3" }, [
+          _c("div", { staticClass: "card-body" }, [
+            _c("div", { staticClass: "card-title" }, [_vm._v("Asignar roles")]),
+            _vm._v(" "),
+            _c(
+              "form",
+              [
+                _vm._l(_vm.roles, function(role, index) {
+                  return _c(
+                    "div",
+                    { staticClass: "custom-control custom-checkbox" },
+                    [
+                      _c("input", {
+                        class: [
+                          "custom-control-input",
+                          _vm.hasError.roles ? "is-invalid" : ""
+                        ],
+                        attrs: {
+                          index: index,
+                          type: "checkbox",
+                          id: role.name
+                        },
+                        domProps: { value: role.id },
+                        on: { change: _vm.assignRole }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "custom-control-label",
+                          attrs: { for: role.name }
+                        },
+                        [_vm._v(_vm._s(role.display_name))]
+                      )
+                    ]
+                  )
+                }),
+                _vm._v(" "),
+                _vm.hasError.roles
+                  ? _c("small", { staticClass: "text-danger" }, [
+                      _vm._v(_vm._s(_vm.hasError.roles[0]))
+                    ])
+                  : _vm._e()
+              ],
+              2
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card mt-2 border-primary shadow-sm mb-3" }, [
+          _c(
+            "div",
+            { staticClass: "card-body" },
+            [
+              _c("div", { staticClass: "card-title" }, [
+                _vm._v("\n              Asignar Departamentos\n            ")
+              ]),
+              _vm._v(" "),
+              _c("departments-list", {
+                attrs: { hasError: _vm.hasError },
+                on: { assignedDepartment: _vm.setAssignedDepartment }
+              })
+            ],
+            1
+          )
+        ])
+      ]),
+      _vm._v(" "),
       _c("div", { staticClass: "col-md-7 col-xs-10" }, [
         _c("div", { staticClass: "card border-primary shadow-sm mb-3" }, [
           _c("div", { staticClass: "card-body" }, [
@@ -46883,75 +46902,6 @@ var render = function() {
             )
           ])
         ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-4 col-xs-10" }, [
-        _c("div", { staticClass: "card border-primary shadow-sm mb-3" }, [
-          _c("div", { staticClass: "card-body" }, [
-            _c("div", { staticClass: "card-title" }, [_vm._v("Asignar roles")]),
-            _vm._v(" "),
-            _c(
-              "form",
-              [
-                _vm._l(_vm.roles, function(role, index) {
-                  return _c(
-                    "div",
-                    { staticClass: "custom-control custom-checkbox" },
-                    [
-                      _c("input", {
-                        class: [
-                          "custom-control-input",
-                          _vm.hasError.roles ? "is-invalid" : ""
-                        ],
-                        attrs: {
-                          index: index,
-                          type: "checkbox",
-                          id: role.name
-                        },
-                        domProps: { value: role.id },
-                        on: { change: _vm.assignRole }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "label",
-                        {
-                          staticClass: "custom-control-label",
-                          attrs: { for: role.name }
-                        },
-                        [_vm._v(_vm._s(role.display_name))]
-                      )
-                    ]
-                  )
-                }),
-                _vm._v(" "),
-                _vm.hasError.roles
-                  ? _c("small", { staticClass: "text-danger" }, [
-                      _vm._v(_vm._s(_vm.hasError.roles[0]))
-                    ])
-                  : _vm._e()
-              ],
-              2
-            )
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "card mt-2 border-primary shadow-sm mb-3" }, [
-          _c(
-            "div",
-            { staticClass: "card-body" },
-            [
-              _c("div", { staticClass: "card-title" }, [
-                _vm._v("\n              Asignar Departamentos\n            ")
-              ]),
-              _vm._v(" "),
-              _c("departments-list", {
-                attrs: { hasError: _vm.hasError },
-                on: { assignedDepartment: _vm.setAssignedDepartment }
-              })
-            ],
-            1
-          )
-        ])
       ])
     ])
   ])
@@ -46966,7 +46916,7 @@ var staticRenderFns = [
         _c(
           "button",
           { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-          [_vm._v("\n                  Registrar\n                ")]
+          [_vm._v("\n                    Registrar\n                  ")]
         )
       ])
     ])

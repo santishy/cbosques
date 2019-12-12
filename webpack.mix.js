@@ -11,12 +11,14 @@ const mix = require('laravel-mix');
  |
  */
 
+ mix.browserSync({
+         proxy: 'http://budgets.dev',
+         open: false,
+         browser:'Google chrome',
+         ghostMode: false,
+         watch:true,
+     });
+
 mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/pdf.scss', 'public/css')
     .sass('resources/sass/app.scss', 'public/css');
-mix.browserSync({
-        proxy: 'http://budgets.dev',
-        open: false,
-        browser:'Google chrome',
-        ghostMode: false,
-    });

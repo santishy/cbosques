@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Http\Resources\ItemsThroughDepartmentsCollection;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\QuotationsCollection;
+use App\Rules\DepartmentAssociatedWithTheUser;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -53,7 +54,7 @@ class UserController extends Controller
     }
     public function setEmail($request,$user){
       Validator::make([$request->column => $request->value],[
-        'email' => ["unique:users,email,$user->id","email"]
+        'email' => ["unique:users,email,$user->id","email"],
       ],
       [
         'email' => 'No es un email valido',
@@ -68,6 +69,7 @@ class UserController extends Controller
       return new UserResource($user);
     }
     public function setDepartments($request,$user){
+      $user->departments()->detach();
       $user->departments()->toggle([$request->value]);
       return new UserResource($user);
     }
