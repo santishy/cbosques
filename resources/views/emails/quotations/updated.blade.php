@@ -12,7 +12,7 @@
 @endisset
 
 @component('mail::button', ['url' => url('/'), 'color' => 'green'])
-View Invoice
+Control Presupuestal
 @endcomponent
 
 Gracias por su atención,<br>
