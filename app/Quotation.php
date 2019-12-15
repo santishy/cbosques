@@ -49,4 +49,7 @@ class Quotation extends Model
     public function scopeByDates($query,$date){
       return $query->whereBetween(DB::raw('Date(created_at)'),[$date['initialDate'],$date['finalDate']]);
     }
+    public function files(){
+      return $this->hasMany(File::class);
+    }
 }

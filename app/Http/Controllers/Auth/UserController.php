@@ -75,8 +75,8 @@ class UserController extends Controller
     }
     public function quotations(){
       if(Auth::user()->hasRoles(['admin','autorizador']))
-        return new QuotationsCollection(Quotation::orderBy('id','desc')->paginate(25));
-      return new QuotationsCollection(Auth::user()->quotations()->orderBy('id','desc')->paginate(25));
+        return new QuotationsCollection(Quotation::with('files')->orderBy('id','desc')->paginate(25));
+      return new QuotationsCollection(Auth::user()->quotations()->with('files')->orderBy('id','desc')->paginate(25));
     }
     public function destroy($id){
       return response()->json(['delete'=>User::findOrFail($id)->delete()]);

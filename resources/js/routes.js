@@ -200,6 +200,8 @@ function hasRoles(permissions){
   }
 }
 vueRouter.beforeEach((to, from, next) => {
+  if(document.getElementById('navbarSupportedContent'))
+    document.getElementById('navbarSupportedContent').classList.remove('show')
   if(to.matched.some(record => record.meta.requiresAuth)) {
     if(store.getters.isLoggedIn) {
       store.dispatch('getUnreadNotifications')

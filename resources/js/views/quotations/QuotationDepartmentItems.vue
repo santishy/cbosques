@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-8">
-        <div class="card border-primary mb-3 bg-light shadow-sm">
+        <div class="card border-primary mb-3 shadow-sm">
           <div class="card-body">
             <h5 class="card-title">Crear Cotización</h5>
             <h6 class="card-subtitle mb-2 text-muted"></h6>
@@ -59,8 +59,18 @@
                 </div>
               </fieldset>
               <div class="form-group">
+                <ul class="file-list">
+                  <li v-for="(attachment,index) in attachments">
+                    {{attachment.name}}
+                    <span class="mr-3" @click="deleteAttachment(index)">
+                      <i class="far fa-trash-alt"></i>
+                    </span>
+                  </li>
+                </ul>
+              </div>
+              <div class="form-group">
                 <label for="">Archivo</label>
-                <input type="file" @change="onFileSelected" name="archive" :class="['form-control', hasError.archive ? 'is-invalid' : '']">
+                <input type="file" multiple @change="onFileSelected" :class="['form-control', hasError.archive ? 'is-invalid' : '']">
                 <small v-if="hasError.archive" class="text-danger">{{hasError.archive[0]}}</small>
               </div>
               <div v-if="upload" class="progress mt-2 mb-2">
@@ -99,6 +109,7 @@ export default {
         items:[],
         form:{},
         fileSelected:null,
+        attachments:[],
         upload:false,
         load:0,
         hasError:{}
@@ -150,8 +161,14 @@ export default {
       *
       */
       onFileSelected(event){
-        this.form.fileSelected = event.target.files[0];
-        console.log(this.form.fileSelected)
+        //this.form.fileSelected = event.target.files[0];
+        for(let i=0;i<event.target.files.length;i++){
+          this.attachments.push(event.target.files[i])
+        }
+        console.log(this.attachments);
+      },
+      deleteAttachment(index){
+        this.attachments.splice(index,1);
       },
       /*
       *
@@ -162,11 +179,9 @@ export default {
         this.hasError={}
         const fd = new FormData(document.getElementById('formData'));
         fd.append('department_id',this.form.department_id);
-        // fd.append('item_id',this.form.item_id);
-        // fd.append('description',this.form.description);
-        // fd.append('qty',this.form.qty);
-        // fd.append('iva',this.form.iva);
-        fd.append('archive',this.form.fileSelected);
+        for(let i=0;i<this.attachments.length;i++){
+            fd.append('archive[]',this.attachments[i]);
+        }
         this.upload=true;
         axios({
           method:'POST',
@@ -193,6 +208,7 @@ export default {
         var select=document.getElementById('departmentsItems');
         select.options[0].text='Espere un momento, cargando...';
       },
+
     }
 
 }

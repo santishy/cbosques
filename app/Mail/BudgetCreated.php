@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class BudgetCreated extends Mailable 
+class BudgetCreated extends Mailable
 {
     use Queueable, SerializesModels;
     public $quotation;
@@ -30,10 +30,18 @@ class BudgetCreated extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.quotations.created',
-                    ['url'=>url('/quotations/show/'),
-                    "quotation" => $this->quotation])
-                    ->attachFromStorage($this->quotation->archive)
-                    ->subject('Nueva Cotización');
+      $mail = $this->markdown('emails.quotations.created',
+                  ['url'=>url('/quotations/show/'),
+                  "quotation" => $this->quotation])
+                  ->subject('Nueva Cotización');
+      foreach($this->quotation->files as $file){
+        $mail->attachFromStorage($file->name);
+      }
+      return $mail;
+        // return $this->markdown('emails.quotations.created',
+        //             ['url'=>url('/quotations/show/'),
+        //             "quotation" => $this->quotation])
+        //             ->attachFromStorage($this->quotation->archive)
+        //             ->subject('Nueva Cotización');
     }
 }

@@ -12771,3 +12771,14 @@ body {
   font-size: 1.5em;
 }
 
+.file-list {
+  list-style: none;
+}
+
+.file-list li {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: justify;
+          justify-content: space-between;
+}
+

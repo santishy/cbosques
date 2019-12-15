@@ -1,17 +1,19 @@
 <template>
   <div  :style="{'min-height':'100vh'}">
-    <nav v-if="isLoggedIn" class="navbar navbar-expand-lg navbar-dark navbar-full bg-primary shadow-md mb-3">
+    <nav v-if="isLoggedIn" class="navbar navbar-expand-lg navbar-expand-xl navbar-expand-sm navbar-dark navbar-full bg-primary shadow-md mb-3">
         <div class="container">
             <router-link class="navbar-brand" to="/">
                 Control Presupuestal
             </router-link>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse navbar-toggleable-xs" :class="{'show':show}"id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                   <li class="nav-item">
-                    <router-link class="nav-link" :to="'/cycles'">Ciclos</router-link>
+                    <router-link class="nav-link" :to="'/cycles'">
+                       Ciclos
+                    </router-link>
                   </li>
                   <li class="nav-item">
                     <router-link class="nav-link" to="/budgets">Crear Presupuesto</router-link>
@@ -79,6 +81,11 @@
     import {mapActions} from 'vuex'
     import NotificationsComponent from './NotificationsComponent'
     export default {
+      data(){
+        return{
+          show:false
+        }
+      },
       components:{
         'notifications-component':NotificationsComponent
       },
@@ -91,7 +98,12 @@
           this.logout().then(response => {
             this.$router.push('/login');
           })
-        }
+        },
+        toggleShow(){
+          alert('entro')
+          document.getElementById('#navbarSupportedContent').classList.remove('show')
+        },
       },
+
     }
 </script>

@@ -1781,10 +1781,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      show: false
+    };
+  },
   components: {
     'notifications-component': _NotificationsComponent__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
@@ -1796,6 +1803,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.logout().then(function (response) {
         _this.$router.push('/login');
       });
+    },
+    toggleShow: function toggleShow() {
+      alert('entro');
+      document.getElementById('#navbarSupportedContent').classList.remove('show');
     }
   })
 });
@@ -2081,6 +2092,8 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
 //
 //
 //
@@ -4570,7 +4583,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   data: function data() {
     return {
       array: [],
-      url: 'api/departments',
+      url: '/api/departments/',
       page: 1,
       name: '',
       hasError: {}
@@ -4933,6 +4946,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
@@ -4958,6 +4981,7 @@ __webpack_require__.r(__webpack_exports__);
       items: [],
       form: {},
       fileSelected: null,
+      attachments: [],
       upload: false,
       load: 0,
       hasError: {}
@@ -5013,8 +5037,15 @@ __webpack_require__.r(__webpack_exports__);
     *
     */
     onFileSelected: function onFileSelected(event) {
-      this.form.fileSelected = event.target.files[0];
-      console.log(this.form.fileSelected);
+      //this.form.fileSelected = event.target.files[0];
+      for (var i = 0; i < event.target.files.length; i++) {
+        this.attachments.push(event.target.files[i]);
+      }
+
+      console.log(this.attachments);
+    },
+    deleteAttachment: function deleteAttachment(index) {
+      this.attachments.splice(index, 1);
     },
 
     /*
@@ -5027,12 +5058,12 @@ __webpack_require__.r(__webpack_exports__);
       this.loadingItems = true;
       this.hasError = {};
       var fd = new FormData(document.getElementById('formData'));
-      fd.append('department_id', this.form.department_id); // fd.append('item_id',this.form.item_id);
-      // fd.append('description',this.form.description);
-      // fd.append('qty',this.form.qty);
-      // fd.append('iva',this.form.iva);
+      fd.append('department_id', this.form.department_id);
 
-      fd.append('archive', this.form.fileSelected);
+      for (var i = 0; i < this.attachments.length; i++) {
+        fd.append('archive[]', this.attachments[i]);
+      }
+
       this.upload = true;
       axios({
         method: 'POST',
@@ -44306,7 +44337,7 @@ var render = function() {
           "nav",
           {
             staticClass:
-              "navbar navbar-expand-lg navbar-dark navbar-full bg-primary shadow-md mb-3"
+              "navbar navbar-expand-lg navbar-expand-xl navbar-expand-sm navbar-dark navbar-full bg-primary shadow-md mb-3"
           },
           [
             _c(
@@ -44324,7 +44355,9 @@ var render = function() {
                 _c(
                   "div",
                   {
-                    staticClass: "collapse navbar-collapse",
+                    staticClass:
+                      "collapse navbar-collapse navbar-toggleable-xs",
+                    class: { show: _vm.show },
                     attrs: { id: "navbarSupportedContent" }
                   },
                   [
@@ -44342,7 +44375,11 @@ var render = function() {
                                 staticClass: "nav-link",
                                 attrs: { to: "/cycles" }
                               },
-                              [_vm._v("Ciclos")]
+                              [
+                                _vm._v(
+                                  "\n                     Ciclos\n                  "
+                                )
+                              ]
                             )
                           ],
                           1
@@ -44666,7 +44703,7 @@ var staticRenderFns = [
           "data-target": "#navbarSupportedContent",
           "aria-controls": "navbarSupportedContent",
           "aria-expanded": "false",
-          "aria-label": ""
+          "aria-label": "Toggle navigation"
         }
       },
       [_c("span", { staticClass: "navbar-toggler-icon" })]
@@ -45209,22 +45246,31 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "card-footer text-muted text-center" }, [
-      _c(
-        "a",
-        {
-          staticClass: "text-decoration-none text-white",
-          attrs: {
-            href:
-              "api/quotations/download/" +
-              _vm.notification.archive +
-              "?token=" +
-              _vm.access_token
-          }
-        },
-        [_vm._v("\n      Descargar Archivo\n      "), _vm._m(5)]
-      )
-    ])
+    _c(
+      "div",
+      { staticClass: "card-footer text-muted text-center" },
+      [
+        _vm._l(_vm.notification.files, function(file) {
+          return [
+            _c(
+              "a",
+              {
+                staticClass: "text-decoration-none text-white",
+                attrs: {
+                  href:
+                    "api/quotations/download/" +
+                    file.split("/")[1] +
+                    "?token=" +
+                    _vm.access_token
+                }
+              },
+              [_vm._m(5, true)]
+            )
+          ]
+        })
+      ],
+      2
+    )
   ])
 }
 var staticRenderFns = [
@@ -48926,280 +48972,298 @@ var render = function() {
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "row justify-content-center" }, [
       _c("div", { staticClass: "col-lg-8" }, [
-        _c(
-          "div",
-          { staticClass: "card border-primary mb-3 bg-light shadow-sm" },
-          [
-            _c("div", { staticClass: "card-body" }, [
-              _c("h5", { staticClass: "card-title" }, [
-                _vm._v("Crear Cotización")
-              ]),
-              _vm._v(" "),
-              _c("h6", { staticClass: "card-subtitle mb-2 text-muted" }),
-              _vm._v(" "),
-              _c(
-                "form",
-                {
-                  attrs: { id: "formData" },
-                  on: {
-                    submit: function($event) {
-                      $event.preventDefault()
-                      return _vm.store($event)
-                    }
+        _c("div", { staticClass: "card border-primary mb-3 shadow-sm" }, [
+          _c("div", { staticClass: "card-body" }, [
+            _c("h5", { staticClass: "card-title" }, [
+              _vm._v("Crear Cotización")
+            ]),
+            _vm._v(" "),
+            _c("h6", { staticClass: "card-subtitle mb-2 text-muted" }),
+            _vm._v(" "),
+            _c(
+              "form",
+              {
+                attrs: { id: "formData" },
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.store($event)
                   }
-                },
-                [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("label", { attrs: { for: "item_id" } }, [
-                      _vm._v("Presupuestos")
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "select",
-                      {
-                        class: [
-                          "form-control",
-                          "border-0",
-                          _vm.hasError.item_id ? "is-invalid" : ""
-                        ],
-                        attrs: { name: "item_id", id: "departmentsItems" },
-                        on: { change: _vm.setDepartmentItemId }
-                      },
-                      [
-                        _c(
-                          "option",
-                          {
-                            attrs: { value: "" },
-                            domProps: { selected: true }
-                          },
-                          [_vm._v("Elige el presupuesto para tu cotización")]
-                        ),
-                        _vm._v(" "),
-                        _vm._l(_vm.items, function(item) {
-                          return _vm._l(item.items, function(element) {
-                            return _c(
-                              "option",
-                              {
-                                attrs: {
-                                  "data-department-id": item.department_id
-                                },
-                                domProps: { value: element.id }
-                              },
-                              [
-                                _vm._v(
-                                  _vm._s(element.concept + " " + element.qty)
-                                )
-                              ]
-                            )
-                          })
-                        })
-                      ],
-                      2
-                    ),
-                    _vm._v(" "),
-                    _vm.hasError.item_id
-                      ? _c("small", { staticClass: "text-danger" }, [
-                          _vm._v(_vm._s(_vm.hasError.item_id[0]))
-                        ])
-                      : _vm._e()
+                }
+              },
+              [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "item_id" } }, [
+                    _vm._v("Presupuestos")
                   ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("label", { attrs: { for: "description" } }, [
-                      _vm._v("Descripción")
-                    ]),
-                    _vm._v(" "),
-                    _c("textarea", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.description,
-                          expression: "form.description"
-                        }
-                      ],
-                      class: [
-                        "form-control",
-                        "border-0",
-                        _vm.hasError.description ? "is-invalid" : ""
-                      ],
-                      attrs: { rows: "4", cols: "80", name: "description" },
-                      domProps: { value: _vm.form.description },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.form, "description", $event.target.value)
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _vm.hasError.description
-                      ? _c("small", { staticClass: "text-danger" }, [
-                          _vm._v(_vm._s(_vm.hasError.description[0]))
-                        ])
-                      : _vm._e()
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("label", { attrs: { for: "qty" } }, [_vm._v("Costo")]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.qty,
-                          expression: "form.qty"
-                        }
-                      ],
-                      class: [
-                        "form-control",
-                        "border-0",
-                        _vm.hasError.qty ? "is-invalid" : ""
-                      ],
-                      attrs: { type: "number", name: "qty" },
-                      domProps: { value: _vm.form.qty },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.form, "qty", $event.target.value)
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _vm.hasError.qty
-                      ? _c("small", { staticClass: "text-danger" }, [
-                          _vm._v(_vm._s(_vm.hasError.qty[0]))
-                        ])
-                      : _vm._e()
-                  ]),
-                  _vm._v(" "),
-                  _c("fieldset", { staticClass: "form-group" }, [
-                    _c("div", { staticClass: "row" }, [
-                      _c(
-                        "legend",
-                        { class: ["col-form-label", "col-sm-2", "pt-0"] },
-                        [_vm._v("IVA")]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-sm-10" }, [
-                        _c("div", { staticClass: "form-check" }, [
-                          _c("input", {
-                            class: [
-                              "form-check-input",
-                              _vm.hasError.iva ? "is-invalid" : ""
-                            ],
-                            attrs: {
-                              type: "radio",
-                              name: "iva",
-                              id: "iva_true"
-                            },
-                            domProps: { value: 1 }
-                          }),
-                          _vm._v(" "),
-                          _c(
-                            "label",
-                            {
-                              class: ["form-check-label"],
-                              attrs: { for: "iva_true" }
-                            },
-                            [
-                              _vm._v(
-                                "\n                      Si incluye\n                    "
-                              )
-                            ]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "form-check" }, [
-                          _c("input", {
-                            class: [
-                              "form-check-input",
-                              _vm.hasError.iva ? "is-invalid" : ""
-                            ],
-                            attrs: {
-                              type: "radio",
-                              name: "iva",
-                              id: "iva_false"
-                            },
-                            domProps: { value: 0 }
-                          }),
-                          _vm._v(" "),
-                          _c(
-                            "label",
-                            {
-                              staticClass: "form-check-label",
-                              attrs: { for: "iva_false" }
-                            },
-                            [
-                              _vm._v(
-                                "\n                      No incluye\n                    "
-                              )
-                            ]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _vm.hasError.iva
-                          ? _c("small", { staticClass: "text-danger" }, [
-                              _vm._v(_vm._s(_vm.hasError.iva[0]))
-                            ])
-                          : _vm._e()
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("label", { attrs: { for: "" } }, [_vm._v("Archivo")]),
-                    _vm._v(" "),
-                    _c("input", {
-                      class: [
-                        "form-control",
-                        _vm.hasError.archive ? "is-invalid" : ""
-                      ],
-                      attrs: { type: "file", name: "archive" },
-                      on: { change: _vm.onFileSelected }
-                    }),
-                    _vm._v(" "),
-                    _vm.hasError.archive
-                      ? _c("small", { staticClass: "text-danger" }, [
-                          _vm._v(_vm._s(_vm.hasError.archive[0]))
-                        ])
-                      : _vm._e()
-                  ]),
-                  _vm._v(" "),
-                  _vm.upload
-                    ? _c("div", { staticClass: "progress mt-2 mb-2" }, [
-                        _c("div", {
-                          staticClass:
-                            "progress-bar progress-bar-striped progress-bar-animated",
-                          style: { width: _vm.load + "%" },
-                          attrs: {
-                            role: "progressbar",
-                            "aria-valuenow": _vm.load,
-                            "aria-valuemin": "0",
-                            "aria-valuemax": "100"
-                          }
-                        })
-                      ])
-                    : _vm._e(),
                   _vm._v(" "),
                   _c(
-                    "button",
+                    "select",
                     {
-                      staticClass: "btn btn-primary btn-block",
-                      attrs: { name: "button" }
+                      class: [
+                        "form-control",
+                        "border-0",
+                        _vm.hasError.item_id ? "is-invalid" : ""
+                      ],
+                      attrs: { name: "item_id", id: "departmentsItems" },
+                      on: { change: _vm.setDepartmentItemId }
                     },
-                    [_vm._v("Guardar")]
+                    [
+                      _c(
+                        "option",
+                        { attrs: { value: "" }, domProps: { selected: true } },
+                        [_vm._v("Elige el presupuesto para tu cotización")]
+                      ),
+                      _vm._v(" "),
+                      _vm._l(_vm.items, function(item) {
+                        return _vm._l(item.items, function(element) {
+                          return _c(
+                            "option",
+                            {
+                              attrs: {
+                                "data-department-id": item.department_id
+                              },
+                              domProps: { value: element.id }
+                            },
+                            [
+                              _vm._v(
+                                _vm._s(element.concept + " " + element.qty)
+                              )
+                            ]
+                          )
+                        })
+                      })
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _vm.hasError.item_id
+                    ? _c("small", { staticClass: "text-danger" }, [
+                        _vm._v(_vm._s(_vm.hasError.item_id[0]))
+                      ])
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "description" } }, [
+                    _vm._v("Descripción")
+                  ]),
+                  _vm._v(" "),
+                  _c("textarea", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.form.description,
+                        expression: "form.description"
+                      }
+                    ],
+                    class: [
+                      "form-control",
+                      "border-0",
+                      _vm.hasError.description ? "is-invalid" : ""
+                    ],
+                    attrs: { rows: "4", cols: "80", name: "description" },
+                    domProps: { value: _vm.form.description },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.form, "description", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _vm.hasError.description
+                    ? _c("small", { staticClass: "text-danger" }, [
+                        _vm._v(_vm._s(_vm.hasError.description[0]))
+                      ])
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "qty" } }, [_vm._v("Costo")]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.form.qty,
+                        expression: "form.qty"
+                      }
+                    ],
+                    class: [
+                      "form-control",
+                      "border-0",
+                      _vm.hasError.qty ? "is-invalid" : ""
+                    ],
+                    attrs: { type: "number", name: "qty" },
+                    domProps: { value: _vm.form.qty },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.form, "qty", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _vm.hasError.qty
+                    ? _c("small", { staticClass: "text-danger" }, [
+                        _vm._v(_vm._s(_vm.hasError.qty[0]))
+                      ])
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _c("fieldset", { staticClass: "form-group" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _c(
+                      "legend",
+                      { class: ["col-form-label", "col-sm-2", "pt-0"] },
+                      [_vm._v("IVA")]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-sm-10" }, [
+                      _c("div", { staticClass: "form-check" }, [
+                        _c("input", {
+                          class: [
+                            "form-check-input",
+                            _vm.hasError.iva ? "is-invalid" : ""
+                          ],
+                          attrs: { type: "radio", name: "iva", id: "iva_true" },
+                          domProps: { value: 1 }
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "label",
+                          {
+                            class: ["form-check-label"],
+                            attrs: { for: "iva_true" }
+                          },
+                          [
+                            _vm._v(
+                              "\n                      Si incluye\n                    "
+                            )
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-check" }, [
+                        _c("input", {
+                          class: [
+                            "form-check-input",
+                            _vm.hasError.iva ? "is-invalid" : ""
+                          ],
+                          attrs: {
+                            type: "radio",
+                            name: "iva",
+                            id: "iva_false"
+                          },
+                          domProps: { value: 0 }
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "label",
+                          {
+                            staticClass: "form-check-label",
+                            attrs: { for: "iva_false" }
+                          },
+                          [
+                            _vm._v(
+                              "\n                      No incluye\n                    "
+                            )
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _vm.hasError.iva
+                        ? _c("small", { staticClass: "text-danger" }, [
+                            _vm._v(_vm._s(_vm.hasError.iva[0]))
+                          ])
+                        : _vm._e()
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c(
+                    "ul",
+                    { staticClass: "file-list" },
+                    _vm._l(_vm.attachments, function(attachment, index) {
+                      return _c("li", [
+                        _vm._v(
+                          "\n                  " +
+                            _vm._s(attachment.name) +
+                            "\n                  "
+                        ),
+                        _c(
+                          "span",
+                          {
+                            staticClass: "mr-3",
+                            on: {
+                              click: function($event) {
+                                return _vm.deleteAttachment(index)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "far fa-trash-alt" })]
+                        )
+                      ])
+                    }),
+                    0
                   )
-                ]
-              )
-            ])
-          ]
-        )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "" } }, [_vm._v("Archivo")]),
+                  _vm._v(" "),
+                  _c("input", {
+                    class: [
+                      "form-control",
+                      _vm.hasError.archive ? "is-invalid" : ""
+                    ],
+                    attrs: { type: "file", multiple: "" },
+                    on: { change: _vm.onFileSelected }
+                  }),
+                  _vm._v(" "),
+                  _vm.hasError.archive
+                    ? _c("small", { staticClass: "text-danger" }, [
+                        _vm._v(_vm._s(_vm.hasError.archive[0]))
+                      ])
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _vm.upload
+                  ? _c("div", { staticClass: "progress mt-2 mb-2" }, [
+                      _c("div", {
+                        staticClass:
+                          "progress-bar progress-bar-striped progress-bar-animated",
+                        style: { width: _vm.load + "%" },
+                        attrs: {
+                          role: "progressbar",
+                          "aria-valuenow": _vm.load,
+                          "aria-valuemin": "0",
+                          "aria-valuemax": "100"
+                        }
+                      })
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary btn-block",
+                    attrs: { name: "button" }
+                  },
+                  [_vm._v("Guardar")]
+                )
+              ]
+            )
+          ])
+        ])
       ])
     ])
   ])
@@ -67005,6 +67069,8 @@ function hasRoles(permissions) {
 }
 
 vueRouter.beforeEach(function (to, from, next) {
+  if (document.getElementById('navbarSupportedContent')) document.getElementById('navbarSupportedContent').classList.remove('show');
+
   if (to.matched.some(function (record) {
     return record.meta.requiresAuth;
   })) {

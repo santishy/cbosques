@@ -82,12 +82,14 @@
       </div>
     </div>
     <div class="card-footer text-muted text-center">
-      <a class="text-decoration-none text-white" :href="'api/quotations/download/'+notification.archive+'?token='+access_token">
-        Descargar Archivo
-        <span class="download ml-2">
-          <i class="fas fa-file-download"></i>
-        </span>
-      </a>
+      <template v-for="file in notification.files" class="d-flex">
+        <a  class="text-decoration-none text-white"
+           :href="'api/quotations/download/'+file.split('/')[1]+'?token='+access_token">
+          <span class="download ml-2">
+            <i class="fas fa-file-download"></i>
+          </span>
+        </a>
+      </template>
     </div>
   </div>
 </template>

@@ -17,8 +17,9 @@ class QuoteResource extends JsonResource
         return [
           'description' => $this->description,
           'qty' => $this->qty,
-          'archive' => explode('/',$this->archive)[1], // Aquí corto el nombre del archivo de la ruta
+          //'archive' => explode('/',$this->archive)[1], // Aquí corto el nombre del archivo de la ruta
           'status' => $this->status,
+          'files' => $this->files->pluck('name'),
           'created_at' => $this->created_at->format('Y M d'),
           'id' => $this->id,
           'user_name' => $this->user->name,

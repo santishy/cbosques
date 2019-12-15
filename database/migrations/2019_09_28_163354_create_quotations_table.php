@@ -20,7 +20,7 @@ class CreateQuotationsTable extends Migration
             $table->boolean('iva');
             $table->double('total')->default(0);
             $table->bigInteger('cycle_id');
-            $table->string('archive')->nullable();
+            //$table->string('archive')->nullable();
             $table->string('status',25);
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('department_id')->unsigned();

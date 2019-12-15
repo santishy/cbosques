@@ -28,7 +28,8 @@ class QuotationsCollection extends ResourceCollection
           'total_format' => number_format($quotation->total(),2),
           'total' => $quotation->total(),
           'user_name' => $quotation->user->name,
-          'archive' => explode('/',$quotation->archive)[1],
+          //'archive' => explode('/',$quotation->archive)[1],
+          'files' => $quotation->files->pluck('name'),
           'item_id' => $quotation->item_id,
           'cycle_id' => $quotation->cycle_id
         ];

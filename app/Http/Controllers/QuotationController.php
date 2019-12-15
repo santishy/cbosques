@@ -14,6 +14,7 @@ use App\Http\Resources\QuotationsCollection;
 use App\Http\Resources\QuoteResource;
 use App\Mail\BudgetCreated;
 use Illuminate\Database\Eloquent\Builder;
+use App\File;
 
 class QuotationController extends Controller
 {
@@ -21,20 +22,29 @@ class QuotationController extends Controller
       $this->middleware(['roles:admin,autorizador'])->except(['store']);
     }
     public function index(){
-      return new QuotationsCollection(Quotation::with(['user'])->where('cycle_id',session('cycle')->id)->orderBy('id','desc')->paginate(25));
+      return new QuotationsCollection(Quotation::with(['user','files'])->where('cycle_id',session('cycle')->id)->orderBy('id','desc')->paginate(25));
     }
     public function store(Request $request){
       $this->validateQuote($request);
+      $attachments = $request->archive;
+      foreach($attachments as $attachment){
+        $attachment->store('quotations');
+      }
       try {
       //  $this->authorize('store',new Quotation); PENSAR BIEN EN LA VALIDACION PARA LOS TRES TIPOS DE USERS 2
         DB::beginTransaction();
-        $quotation = new Quotation($request->all());
+        $quotation = new Quotation($request->except('archive'));
         $quotation->iva = (boolean) $request->iva;
-        $quotation->archive = $request->file('archive')->store('quotations');
+        $attachments = $request->archive;
+        //$quotation->archive = $request->file('archive')->store('quotations');
         $quotation->cycle_id = session('cycle')->id;
         $quotation->user_id = Auth::user()->id;
         $quotation->status="PENDIENTE";
         $quotation->save();
+        foreach ($attachments as $attachment) {
+          File::create(['name'=>$attachment->store('quotations'),
+                        'quotation_id'=>$quotation->id]);
+        }
         DB::commit();
         return response()->json(['quotation' => $quotation]);
       } catch (\Exception $e) {
@@ -50,7 +60,7 @@ class QuotationController extends Controller
         'item_id' => 'exists:items,id|required',
         'department_id' => 'exists:departments,id',
         'qty' => ['Numeric','required',new validateQuoteAmount($request->item_id,(boolean)$request->iva)],
-        'archive' => ['file','required'],
+
       ],['required'=>'El campo es requerido',
          'exists'=>'El campo no existe en la base de datos',
          'numeric' => 'El campo debe ser númerico',

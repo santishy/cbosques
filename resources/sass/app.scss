@@ -147,3 +147,10 @@ body{
   color:white;
   font-size: 1.5em;
 }
+.file-list{
+  list-style: none;
+  li{
+    display: flex;
+    justify-content: space-between;
+  }
+}
