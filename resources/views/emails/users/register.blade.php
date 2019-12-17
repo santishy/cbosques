@@ -12,7 +12,7 @@
 <h3>Credenciales de acceso</h3>
 <ul>
   <li> <b> usuario: </b> {{ $user->email }}  </li>
-  <li> <b> password: </b> {{$user->password}}  </li>
+  <li> <b> password: </b> {{$decryptedPassword}}  </li>
 </ul>
 @endcomponent
 

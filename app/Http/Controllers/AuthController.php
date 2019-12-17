@@ -44,8 +44,7 @@ class AuthController extends Controller
         $roles = json_decode($request->roles);
         $user->roles()->attach($roles);
         $user->departments()->attach($request->department_id);
-        $user->password = $request->password;
-        Notification::send($user,new RegisteredUser);
+        Notification::send($user,new RegisteredUser($request->password));
         DB::commit();
         return $user;
       }catch (\Exception $e) {

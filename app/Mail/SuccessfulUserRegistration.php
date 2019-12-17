@@ -17,9 +17,11 @@ class SuccessfulUserRegistration extends Mailable implements ShouldQueue
      * @return void
      */
     public $user;
-    public function __construct($user)
+    public $decryptedPassword;
+    public function __construct($user,$decryptedPassword)
     {
         $this->user = $user;
+        $this->decryptedPassword = $decryptedPassword;
     }
 
     /**
@@ -29,6 +31,7 @@ class SuccessfulUserRegistration extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->markdown('emails.users.register',['user'=>$this->user]);
+        return $this->markdown('emails.users.register',['user'=>$this->user,
+                                                        'decryptedPassword'=>$this->decryptedPassword]);
     }
 }

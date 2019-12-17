@@ -16,6 +16,7 @@
                 <th>Concepto</th>
                 <th>Monto Inicial</th>
                 <th>Monto Actual</th>
+                <th>Total Sub.</th>
                 <th>Monto Cotizaciones</th>
                 <th>Nom. Cotizaciones A.</th>
                 <th>Ir Cotizaciones</th>
@@ -29,6 +30,7 @@
                       {{budget.total+budget.specification.qty+totalItems[budget.specification.concept]}}
                     </td>
                     <td>{{budget.specification.qty}}</td>
+                    <td>{{totalItems[budget.specification.concept]}}</td>
                     <td>{{budget.total}}</td>
                     <td>
                       {{budget.quotations_count}}
@@ -52,6 +54,7 @@
                     <td>
                       {{item.total+item.specification.qty}}
                     </td>
+                    <td>{{item.specification.qty}}</td>
                     <td>{{item.specification.qty}}</td>
                     <td>{{item.total}}</td>
                     <td>

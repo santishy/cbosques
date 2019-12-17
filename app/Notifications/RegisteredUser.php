@@ -17,9 +17,10 @@ class RegisteredUser extends Notification implements ShouldQueue
      *
      * @return void
      */
-    public function __construct()
+    public $decryptedPassword;
+    public function __construct($decryptedPassword)
     {
-
+      $this->decryptedPassword=$decryptedPassword;
     }
 
     /**
@@ -41,7 +42,8 @@ class RegisteredUser extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new SuccessfulUserRegistration($notifiable))
+
+        return (new SuccessfulUserRegistration($notifiable,$this->decryptedPassword))
                 ->subject('Has sido registrado exitosamente, en la app de Control Presupuestal')
                 ->to($notifiable->email);
 

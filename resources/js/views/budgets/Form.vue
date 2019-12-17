@@ -24,7 +24,13 @@
                     <small v-if="hasError.concept" class="text-danger">{{hasError.concept[0]}}</small>
                   </div>
                 </div>
-                <button  type="submit" class="btn btn-primary mb-2">Guardar</button>
+                <div class="form-group row justify-content-between">
+                  <button  type="submit" class="btn btn-primary mb-2 ml-3">Guardar</button>
+                  <router-link to="/budgets" class="text-decoration-none mr-3" v-if="isItem">
+                    <span :style="{'font-weight':'bold','font-size':'2em'}"><i class="far fa-arrow-alt-circle-left"></i></span>
+                  </router-link>
+                </div>
+
               </form>
             </div>
           </div>

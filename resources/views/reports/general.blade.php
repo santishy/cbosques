@@ -21,6 +21,7 @@
         <th>Concepto</th>
         <th>Monto Inicial</th>
         <th>Monto Actual</th>
+        <th>Total Sub.</th>
         <th>Monto Cotizaciones</th>
         <th>Nom. Cotizaciones A.</th>
       </tr>
@@ -32,6 +33,7 @@
           <td>{{$budget->specification->concept}}</td>
           <td>${{number_format($budget->specification->qty+$budget->total+$items_total[$budget->id],2)}}</td>
           <td>${{number_format($budget->specification->qty,2)}}</td>
+          <td>${{number_format($items_total[$budget->id],2)}}</td>
           <td>${{number_format($budget->total,2)}}</th>
           <td>#{{$budget->quotations_count}}</td>
         </tr>
@@ -40,6 +42,7 @@
             <td>{{$item->id}}</td>
             <td>{{$item->specification->concept}}</td>
             <td>${{number_format($item->specification->qty+$item->total,2)}}</td>
+            <td>${{number_format($item->specification->qty,2)}}</td>
             <td>${{number_format($item->specification->qty,2)}}</td>
             <td>${{number_format($item->total,2)}}</th>
             <td>#{{$item->quotations_count}}</td>

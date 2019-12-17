@@ -1,1 +1,5 @@
 
+[2019-12-16 19:27:50][265] Processing: App\Notifications\RegisteredUser
+[2019-12-16 19:27:50][266] Processing: App\Notifications\RegisteredUser
+[2019-12-16 19:27:50][267] Processing: App\Notifications\RegisteredUser
+[2019-12-16 19:27:50][267] Failed:     App\Notifications\RegisteredUser

@@ -2830,6 +2830,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -3647,6 +3650,12 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -45954,6 +45963,14 @@ var render = function() {
                                 _vm._v(_vm._s(budget.specification.qty))
                               ]),
                               _vm._v(" "),
+                              _c("td", [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm.totalItems[budget.specification.concept]
+                                  )
+                                )
+                              ]),
+                              _vm._v(" "),
                               _c("td", [_vm._v(_vm._s(budget.total))]),
                               _vm._v(" "),
                               _c("td", [
@@ -46007,6 +46024,10 @@ var render = function() {
                                     ) +
                                     "\n                  "
                                 )
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(_vm._s(item.specification.qty))
                               ]),
                               _vm._v(" "),
                               _c("td", [
@@ -46080,6 +46101,8 @@ var staticRenderFns = [
       _c("th", [_vm._v("Monto Inicial")]),
       _vm._v(" "),
       _c("th", [_vm._v("Monto Actual")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Total Sub.")]),
       _vm._v(" "),
       _c("th", [_vm._v("Monto Cotizaciones")]),
       _vm._v(" "),
@@ -47463,12 +47486,45 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c(
-                "button",
-                {
-                  staticClass: "btn btn-primary mb-2",
-                  attrs: { type: "submit" }
-                },
-                [_vm._v("Guardar")]
+                "div",
+                { staticClass: "form-group row justify-content-between" },
+                [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary mb-2 ml-3",
+                      attrs: { type: "submit" }
+                    },
+                    [_vm._v("Guardar")]
+                  ),
+                  _vm._v(" "),
+                  _vm.isItem
+                    ? _c(
+                        "router-link",
+                        {
+                          staticClass: "text-decoration-none mr-3",
+                          attrs: { to: "/budgets" }
+                        },
+                        [
+                          _c(
+                            "span",
+                            {
+                              style: {
+                                "font-weight": "bold",
+                                "font-size": "2em"
+                              }
+                            },
+                            [
+                              _c("i", {
+                                staticClass: "far fa-arrow-alt-circle-left"
+                              })
+                            ]
+                          )
+                        ]
+                      )
+                    : _vm._e()
+                ],
+                1
               )
             ]
           )
