@@ -17,7 +17,7 @@ class ReportController extends Controller
     }
     public function exportGeneral(BudgetExport $budgetExport){
       libxml_use_internal_errors(true);
-      return $budgetExport->download('budgets.csv');
+      return $budgetExport->download('budgets.xlsx');
     }
     public function pdfGeneral(){
       $budgets = $this->general();
@@ -51,7 +51,7 @@ class ReportController extends Controller
     public function exportQuotesOfTheMonth(Request $request){
       $quotations = $this->quotations($request);
       $month = Carbon::createFromFormat('!m',$this->setMonth($request)->month)->isoFormat('MMMM');
-      return (new QuotationsExport)->setQuotations($quotations)->download("$month.csv");
+      return (new QuotationsExport)->setQuotations($quotations)->download("$month.xlsx");
     }
     public function setMonth($request){
       if(!$request->has('month'))
@@ -63,7 +63,7 @@ class ReportController extends Controller
     }
     public function ExportQuotationsByDates(Request $request){
       $quotations = $this->quotationsByDates($request);
-      return (new QuotationsExport)->setQuotations($quotations)->download("$request->initialDate a $request->finalDate.csv");
+      return (new QuotationsExport)->setQuotations($quotations)->download("$request->initialDate a $request->finalDate.xlsx");
     }
     public function pdfQuotationsByDates(Request $request){
       $quotations = $this->quotationsByDates($request);

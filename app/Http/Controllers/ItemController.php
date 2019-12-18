@@ -111,7 +111,7 @@ class ItemController extends Controller
       return $pdf->download('reporte.pdf');
     }
     public function exportQuotations($id){
-      return (new QuoteBudgetExport)->setItem($id)->download('cotizaciones.csv');
+      return (new QuoteBudgetExport)->setItem($id)->download('cotizaciones.xlsx');
     }
     /**
      * Show the form for editing the specified resource.

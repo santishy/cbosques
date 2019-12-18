@@ -8,6 +8,7 @@
               <th>ID</th>
               <th>Nombre</th>
               <th>Correo</th>
+              
               <th>Habilidad</th>
               <th>Departamentos</th>
               <th>Acciones</th>
