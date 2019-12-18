@@ -16,6 +16,7 @@ use App\Events\ItemInsert;
 use App\Specification;
 use App\Events\UpdatedItem;
 use Carbon\Carbon;
+use App\Exports\QuoteBudgetExport;
 class ItemController extends Controller
 {
     /**
@@ -108,6 +109,9 @@ class ItemController extends Controller
       $concept = $item->specification->concept;
       $pdf = \PDF::loadView('reports.quotations',compact(['quotations','date','concept']));
       return $pdf->download('reporte.pdf');
+    }
+    public function exportQuotations($id){
+      return (new QuoteBudgetExport)->setItem($id)->download('cotizaciones.csv');
     }
     /**
      * Show the form for editing the specified resource.

@@ -9,6 +9,9 @@
               <a class="float-right text-decoration-none text-danger" :href="'/api/reports/general-pdf?token='+access_token">
                 <span><i class="fas fa-file-pdf"></i></span>
               </a>
+              <a class="text-success text-decoration-none float-right mr-3" :href="'/api/reports/export-general?token='+access_token" >
+                <i class="fas fa-file-excel"></i>
+              </a>
             </h3>
             <table class="table text-center table-responsive-xl table-responsive-sm">
               <thead>

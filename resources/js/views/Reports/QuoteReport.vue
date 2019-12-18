@@ -44,6 +44,10 @@
                  :href="url_report">
                 <span><i class="fas fa-file-pdf"></i></span>
               </a>
+              <a class="float-right text-decoration-none text-success mr-3"
+                 :href="url_report_export">
+                <span><i class="fas fa-file-excel"></i></span>
+              </a>
             </h5>
             <quote-table :quotations="quotations"/>
           </div>
@@ -65,6 +69,7 @@ export default {
       quotations:[],
       form:{},
       url_report:'',
+      url_report_export:'',
       title:'MES ACTUAL',
       months:['ENERO','FEBRERO','MARZO','ABRIL','MAYO','JUNIO','JULIO','AGOSTO','SEPTIEMBRE','OCTUBRE','NOVIEMBRE','DICIEMBRE']
     }
@@ -78,6 +83,7 @@ export default {
   methods:{
     getQuotesMonthCurrent(){
       this.url_report='/api/reports/pdf-quotes-of-the-month/?token='+this.access_token
+      this.url_report_export='/api/reports/export-quotes-of-the-month/?token='+this.access_token
       axios({
         url:'/api/reports/quotations/',
         method:'GET',
@@ -91,6 +97,7 @@ export default {
     },
     getReport(){
       this.url_report='/api/reports/quotations/pdf-by-dates/?initialDate='+this.form.initialDate+'&finalDate='+this.form.finalDate+'&token='+this.access_token
+      this.url_report_export='/api/reports/quotations/export-by-dates/?initialDate='+this.form.initialDate+'&finalDate='+this.form.finalDate+'&token='+this.access_token
       axios({
         url:'/api/reports/quotations/by-dates/',
         params:this.form,

@@ -33,6 +33,7 @@ Route::group([
   Route::resource('budgets','BudgetController');
   Route::get('items/quotations/{item}','ItemController@quotations');
   Route::get('items/pdf-quotations/{item}','ItemController@pdfQuotations');
+  Route::get('items/export-quotations/{item}','ItemController@exportQuotations');
   Route::resource('items','ItemController');
   Route::resource('specifications','SpecificationController');
   Route::resource('departments','DepartmentController');
@@ -54,7 +55,9 @@ Route::group([
   Route::get('reports/quotations','ReportController@quotations');
   Route::get('reports/quotations/by-dates','ReportController@quotationsByDates');
   Route::get('reports/quotations/pdf-by-dates','ReportController@pdfQuotationsByDates');
+  Route::get('reports/quotations/export-by-dates','ReportController@ExportQuotationsByDates');
   Route::get('reports/general-pdf','ReportController@pdfGeneral');
   Route::get('reports/pdf-quotes-of-the-month/{month?}','ReportController@pdfQuotesOfTheMonth');
-
+  Route::get('reports/export-general','ReportController@exportGeneral');
+  Route::get('reports/export-quotes-of-the-month/{month?}','ReportController@exportQuotesOfTheMonth');
 });

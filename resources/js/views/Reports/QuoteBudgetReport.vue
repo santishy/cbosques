@@ -9,6 +9,9 @@
               <a class="float-right text-decoration-none text-danger" :href="'/api/items/pdf-quotations/'+id+'?token='+access_token">
                 <span><i class="fas fa-file-pdf"></i></span>
               </a>
+              <a class="float-right text-decoration-none text-success mr-3" :href="'/api/items/export-quotations/'+id+'?token='+access_token">
+                <span><i class="fas fa-file-excel"></i></i></span>
+              </a>
             </h3>
             <hr>
             <h5 v-if="concept" class="card-subtitle mb-2 text-muted"><b>Cuenta: </b>{{concept}}</h5>

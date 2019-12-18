@@ -6,11 +6,18 @@ use App\Quotation;
 use Illuminate\Http\Request;
 use App\Http\Resources\QuotationsCollection;
 use Carbon\Carbon;
+use App\Exports\BudgetExport;
+use App\Exports\QuotationsExport;
+
 
 class ReportController extends Controller
 {
     public function general(){
       return Budget::BudgetReportWithItems()->get();
+    }
+    public function exportGeneral(BudgetExport $budgetExport){
+      libxml_use_internal_errors(true);
+      return $budgetExport->download('budgets.csv');
     }
     public function pdfGeneral(){
       $budgets = $this->general();
@@ -41,6 +48,11 @@ class ReportController extends Controller
       $pdf = \PDF::loadView('reports.quotations',compact(['quotations','date','month']));
       return $pdf->download('ReporteCotizacionesAutorizadas.pdf');
     }
+    public function exportQuotesOfTheMonth(Request $request){
+      $quotations = $this->quotations($request);
+      $month = Carbon::createFromFormat('!m',$this->setMonth($request)->month)->isoFormat('MMMM');
+      return (new QuotationsExport)->setQuotations($quotations)->download("$month.csv");
+    }
     public function setMonth($request){
       if(!$request->has('month'))
         $request->month = Carbon::now()->month;
@@ -48,6 +60,10 @@ class ReportController extends Controller
     }
     public function quotationsByDates(Request $request){
       return new QuotationsCollection(Quotation::currentCycleQuotes()->byDates($request->all())->get());
+    }
+    public function ExportQuotationsByDates(Request $request){
+      $quotations = $this->quotationsByDates($request);
+      return (new QuotationsExport)->setQuotations($quotations)->download("$request->initialDate a $request->finalDate.csv");
     }
     public function pdfQuotationsByDates(Request $request){
       $quotations = $this->quotationsByDates($request);
@@ -57,4 +73,5 @@ class ReportController extends Controller
       $pdf = \PDF::loadView('reports.quotations',compact(['quotations','date','initialDate','finalDate']));
       return $pdf->download('ReporteCotizacionesAutorizadas.pdf');
     }
+
 }

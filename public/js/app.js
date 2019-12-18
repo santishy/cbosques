@@ -2833,6 +2833,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2894,6 +2897,9 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
 //
 //
 //
@@ -3029,6 +3035,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3040,6 +3050,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       quotations: [],
       form: {},
       url_report: '',
+      url_report_export: '',
       title: 'MES ACTUAL',
       months: ['ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE']
     };
@@ -3053,6 +3064,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this = this;
 
       this.url_report = '/api/reports/pdf-quotes-of-the-month/?token=' + this.access_token;
+      this.url_report_export = '/api/reports/export-quotes-of-the-month/?token=' + this.access_token;
       axios({
         url: '/api/reports/quotations/',
         method: 'GET'
@@ -3068,6 +3080,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this2 = this;
 
       this.url_report = '/api/reports/quotations/pdf-by-dates/?initialDate=' + this.form.initialDate + '&finalDate=' + this.form.finalDate + '&token=' + this.access_token;
+      this.url_report_export = '/api/reports/quotations/export-by-dates/?initialDate=' + this.form.initialDate + '&finalDate=' + this.form.finalDate + '&token=' + this.access_token;
       axios({
         url: '/api/reports/quotations/by-dates/',
         params: this.form,
@@ -45915,6 +45928,19 @@ var render = function() {
                     }
                   },
                   [_vm._m(0)]
+                ),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    staticClass:
+                      "text-success text-decoration-none float-right mr-3",
+                    attrs: {
+                      href:
+                        "/api/reports/export-general?token=" + _vm.access_token
+                    }
+                  },
+                  [_c("i", { staticClass: "fas fa-file-excel" })]
                 )
               ]),
               _vm._v(" "),
@@ -46162,6 +46188,22 @@ var render = function() {
                       }
                     },
                     [_vm._m(0)]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass:
+                        "float-right text-decoration-none text-success mr-3",
+                      attrs: {
+                        href:
+                          "/api/items/export-quotations/" +
+                          _vm.id +
+                          "?token=" +
+                          _vm.access_token
+                      }
+                    },
+                    [_vm._m(1)]
                   )
                 ]),
                 _vm._v(" "),
@@ -46190,6 +46232,12 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("span", [_c("i", { staticClass: "fas fa-file-pdf" })])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", [_c("i", { staticClass: "fas fa-file-excel" })])
   }
 ]
 render._withStripped = true
@@ -46356,6 +46404,16 @@ var render = function() {
                     attrs: { href: _vm.url_report }
                   },
                   [_vm._m(1)]
+                ),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    staticClass:
+                      "float-right text-decoration-none text-success mr-3",
+                    attrs: { href: _vm.url_report_export }
+                  },
+                  [_vm._m(2)]
                 )
               ]),
               _vm._v(" "),
@@ -46386,6 +46444,12 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("span", [_c("i", { staticClass: "fas fa-file-pdf" })])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", [_c("i", { staticClass: "fas fa-file-excel" })])
   }
 ]
 render._withStripped = true

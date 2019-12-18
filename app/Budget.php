@@ -42,4 +42,13 @@ class Budget extends Model
   public function itemsWithSpecificationFromBudgets(){
     return  $this->with('items.specification');
   }
+  public static function totalItemsOfEachBudget($budgets){
+    $total = array();
+    foreach ($budgets as $budget) {
+      $total[$budget->id]=0;
+      foreach($budget->items as $item)
+        $total[$budget->id]+= $item->specification->qty ;
+    }
+    return $total;
+  }
 }
