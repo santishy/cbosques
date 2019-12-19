@@ -2869,7 +2869,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     var _this = this;
 
     axios({
-      url: '/api/reports/general/',
+      url: '/api/reports/general',
       method: 'GET'
     }).then(function (response) {
       console.log(response);

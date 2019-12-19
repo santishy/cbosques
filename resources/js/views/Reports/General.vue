@@ -97,7 +97,7 @@ export default {
   },
   created(){
     axios({
-      url:'/api/reports/general/',
+      url:'/api/reports/general',
       method:'GET',
     }).then((response)=>{
       console.log(response)
