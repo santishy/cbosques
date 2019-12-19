@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://control-presupuestal.ccbosque.org'),
+    'url' => env('APP_URL', 'http://167.172.224.165'),
 
     'asset_url' => env('ASSET_URL', null),
 
