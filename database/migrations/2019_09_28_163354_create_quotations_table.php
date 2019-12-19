@@ -17,7 +17,7 @@ class CreateQuotationsTable extends Migration
             $table->bigIncrements('id');
             $table->double('qty');
             $table->string('description',300);
-            $table->boolean('iva');
+            $table->boolean('iva')->default(true);
             $table->double('total')->default(0);
             $table->bigInteger('cycle_id');
             //$table->string('archive')->nullable();

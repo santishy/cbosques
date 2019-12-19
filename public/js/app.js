@@ -2188,6 +2188,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['notification', 'index'],
@@ -2261,6 +2265,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -4989,6 +4999,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
@@ -5149,6 +5162,12 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -45094,7 +45113,7 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-12" }, [
+        _c("div", { staticClass: "col-md-12 mb-3" }, [
           _vm._v(
             "\n        " + _vm._s(_vm.notification.created_at) + "\n      "
           )
@@ -45205,72 +45224,6 @@ var render = function() {
       _c("div", { staticClass: "row d-flex justify-content-center" }, [
         _vm._m(3),
         _vm._v(" "),
-        _vm.editing
-          ? _c("div", { staticClass: "col-sm-8 col-xs-8" }, [
-              _c(
-                "div",
-                { staticClass: "form-group" },
-                _vm._l(_vm.optionsIVA, function(iva) {
-                  return _c(
-                    "div",
-                    { staticClass: "custom-control custom-radio" },
-                    [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.form.iva,
-                            expression: "form.iva"
-                          }
-                        ],
-                        staticClass: "custom-control-input",
-                        attrs: { type: "radio", name: "iva", id: "iva-" + iva },
-                        domProps: {
-                          value: iva,
-                          checked: _vm._q(_vm.form.iva, iva)
-                        },
-                        on: {
-                          change: function($event) {
-                            return _vm.$set(_vm.form, "iva", iva)
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "label",
-                        {
-                          staticClass: "custom-control-label",
-                          attrs: { for: "iva-" + iva }
-                        },
-                        [
-                          _vm._v(
-                            "\n              " +
-                              _vm._s(iva === 0 ? "No incluye" : "Incluye") +
-                              "\n            "
-                          )
-                        ]
-                      )
-                    ]
-                  )
-                }),
-                0
-              )
-            ])
-          : _c("div", { staticClass: "col-sm-8 col-xs-10" }, [
-              _vm.notification.enum_iva
-                ? _c("p", { staticClass: "card-text mb-2" }, [
-                    _vm._v("Incluido")
-                  ])
-                : _c("p", { staticClass: "card-text mb-2" }, [
-                    _vm._v("No Incluido")
-                  ])
-            ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row d-flex justify-content-center" }, [
-        _vm._m(4),
-        _vm._v(" "),
         _c("div", { staticClass: "col-sm-8 col-xs-10" }, [
           _c("p", { staticClass: "card-text mb-2" }, [
             _vm._v(_vm._s(_vm.notification.user_name))
@@ -45297,7 +45250,7 @@ var render = function() {
                     _vm.access_token
                 }
               },
-              [_vm._m(5, true)]
+              [_vm._m(4, true)]
             )
           ]
         })
@@ -45312,7 +45265,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-sm-4 col-xs-10" }, [
-      _c("p", { staticClass: "card-text mb-2" }, [_vm._v("Status")])
+      _c("p", { staticClass: "card-text mb-2 font-weight-bolder" }, [
+        _vm._v("Status")
+      ])
     ])
   },
   function() {
@@ -45320,7 +45275,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-sm-4 col-xs-10" }, [
-      _c("p", { staticClass: "card-text mb-2" }, [_vm._v("Descripción")])
+      _c("p", { staticClass: "card-text mb-2 font-weight-bolder" }, [
+        _vm._v("Descripción")
+      ])
     ])
   },
   function() {
@@ -45328,7 +45285,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-sm-4 col-xs-10" }, [
-      _c("p", { staticClass: "card-text mb-2" }, [_vm._v("Costo")])
+      _c("p", { staticClass: "card-text mb-2 font-weight-bolder" }, [
+        _vm._v("Costo")
+      ])
     ])
   },
   function() {
@@ -45336,15 +45295,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-sm-4 col-xs-10" }, [
-      _c("p", { staticClass: "card-text mb-2" }, [_vm._v("IVA")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-sm-4 col-xs-10" }, [
-      _c("p", { staticClass: "card-text mb-2" }, [_vm._v("Usuario")])
+      _c("p", { staticClass: "card-text mb-2 font-weight-bolder" }, [
+        _vm._v("Usuario")
+      ])
     ])
   },
   function() {
@@ -45401,8 +45354,6 @@ var render = function() {
               _vm._v(" "),
               _c("td", [_vm._v(_vm._s(quotation.description))]),
               _vm._v(" "),
-              _c("td", [_vm._v("$" + _vm._s(quotation.iva_format))]),
-              _vm._v(" "),
               _c("td", [_vm._v("$" + _vm._s(quotation.qty_format))]),
               _vm._v(" "),
               _c("td", [_vm._v("$" + _vm._s(quotation.total_format))])
@@ -45426,8 +45377,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("Usuario")]),
         _vm._v(" "),
         _c("th", [_vm._v("Descripcion")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("IVA")]),
         _vm._v(" "),
         _c("th", [_vm._v("Monto")]),
         _vm._v(" "),
@@ -49274,76 +49223,6 @@ var render = function() {
                     : _vm._e()
                 ]),
                 _vm._v(" "),
-                _c("fieldset", { staticClass: "form-group" }, [
-                  _c("div", { staticClass: "row" }, [
-                    _c(
-                      "legend",
-                      { class: ["col-form-label", "col-sm-2", "pt-0"] },
-                      [_vm._v("IVA")]
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-sm-10" }, [
-                      _c("div", { staticClass: "form-check" }, [
-                        _c("input", {
-                          class: [
-                            "form-check-input",
-                            _vm.hasError.iva ? "is-invalid" : ""
-                          ],
-                          attrs: { type: "radio", name: "iva", id: "iva_true" },
-                          domProps: { value: 1 }
-                        }),
-                        _vm._v(" "),
-                        _c(
-                          "label",
-                          {
-                            class: ["form-check-label"],
-                            attrs: { for: "iva_true" }
-                          },
-                          [
-                            _vm._v(
-                              "\n                      Si incluye\n                    "
-                            )
-                          ]
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "form-check" }, [
-                        _c("input", {
-                          class: [
-                            "form-check-input",
-                            _vm.hasError.iva ? "is-invalid" : ""
-                          ],
-                          attrs: {
-                            type: "radio",
-                            name: "iva",
-                            id: "iva_false"
-                          },
-                          domProps: { value: 0 }
-                        }),
-                        _vm._v(" "),
-                        _c(
-                          "label",
-                          {
-                            staticClass: "form-check-label",
-                            attrs: { for: "iva_false" }
-                          },
-                          [
-                            _vm._v(
-                              "\n                      No incluye\n                    "
-                            )
-                          ]
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _vm.hasError.iva
-                        ? _c("small", { staticClass: "text-danger" }, [
-                            _vm._v(_vm._s(_vm.hasError.iva[0]))
-                          ])
-                        : _vm._e()
-                    ])
-                  ])
-                ]),
-                _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
                   _c(
                     "ul",
@@ -49515,8 +49394,6 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(quotation.qty))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(quotation.iva))]),
-                      _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(quotation.total))]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(quotation.user_name))])
@@ -49549,8 +49426,6 @@ var staticRenderFns = [
       _c("th", [_vm._v("Descripción")]),
       _vm._v(" "),
       _c("th", [_vm._v("Costo")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("IVA")]),
       _vm._v(" "),
       _c("th", [_vm._v("Total")]),
       _vm._v(" "),

@@ -9,7 +9,10 @@
               <th>Status</th>
               <th >Descripción</th>
               <th>Costo</th>
-              <th>IVA</th>
+              <!--
+               Aqui comento el iva por que asi se me pidio
+              -->
+              <!-- <th>IVA</th> -->
               <th>Total</th>
               <th>Usuario</th>
             </thead>
@@ -31,7 +34,10 @@
                 </td>
                 <td>{{quotation.description}}</td>
                 <td>{{quotation.qty}}</td>
-                <td>{{quotation.iva}}</td>
+                <!--
+                 Aqui comento el iva por que asi se me pidio
+                -->
+                <!-- <td>{{quotation.iva}}</td> -->
                 <td>{{quotation.total}}</td>
                 <td>{{quotation.user_name}}</td>
               </tr>

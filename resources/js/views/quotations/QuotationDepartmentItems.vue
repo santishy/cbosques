@@ -34,7 +34,10 @@
                         :class="['form-control','border-0',hasError.qty ? 'is-invalid' : '']" v-model="form.qty">
                 <small v-if="hasError.qty" class="text-danger">{{hasError.qty[0]}}</small>
               </div>
-              <fieldset class="form-group">
+              <!--
+               Aqui comento el iva por que asi se me pidio
+              -->
+              <!-- <fieldset class="form-group">
                 <div class="row">
                   <legend :class="['col-form-label', 'col-sm-2', 'pt-0', ]">IVA</legend>
 
@@ -57,7 +60,7 @@
                     <small class="text-danger" v-if="hasError.iva">{{hasError.iva[0]}}</small>
                   </div>
                 </div>
-              </fieldset>
+              </fieldset> -->
               <div class="form-group">
                 <ul class="file-list">
                   <li v-for="(attachment,index) in attachments">

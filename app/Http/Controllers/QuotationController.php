@@ -34,9 +34,12 @@ class QuotationController extends Controller
       //  $this->authorize('store',new Quotation); PENSAR BIEN EN LA VALIDACION PARA LOS TRES TIPOS DE USERS 2
         DB::beginTransaction();
         $quotation = new Quotation($request->except('archive'));
-        $quotation->iva = (boolean) $request->iva;
+        /*
+        *
+        *Aqui guardo el iva, lo comente por que asi se me pidio.
+        */
+      //  $quotation->iva = (boolean) $request->iva;
         $attachments = $request->archive;
-        //$quotation->archive = $request->file('archive')->store('quotations');
         $quotation->cycle_id = session('cycle')->id;
         $quotation->user_id = Auth::user()->id;
         $quotation->status="PENDIENTE";
@@ -56,7 +59,7 @@ class QuotationController extends Controller
     public function validateQuote($request){
       Validator::make($request->all(),[
         'description' => 'required',
-        'iva' => 'required',
+        //'iva' => 'required',
         'item_id' => 'exists:items,id|required',
         'department_id' => 'exists:departments,id',
         'qty' => ['Numeric','required',new validateQuoteAmount($request->item_id,(boolean)$request->iva)],
@@ -95,7 +98,11 @@ class QuotationController extends Controller
       try {
         DB::beginTransaction();
       //  $quotation->message = $request->message;
-        $quotation->iva = $request->iva; // Aqui lo agrego, para la hora de sacar el total con el nuevo iva lo incluya o excluya dependiendo el caso.
+        /*
+        *Aquí comento el iva por que asi se me pidio
+        *
+        */
+        //$quotation->iva = $request->iva; // Aqui lo agrego, para la hora de sacar el total con el nuevo iva lo incluya o excluya dependiendo el caso.
         $quotation->qty = $request->qty;
         $quotation->status = $request->status;
         $quotation->total = $quotation->total();

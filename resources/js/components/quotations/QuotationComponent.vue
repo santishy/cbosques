@@ -13,13 +13,13 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 mb-3">
           {{notification.created_at}}
         </div>
       </div>
       <div class="row d-flex justify-content-center">
         <div class="col-sm-4 col-xs-10">
-          <p class="card-text mb-2">Status</p>
+          <p class="card-text mb-2 font-weight-bolder">Status</p>
         </div>
         <div v-if="editing" class="col-sm-8 col-xs-10">
           <select class="form-control border-0" name="status" v-model="form.status">
@@ -32,7 +32,7 @@
       </div>
       <div class="row d-flex justify-content-center">
         <div class="col-sm-4 col-xs-10">
-          <p class="card-text mb-2">Descripción</p>
+          <p class="card-text mb-2 font-weight-bolder">Descripción</p>
         </div>
         <div class="col-sm-8 col-xs-10">
           <p class="card-text mb-2">{{notification.description}}</p>
@@ -41,7 +41,7 @@
       <div class="row d-flex justify-content-center">
 
         <div class="col-sm-4 col-xs-10">
-          <p class="card-text mb-2">Costo</p>
+          <p class="card-text mb-2 font-weight-bolder">Costo</p>
         </div>
         <div v-if="editing" class="col-sm-8 col-xs-10">
           <input type="number" v-model="form.qty" name="qty" class="form-control">
@@ -53,7 +53,11 @@
       <div class="">
 
       </div>
-      <div class="row d-flex justify-content-center">
+      <!-- Aquí comento el iva por que asi se me pidio
+      *
+      *
+      -->
+      <!-- <div class="row d-flex justify-content-center">
         <div class="col-sm-4 col-xs-10">
           <p class="card-text mb-2">IVA</p>
         </div>
@@ -71,10 +75,10 @@
           <p v-if="notification.enum_iva" class="card-text mb-2">Incluido</p>
           <p v-else class="card-text mb-2">No Incluido</p>
         </div>
-      </div>
+      </div> -->
       <div class="row d-flex justify-content-center">
         <div class="col-sm-4 col-xs-10">
-          <p class="card-text mb-2">Usuario</p>
+          <p class="card-text mb-2 font-weight-bolder">Usuario</p>
         </div>
         <div class="col-sm-8 col-xs-10">
           <p class="card-text mb-2">{{notification.user_name}}</p>

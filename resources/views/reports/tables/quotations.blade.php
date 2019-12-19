@@ -4,7 +4,10 @@
       <th>ID</th>
       <th>Usuario</th>
       <th>Descripcion</th>
-      <th>IVA</th>
+      <!--
+       Aqui comento el iva por que asi se me pidio
+      -->
+      {{-- <th>IVA</th> --}}
       <th>Monto</th>
       <th>Total</th>
     </tr>
@@ -15,7 +18,10 @@
         <td>{{$quotation->id}}</td>
         <td>{{$quotation->user->name}}</td>
         <td>{{$quotation->description}}</td>
-        <td>${{number_format($quotation->iva,2)}}</td>
+        <!--
+         Aqui comento el iva por que asi se me pidio
+        -->
+        {{-- <td>${{number_format($quotation->iva,2)}}</td> --}}
         <td>${{number_format($quotation->qty,2)}}</td>
         <td>${{number_format($quotation->total,2)}}</td>
       </tr>
