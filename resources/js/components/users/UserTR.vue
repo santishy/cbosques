@@ -17,6 +17,12 @@
     <td v-else class="cursor center" @click="editingEmail">
       {{user.email}}
     </td>
+    <td v-if="editing_password">
+      <input-user type="password" name="password" @close="doneEdit" :user="user" :index="index" :value="user.password"/>
+    </td>
+    <td v-else class="cursor center" @click="editingPassword">
+      *********
+    </td>
     <td v-if="editing_roles">
       <roles-checkbox :assigned-roles="user.roles"
                       :user="user"
@@ -61,6 +67,7 @@ export default {
       editing_name:false,
       editing_email:false,
       editing_roles:false,
+      editing_password:false,
       editing_departments:false,
       hasError:{},
       error:false
@@ -79,6 +86,9 @@ export default {
     },
     editingRoles(){
       this.editing_roles = !this.editing_roles
+    },
+    editingPassword(){
+      this.editing_password = !this.editing_password
     },
     editingDepartments(){
       this.editing_departments = !this.editing_departments

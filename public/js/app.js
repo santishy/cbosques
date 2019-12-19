@@ -2559,6 +2559,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2570,6 +2576,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       editing_name: false,
       editing_email: false,
       editing_roles: false,
+      editing_password: false,
       editing_departments: false,
       hasError: {},
       error: false
@@ -2587,6 +2594,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     editingRoles: function editingRoles() {
       this.editing_roles = !this.editing_roles;
+    },
+    editingPassword: function editingPassword() {
+      this.editing_password = !this.editing_password;
     },
     editingDepartments: function editingDepartments() {
       this.editing_departments = !this.editing_departments;
@@ -45752,6 +45762,29 @@ var render = function() {
           [_vm._v("\n    " + _vm._s(_vm.user.email) + "\n  ")]
         ),
     _vm._v(" "),
+    _vm.editing_password
+      ? _c(
+          "td",
+          [
+            _c("input-user", {
+              attrs: {
+                type: "password",
+                name: "password",
+                user: _vm.user,
+                index: _vm.index,
+                value: _vm.user.password
+              },
+              on: { close: _vm.doneEdit }
+            })
+          ],
+          1
+        )
+      : _c(
+          "td",
+          { staticClass: "cursor center", on: { click: _vm.editingPassword } },
+          [_vm._v("\n    *********\n  ")]
+        ),
+    _vm._v(" "),
     _vm.editing_roles
       ? _c(
           "td",
@@ -47122,6 +47155,8 @@ var staticRenderFns = [
       _c("th", [_vm._v("Nombre")]),
       _vm._v(" "),
       _c("th", [_vm._v("Correo")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Password")]),
       _vm._v(" "),
       _c("th", [_vm._v("Habilidad")]),
       _vm._v(" "),

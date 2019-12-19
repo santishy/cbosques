@@ -41,6 +41,8 @@ class UserController extends Controller
         case 'department_id':
           return $this->setDepartments($request,$user);
           break;
+        case 'password':
+          return $this->setPassword($request,$user);
         default:
           return $this->setRoles($request,$user);
           break;
@@ -61,6 +63,19 @@ class UserController extends Controller
         'unique' => 'El email ya existe en la base de datos'
         ])->validate();
       $user->email = $request->value;
+      $user->save();
+      return new UserResource($user);
+    }
+    public function setPassword($request,$user){
+      Validator::make([$request->column => $request->value],[
+        'password' =>  ['required', 'string', 'min:8'],
+      ],
+      [
+        'required' => 'El campo es requerido',
+        'min' => 'El campo debe tener minimo ocho caracteres',
+        'string' => 'el campo debe contener letras',
+        ])->validate();
+      $user->password = bcrypt($request->value);
       $user->save();
       return new UserResource($user);
     }
