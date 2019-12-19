@@ -65568,7 +65568,7 @@ var getUnreadNotifications = function getUnreadNotifications(context) {
   return new Promise(function (resolve, reject) {
     axios({
       method: 'GET',
-      url: '/api/notifications/unreadNotifications/'
+      url: '/api/notifications/unreadNotifications'
     }).then(function (response) {
       if (response.data.unreadNotifications.length) context.commit('setUnreadNotifications', response.data.unreadNotifications);
       resolve(response);
