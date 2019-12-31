@@ -12,7 +12,8 @@ Route::get('/hola',function(){
 Route::get('/archivo',function(){
   return Storage::disk('public')->download('quotations/HMnniag3u5DxNHApB4SfxobGTX4Uajg0vCCI3Pvo.docx');
 });
-Route::get('/', 'HomeController@index');
+
 
 Route::get('/quotations/email','QuotationController@email');
 Route::get('/itemsWithSpecificationFromBudgets','ReportController@itemsWithSpecificationFromBudgets');
+Route::get('/{any?}', 'HomeController@index')->where('any','.*');

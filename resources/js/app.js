@@ -45,6 +45,7 @@ const app = new Vue({
                       return axios(error.response.config);
                   }).catch(error => {
                       store.dispatch('logout')
+                      this.$router.push('/login');
                       return Promise.reject(error);
                   })
               });

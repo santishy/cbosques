@@ -12,7 +12,7 @@ const mix = require('laravel-mix');
  */
 
  mix.browserSync({
-         proxy: 'http://budgets.dev',
+         proxy: 'http://budgets.test',
          open: false,
          browser:'Google chrome',
          ghostMode: false,

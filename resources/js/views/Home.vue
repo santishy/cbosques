@@ -23,7 +23,7 @@ export default {
   methods:{
     infiniteHandler($state){
       axios({
-        url:'/api/users/quotations/',
+        url:'/api/users/quotations',
         method:'GET',
         params:{
           page:this.page

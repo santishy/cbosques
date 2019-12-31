@@ -185,7 +185,7 @@ let vueRouter = new VueRouter({
     },
 
   ],
-    mode:'hash'
+    mode:'history'
 })
 
 // function que se encarga de revisar los permisos que tiene el usuario actual

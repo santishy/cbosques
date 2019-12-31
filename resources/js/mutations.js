@@ -38,6 +38,7 @@ const auth_success = (state,token) => {
 }
 
 const auth_user=(state,authUser)=>{
+  sessionStorage.setItem('user',JSON.stringify(authUser));
   state.user = authUser;
 }
 

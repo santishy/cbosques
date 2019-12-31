@@ -1783,6 +1783,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 
 
@@ -1792,6 +1795,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       show: false
     };
   },
+  mounted: function mounted() {},
   components: {
     'notifications-component': _NotificationsComponent__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
@@ -1805,7 +1809,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     toggleShow: function toggleShow() {
-      alert('entro');
       document.getElementById('#navbarSupportedContent').classList.remove('show');
     }
   })
@@ -2724,7 +2727,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       var _this = this;
 
       axios({
-        url: '/api/users/quotations/',
+        url: '/api/users/quotations',
         method: 'GET',
         params: {
           page: this.page
@@ -44413,250 +44416,250 @@ var render = function() {
                     attrs: { id: "navbarSupportedContent" }
                   },
                   [
+                    _c("ul", { staticClass: "navbar-nav mr-auto" }, [
+                      _c(
+                        "li",
+                        { staticClass: "nav-item" },
+                        [
+                          _c(
+                            "router-link",
+                            {
+                              staticClass: "nav-link",
+                              attrs: { to: "/cycles" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                     Ciclos\n                  "
+                              )
+                            ]
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "li",
+                        { staticClass: "nav-item" },
+                        [
+                          _c(
+                            "router-link",
+                            {
+                              staticClass: "nav-link",
+                              attrs: { to: "/budgets" }
+                            },
+                            [_vm._v("Crear Presupuesto")]
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("li", { staticClass: "nav-item dropdown" }, [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "nav-link dropdown-toggle",
+                            attrs: {
+                              href: "#",
+                              id: "navbarDropdown",
+                              role: "button",
+                              "data-toggle": "dropdown",
+                              "aria-haspopup": "true",
+                              "aria-expanded": "false"
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                    Departamentos\n                  "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "dropdown-menu",
+                            attrs: { "aria-labelledby": "navbarDropdown" }
+                          },
+                          [
+                            _c(
+                              "router-link",
+                              {
+                                staticClass: "dropdown-item",
+                                attrs: { to: "/departments" }
+                              },
+                              [_vm._v(" Crear")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "router-link",
+                              {
+                                staticClass: "dropdown-item",
+                                attrs: { to: "/departmentitems" }
+                              },
+                              [_vm._v("Asignar presupuesto")]
+                            )
+                          ],
+                          1
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("li", { staticClass: "nav-item dropdown" }, [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "nav-link dropdown-toggle",
+                            attrs: {
+                              href: "#",
+                              id: "navbarDropdown",
+                              role: "button",
+                              "data-toggle": "dropdown",
+                              "aria-haspopup": "true",
+                              "aria-expanded": "false"
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                    Cotizaciones\n                  "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "dropdown-menu",
+                            attrs: { "aria-labelledby": "navbarDropdown" }
+                          },
+                          [
+                            _c(
+                              "router-link",
+                              {
+                                staticClass: "dropdown-item",
+                                attrs: { to: "/quotation-department-items" }
+                              },
+                              [_vm._v(" Crear")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "router-link",
+                              {
+                                staticClass: "dropdown-item",
+                                attrs: {
+                                  to: { name: "quotation-index", params: {} }
+                                }
+                              },
+                              [_vm._v("Listar")]
+                            )
+                          ],
+                          1
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("li", { staticClass: "nav-item dropdown" }, [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "nav-link dropdown-toggle",
+                            attrs: {
+                              href: "#",
+                              id: "navbarDropdown",
+                              role: "button",
+                              "data-toggle": "dropdown",
+                              "aria-haspopup": "true",
+                              "aria-expanded": "false"
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                    Reportes\n                  "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "dropdown-menu",
+                            attrs: { "aria-labelledby": "navbarDropdown" }
+                          },
+                          [
+                            _c(
+                              "router-link",
+                              {
+                                staticClass: "dropdown-item",
+                                attrs: { to: "/reports-general" }
+                              },
+                              [_vm._v("General")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "router-link",
+                              {
+                                staticClass: "dropdown-item",
+                                attrs: { to: { name: "quote-report" } }
+                              },
+                              [_vm._v("Cotizaciones")]
+                            )
+                          ],
+                          1
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("li", { staticClass: "nav-item dropdown" }, [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "nav-link dropdown-toggle",
+                            attrs: {
+                              href: "#",
+                              id: "navbarDropdown",
+                              role: "button",
+                              "data-toggle": "dropdown",
+                              "aria-haspopup": "true",
+                              "aria-expanded": "false"
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                    Usuarios\n                  "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "dropdown-menu",
+                            attrs: { "aria-labelledby": "navbarDropdown" }
+                          },
+                          [
+                            _c(
+                              "router-link",
+                              {
+                                staticClass: "dropdown-item",
+                                attrs: { to: { name: "register", params: {} } }
+                              },
+                              [_vm._v("Registrar Usuarios")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "router-link",
+                              {
+                                staticClass: "dropdown-item",
+                                attrs: { to: "/users" }
+                              },
+                              [_vm._v("Listar")]
+                            )
+                          ],
+                          1
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
                     _c(
                       "ul",
-                      { staticClass: "navbar-nav mr-auto" },
+                      { staticClass: "navbar-nav ml-auto" },
                       [
-                        _c(
-                          "li",
-                          { staticClass: "nav-item" },
-                          [
-                            _c(
-                              "router-link",
-                              {
-                                staticClass: "nav-link",
-                                attrs: { to: "/cycles" }
-                              },
-                              [
-                                _vm._v(
-                                  "\n                     Ciclos\n                  "
-                                )
-                              ]
-                            )
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "li",
-                          { staticClass: "nav-item" },
-                          [
-                            _c(
-                              "router-link",
-                              {
-                                staticClass: "nav-link",
-                                attrs: { to: "/budgets" }
-                              },
-                              [_vm._v("Crear Presupuesto")]
-                            )
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c("li", { staticClass: "nav-item dropdown" }, [
-                          _c(
-                            "a",
-                            {
-                              staticClass: "nav-link dropdown-toggle",
-                              attrs: {
-                                href: "#",
-                                id: "navbarDropdown",
-                                role: "button",
-                                "data-toggle": "dropdown",
-                                "aria-haspopup": "true",
-                                "aria-expanded": "false"
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                    Departamentos\n                  "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              staticClass: "dropdown-menu",
-                              attrs: { "aria-labelledby": "navbarDropdown" }
-                            },
-                            [
-                              _c(
-                                "router-link",
-                                {
-                                  staticClass: "dropdown-item",
-                                  attrs: { to: "/departments" }
-                                },
-                                [_vm._v(" Crear")]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "router-link",
-                                {
-                                  staticClass: "dropdown-item",
-                                  attrs: { to: "/departmentitems" }
-                                },
-                                [_vm._v("Asignar presupuesto")]
-                              )
-                            ],
-                            1
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("li", { staticClass: "nav-item dropdown" }, [
-                          _c(
-                            "a",
-                            {
-                              staticClass: "nav-link dropdown-toggle",
-                              attrs: {
-                                href: "#",
-                                id: "navbarDropdown",
-                                role: "button",
-                                "data-toggle": "dropdown",
-                                "aria-haspopup": "true",
-                                "aria-expanded": "false"
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                    Cotizaciones\n                  "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              staticClass: "dropdown-menu",
-                              attrs: { "aria-labelledby": "navbarDropdown" }
-                            },
-                            [
-                              _c(
-                                "router-link",
-                                {
-                                  staticClass: "dropdown-item",
-                                  attrs: { to: "/quotation-department-items" }
-                                },
-                                [_vm._v(" Crear")]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "router-link",
-                                {
-                                  staticClass: "dropdown-item",
-                                  attrs: {
-                                    to: { name: "quotation-index", params: {} }
-                                  }
-                                },
-                                [_vm._v("Listar")]
-                              )
-                            ],
-                            1
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("li", { staticClass: "nav-item dropdown" }, [
-                          _c(
-                            "a",
-                            {
-                              staticClass: "nav-link dropdown-toggle",
-                              attrs: {
-                                href: "#",
-                                id: "navbarDropdown",
-                                role: "button",
-                                "data-toggle": "dropdown",
-                                "aria-haspopup": "true",
-                                "aria-expanded": "false"
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                    Reportes\n                  "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              staticClass: "dropdown-menu",
-                              attrs: { "aria-labelledby": "navbarDropdown" }
-                            },
-                            [
-                              _c(
-                                "router-link",
-                                {
-                                  staticClass: "dropdown-item",
-                                  attrs: { to: "/reports-general" }
-                                },
-                                [_vm._v("General")]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "router-link",
-                                {
-                                  staticClass: "dropdown-item",
-                                  attrs: { to: { name: "quote-report" } }
-                                },
-                                [_vm._v("Cotizaciones")]
-                              )
-                            ],
-                            1
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("li", { staticClass: "nav-item dropdown" }, [
-                          _c(
-                            "a",
-                            {
-                              staticClass: "nav-link dropdown-toggle",
-                              attrs: {
-                                href: "#",
-                                id: "navbarDropdown",
-                                role: "button",
-                                "data-toggle": "dropdown",
-                                "aria-haspopup": "true",
-                                "aria-expanded": "false"
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                    Usuarios\n                  "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              staticClass: "dropdown-menu",
-                              attrs: { "aria-labelledby": "navbarDropdown" }
-                            },
-                            [
-                              _c(
-                                "router-link",
-                                {
-                                  staticClass: "dropdown-item",
-                                  attrs: {
-                                    to: { name: "register", params: {} }
-                                  }
-                                },
-                                [_vm._v("Registrar Usuarios")]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "router-link",
-                                {
-                                  staticClass: "dropdown-item",
-                                  attrs: { to: "/users" }
-                                },
-                                [_vm._v("Listar")]
-                              )
-                            ],
-                            1
-                          )
-                        ]),
-                        _vm._v(" "),
                         _c("notifications-component"),
                         _vm._v(" "),
                         !_vm.isLoggedIn
@@ -44691,7 +44694,9 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                    usuario\n                  "
+                                    "\n                    " +
+                                      _vm._s(_vm.user.name) +
+                                      "\n                  "
                                   )
                                 ]
                               ),
@@ -44735,7 +44740,14 @@ var render = function() {
     _c(
       "main",
       { class: { "py-4": _vm.isLoggedIn } },
-      [_c("router-view", { key: _vm.$route.fullPath })],
+      [
+        _c(
+          "transition",
+          { attrs: { name: "fade", mode: "out-in" } },
+          [_c("router-view", { key: _vm.$route.fullPath })],
+          1
+        )
+      ],
       1
     )
   ])
@@ -65755,6 +65767,8 @@ var app = new Vue({
   router: _routes_js__WEBPACK_IMPORTED_MODULE_0__["default"],
   store: _store_js__WEBPACK_IMPORTED_MODULE_1__["store"],
   created: function created() {
+    var _this = this;
+
     var interceptor = axios.interceptors.response.use(function (response) {
       return response;
     }, function (error) {
@@ -65777,6 +65791,9 @@ var app = new Vue({
         return axios(error.response.config);
       })["catch"](function (error) {
         _store_js__WEBPACK_IMPORTED_MODULE_1__["store"].dispatch('logout');
+
+        _this.$router.push('/login');
+
         return Promise.reject(error);
       });
     });
@@ -66587,7 +66604,7 @@ var authStatus = function authStatus(state) {
   return state.status;
 };
 
-var getUser = function getUser(state) {
+var user = function user(state) {
   return state.user;
 };
 
@@ -66597,7 +66614,7 @@ var getRoles = function getRoles(state) {
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   getCycleByIndex: getCycleByIndex,
-  getUser: getUser,
+  user: user,
   getRoles: getRoles,
   isLoggedIn: isLoggedIn,
   authStatus: authStatus
@@ -66834,6 +66851,7 @@ var auth_success = function auth_success(state, token) {
 };
 
 var auth_user = function auth_user(state, authUser) {
+  sessionStorage.setItem('user', JSON.stringify(authUser));
   state.user = authUser;
 };
 
@@ -67086,7 +67104,7 @@ var vueRouter = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     path: '*',
     component: _views_Error404__WEBPACK_IMPORTED_MODULE_3__["default"]
   }],
-  mode: 'hash'
+  mode: 'history'
 }); // function que se encarga de revisar los permisos que tiene el usuario actual
 
 function hasRoles(permissions) {
@@ -67160,7 +67178,7 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     cycles: [],
     status: '',
     access_token: sessionStorage.getItem('access_token') || '',
-    user: {},
+    user: JSON.parse(sessionStorage.getItem('user')) || '',
     users: [],
     unreadNotifications: [],
     hasError: {},

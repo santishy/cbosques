@@ -54,25 +54,28 @@
                         <router-link class="dropdown-item" to="/users">Listar</router-link>
                     </div>
                   </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
                   <notifications-component/>
                   <li v-if="!isLoggedIn" class="nav-item">
                     <router-link class="nav-link" to="/login">Login</router-link>
                   </li>
                   <li v-else class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      usuario
+                      {{user.name}}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                       <a href="#" class="dropdown-item" @click.prevent="redirect">Cerrar Sesión</a>
                     </div>
-
                   </li>
                 </ul>
             </div>
         </div>
     </nav>
     <main :class="{'py-4':isLoggedIn}" >
+      <transition name="fade" mode="out-in">
         <router-view :key="$route.fullPath"></router-view>
+      </transition>
     </main>
   </div>
 </template>
@@ -85,6 +88,9 @@
         return{
           show:false
         }
+      },
+      mounted(){
+
       },
       components:{
         'notifications-component':NotificationsComponent
@@ -100,7 +106,6 @@
           })
         },
         toggleShow(){
-          alert('entro')
           document.getElementById('#navbarSupportedContent').classList.remove('show')
         },
       },

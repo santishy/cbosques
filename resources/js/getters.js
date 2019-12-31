@@ -4,13 +4,15 @@
 
 const isLoggedIn = state => !!state.access_token;
 const  authStatus = state => state.status;
-const getUser = state => state.user;
+const user = state => {
+  return state.user
+};
 const getRoles = (state) => {
   return state.roles
 };
 export default{
   getCycleByIndex,
-  getUser,
+  user,
   getRoles,
   isLoggedIn,
   authStatus,
