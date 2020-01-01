@@ -20,7 +20,7 @@
         </div>
       </div>
       <div class="col-md-8 col-sm-8 col-xs-12 col-lg-8">
-        <div class="card border-primary mb-3 bg-light shadow-sm">
+        <div class="card border-primary mb-3  shadow-sm">
           <div class="card-body text-dark">
             <h3>Departamentos</h3>
             <hr>

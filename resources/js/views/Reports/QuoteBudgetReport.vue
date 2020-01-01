@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-sm-10 col-xs-12 col-md-10">
-        <div class="card border-primary mb-3 bg-light shadow-sm">
+        <div class="card border-primary mb-3  shadow-sm">
           <div class="card-body">
             <h3 class="card-title">
               Cotizaciones Autorizadas
