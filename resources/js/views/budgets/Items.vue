@@ -83,7 +83,7 @@ export default {
   methods:{
     infiniteHandler($state){
       axios({
-        url:'api/items',
+        url:'/api/items',
         method:'GET',
         params:{
           page:this.page,
