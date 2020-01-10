@@ -73,7 +73,7 @@ export default {
         method:'GET'
       }).then((response)=>{
         if(response.data.data.length){
-          if(route=='api/cycles/items'){
+          if(route=='/api/cycles/items'){
              this.items.push(...response.data.data)
              return this.addFalseCheckedOption();
           }
@@ -116,12 +116,12 @@ export default {
       var store = new Promise((resolve,reject)=>{
         if(department_id != "")
           if(event.target.checked){
-            data.url = 'api/department-item/store';
+            data.url = '/api/department-item/store';
             data.method = 'POST'
             return resolve(data);
           }
           else{
-            data.url = 'api/department-item/'+this.department_id
+            data.url = '/api/department-item/'+this.department_id
             data.method = 'DELETE'
             return resolve(data)
           }
