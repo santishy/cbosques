@@ -80,7 +80,7 @@ export default {
     return {
       array:[],
       page:1,
-      url:'api/budgets/'
+      url:'/api/budgets/'
     }
   },
   mixins:[actionsMixin],
