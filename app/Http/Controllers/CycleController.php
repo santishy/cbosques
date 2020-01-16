@@ -126,6 +126,6 @@ class CycleController extends Controller
     }
     public function destroy($id)
     {
-        //
+        return response()->json(['success'=>Cycle::destroy($id)]);
     }
 }
