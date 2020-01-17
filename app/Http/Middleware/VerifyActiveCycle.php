@@ -17,8 +17,12 @@ class VerifyActiveCycle
     //protected $except = ['api/cycles/*','api/cycles'];
     public function handle($request, Closure $next)
     {
-        if(!session('cycle')->id)
-          return response()->json(['data'=>[],'error' => 'No existe el ciclo']);
+        if(!isset(session('cycle')->id))
+        {
+          session(['cycle'=>Cycle::getActiveCycle()]);
+          //return response()->json(['data'=>[],'error' => 'No existe el ciclo']);
+        }
+
          return $next($request);
     }
 }
