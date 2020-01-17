@@ -46,7 +46,7 @@ export default {
     'department-list':DepartmentList
   },
   mounted(){
-    this.getData('api/cycles/items')
+    this.getData('/api/cycles/items')
   },
   methods:{
     /*
@@ -73,7 +73,7 @@ export default {
         method:'GET'
       }).then((response)=>{
         if(response.data.data.length){
-          if(route=='api/cycles/items'){
+          if(route=='/api/cycles/items'){
              this.items.push(...response.data.data)
              return this.addFalseCheckedOption();
           }

@@ -3910,7 +3910,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     return {
       array: [],
       page: 1,
-      url: 'api/items/',
+      url: '/api/items/',
       depertments: [],
       budget_qty: this.$route.params.budget.qty
     };
@@ -4307,7 +4307,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     'department-list': _DepartmentList__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   mounted: function mounted() {
-    this.getData('api/cycles/items');
+    this.getData('/api/cycles/items');
   },
   methods: {
     /*
@@ -4342,7 +4342,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         if (response.data.data.length) {
           var _this2$departments;
 
-          if (route == 'api/cycles/items') {
+          if (route == '/api/cycles/items') {
             var _this2$items;
 
             (_this2$items = _this2.items).push.apply(_this2$items, _toConsumableArray(response.data.data));
@@ -4629,7 +4629,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   data: function data() {
     return {
       array: [],
-      url: '/api/departments',
+      url: '/api/departments/',
       page: 1,
       name: '',
       hasError: {}
