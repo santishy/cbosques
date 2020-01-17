@@ -102,7 +102,7 @@ export default{
         if (result.value) {
           axios({
             method:'DELETE',
-            url:this.url+this.array[index].id,
+            url:this.url+'/'+this.array[index].id,
           }).then((response)=>{
             console.log(response)
             if(response.status == 200){

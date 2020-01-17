@@ -4629,7 +4629,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   data: function data() {
     return {
       array: [],
-      url: '/api/departments/',
+      url: '/api/departments',
       page: 1,
       name: '',
       hasError: {}
@@ -66719,7 +66719,7 @@ __webpack_require__.r(__webpack_exports__);
         if (result.value) {
           axios({
             method: 'DELETE',
-            url: _this3.url + _this3.array[index].id
+            url: _this3.url + '/' + _this3.array[index].id
           }).then(function (response) {
             console.log(response);
 
