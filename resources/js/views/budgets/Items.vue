@@ -74,7 +74,7 @@ export default {
     return{
       array:[],
       page:1,
-      url:'/api/items/',
+      url:'/api/items',
       depertments:[],
       budget_qty:this.$route.params.budget.qty,
     }

@@ -3910,7 +3910,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     return {
       array: [],
       page: 1,
-      url: '/api/items/',
+      url: '/api/items',
       depertments: [],
       budget_qty: this.$route.params.budget.qty
     };
