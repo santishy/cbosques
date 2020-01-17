@@ -3624,7 +3624,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     return {
       array: [],
       page: 1,
-      url: '/api/budgets/'
+      url: '/api/budgets'
     };
   },
   mixins: [_mixins_actionsMixin__WEBPACK_IMPORTED_MODULE_1__["default"]],
