@@ -102,6 +102,6 @@ class DepartmentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return response()->json(['error'=>Department::destroy($id)]);
     }
 }
