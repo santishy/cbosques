@@ -4161,7 +4161,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return {
       array: [],
-      url: '/api/cycles/'
+      url: '/api/cycles'
     };
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['cycles']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['getCycleByIndex'])),

@@ -74,7 +74,7 @@ export default {
   data(){
     return {
       array:[],
-      url:'/api/cycles/',
+      url:'/api/cycles',
     }
   },
   computed:{
