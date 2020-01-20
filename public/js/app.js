@@ -66669,7 +66669,7 @@ __webpack_require__.r(__webpack_exports__);
       this.hasErrorEditing = {};
       return new Promise(function (resolve, reject) {
         axios({
-          url: _this2.url + _this2.form.id,
+          url: _this2.url + '/' + _this2.form.id,
           method: 'PUT',
           data: _this2.form
         }).then(function (response) {

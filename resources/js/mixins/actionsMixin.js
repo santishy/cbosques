@@ -60,7 +60,7 @@ export default{
       this.hasErrorEditing = {}
       return new Promise((resolve,reject)=>{
         axios({
-          url:this.url+this.form.id,
+          url:this.url+'/'+this.form.id,
           method:'PUT',
           data:this.form
         }).then((response)=>{
